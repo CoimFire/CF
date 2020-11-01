@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Comic Fire</string>
+    <string-array name="Words">
+        <item>Update Name</item>
+        <item>Cancel</item>
+        <item>Continue</item>
+    </string-array>
+    <string name="title_activity_bottom_bar">BottomBarActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_admin_bottom_bar">AdminBottomBarActivity</string>
+</resources>

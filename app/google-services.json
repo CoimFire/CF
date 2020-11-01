@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "436843273994",
+    "firebase_url": "https://comic-fire-7bd66.firebaseio.com",
+    "project_id": "comic-fire-7bd66",
+    "storage_bucket": "comic-fire-7bd66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436843273994:android:e12b095109e9c61eb5e4f3",
+        "android_client_info": {
+          "package_name": "com.nexustech.comicfire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436843273994-dgh2g6928kbr9ibv8l21hnae8arb987l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nexustech.comicfire",
+            "certificate_hash": "a008277717796fd189d388ebcdd4abb32008c536"
+          }
+        },
+        {
+          "client_id": "436843273994-kjo6coejrvo1ufssnjhv38eeqq4rg175.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD03UVcoXJn-vdO2nWVAYuQuHPRbHfw1b8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436843273994-kjo6coejrvo1ufssnjhv38eeqq4rg175.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

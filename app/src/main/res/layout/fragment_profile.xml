@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:ignore="GradleDependency">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/ivMyCharacter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="2:1"
+            android:layout_marginHorizontal="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_dashboard"
+            app:srcCompat="@drawable/edit_text_background" />
+
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/main_theme"
+            android:gravity="center_horizontal"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivMyProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:src="@drawable/logo_croped"
+            app:layout_constraintBottom_toBottomOf="@+id/ivMyCharacter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvMyCharacter" />
+
+        <TextView
+            android:id="@+id/tvMyCharacter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/black_transparent"
+            android:gravity="left"
+            android:paddingHorizontal="15dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textAlignment="textStart"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/ivMyCharacter"
+            app:layout_constraintEnd_toStartOf="@+id/ivMyProfile"
+            app:layout_constraintStart_toStartOf="@+id/ivMyCharacter"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/tvMyName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toStartOf="@+id/ivMyProfile"
+            app:layout_constraintStart_toStartOf="@+id/tvMyCharacter"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyCharacter" />
+
+        <ImageView
+            android:id="@+id/iv_followings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyName"
+            app:srcCompat="@drawable/followers"
+            android:layout_marginLeft="50dp"
+            app:tint="@color/steel_blue"/>
+
+        <ImageView
+            android:id="@+id/iv_followers"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_user_posts"
+            app:layout_constraintStart_toEndOf="@id/iv_followings"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyName"
+            app:srcCompat="@drawable/following"
+            app:tint="@color/steel_blue"/>
+
+        <ImageView
+            android:id="@+id/iv_user_posts"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyName"
+            app:srcCompat="@drawable/baseline_amp_stories_black_18dp"
+            android:layout_marginRight="50dp"
+            app:tint="@color/steel_blue"/>
+
+        <TextView
+            android:id="@+id/tv_followings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Following"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/iv_followings"
+            app:layout_constraintStart_toStartOf="@+id/iv_followings"
+            app:layout_constraintTop_toBottomOf="@+id/iv_followings"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/tv_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Followers"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/iv_followers"
+            app:layout_constraintStart_toStartOf="@+id/iv_followers"
+            app:layout_constraintTop_toBottomOf="@+id/iv_followers"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/tv_user_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Posts"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/iv_user_posts"
+            app:layout_constraintStart_toStartOf="@+id/iv_user_posts"
+            app:layout_constraintTop_toBottomOf="@+id/iv_user_posts"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"/>
+
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20sp"
+            android:layout_marginEnd="20sp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hero_shop"
+            app:srcCompat="@drawable/point_background_image" />
+        <ImageView
+            android:id="@+id/whiteLayer"
+            android:layout_width="0dp"
+            android:layout_height="126dp"
+            android:layout_marginStart="20sp"
+            android:layout_marginEnd="20sp"
+            android:scaleType="fitXY"
+            android:alpha="0.7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageView2"
+            app:srcCompat="@drawable/white_layer" />
+
+
+        <TextView
+            android:id="@+id/tvLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/image_border"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:text="LOGOUT"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <ImageView
+            android:id="@+id/hero_shop_layer"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline22"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_followers"
+            app:srcCompat="@drawable/main_theme" />
+
+
+        <ImageView
+            android:id="@+id/hero_shop"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="@+id/hero_shop_layer"
+            app:layout_constraintTop_toTopOf="@+id/hero_shop_layer"
+            app:srcCompat="@drawable/shadow_hero"
+            app:tint="@color/white" />
+        <TextView
+            android:id="@+id/tv_hero_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:text="HERO SHOP"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@id/hero_shop"
+            app:layout_constraintTop_toTopOf="@id/hero_shop"
+            android:layout_marginLeft="8dp" />
+
+
+        <TextView
+            android:id="@+id/shop_instruct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="marquee"
+            android:text="Choose your favourite hero ==>>"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/hero_shop"
+            app:layout_constraintEnd_toEndOf="@+id/hero_shop_layer"
+            app:layout_constraintHorizontal_bias="0.12"
+            app:layout_constraintStart_toStartOf="@+id/tv_hero_shop"
+            android:layout_marginRight="4dp" />
+
+        <TextView
+            android:id="@+id/points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20sp"
+            android:text="Points"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/hero_shop"
+            android:layout_marginLeft="4dp" />
+
+        <TextView
+            android:id="@+id/tvMyPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="000"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/points"
+            app:layout_constraintStart_toEndOf="@+id/points"
+            app:layout_constraintTop_toTopOf="@+id/points"
+            android:layout_marginLeft="8dp" />
+
+        <TextView
+            android:id="@+id/instruct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:ellipsize="marquee"
+            android:text="Use points in Hero Shop"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/whiteLayer"
+            app:layout_constraintEnd_toEndOf="@+id/whiteLayer"
+            app:layout_constraintHorizontal_bias="0.197"
+            app:layout_constraintStart_toStartOf="@+id/whiteLayer"
+            app:srcCompat="@drawable/main_theme" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/layout_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/ivMyCharacter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/edit_text_background" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivMyProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:src="@drawable/logo_croped"
+            app:layout_constraintBottom_toBottomOf="@+id/ivMyCharacter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvMyCharacter" />
+
+        <TextView
+            android:id="@+id/tvMyCharacter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/black_transparent"
+            android:gravity="left"
+            android:paddingHorizontal="15dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textAlignment="textStart"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/ivMyCharacter"
+            app:layout_constraintEnd_toStartOf="@+id/ivMyProfile"
+            app:layout_constraintStart_toStartOf="@+id/ivMyCharacter"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/tvMyName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toStartOf="@+id/ivMyProfile"
+            app:layout_constraintStart_toStartOf="@+id/tvMyCharacter"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyCharacter" />
+        <ImageView
+            android:id="@+id/iv_followings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyName"
+            app:srcCompat="@drawable/followers"
+            app:tint="@color/steel_blue" />
+
+        <ImageView
+            android:id="@+id/iv_followers"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_user_posts"
+            app:layout_constraintStart_toEndOf="@id/iv_followings"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyName"
+            app:srcCompat="@drawable/following"
+            app:tint="@color/steel_blue" />
+
+        <ImageView
+            android:id="@+id/iv_user_posts"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginRight="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyName"
+            app:srcCompat="@drawable/baseline_amp_stories_black_18dp"
+            app:tint="@color/steel_blue" />
+
+        <TextView
+            android:id="@+id/tv_followings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Following"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/iv_followings"
+            app:layout_constraintStart_toStartOf="@+id/iv_followings"
+            app:layout_constraintTop_toBottomOf="@+id/iv_followings"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Followers"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/iv_followers"
+            app:layout_constraintStart_toStartOf="@+id/iv_followers"
+            app:layout_constraintTop_toBottomOf="@+id/iv_followers"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
+
+
+        <TextView
+            android:id="@+id/tv_user_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Posts"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/iv_user_posts"
+            app:layout_constraintStart_toStartOf="@+id/iv_user_posts"
+            app:layout_constraintTop_toBottomOf="@+id/iv_user_posts"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            />
+
+        <TextView
+            android:id="@+id/tv_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/main_theme_radius"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="4dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Follow"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_followings"
+            android:layout_marginRight="4dp"
+            android:gravity="center_horizontal" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
