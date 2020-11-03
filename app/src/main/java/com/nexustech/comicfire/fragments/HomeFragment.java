@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
         rvPosts.setLayoutManager(mLayoutManager);
 
 
-        catagoryAdapter = new PostAdapter(getContext());
+        catagoryAdapter = new PostAdapter(getContext(),getActivity());
         rvPosts.setAdapter(catagoryAdapter);
         getCats();
 

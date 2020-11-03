@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".activities.UsersPostsActivity"></activity>
+        <activity android:name=".activities.EditPostActivity"></activity>
+        <activity android:name=".activities.UsersPostsActivity" />
         <activity android:name=".activities.CreateMemeActivity" />
         <activity android:name=".activities.MemeDetailsActivity" />
         <activity android:name=".activities.ViewAllMemesActivity" />

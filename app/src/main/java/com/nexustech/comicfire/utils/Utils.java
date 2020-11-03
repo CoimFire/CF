@@ -42,7 +42,7 @@ public class Utils {
         }
     }
     public static String createRandomId(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String curDate = dateFormat.format(new Date());
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
@@ -97,15 +97,20 @@ public class Utils {
     }
 
 
-    public  static AlertDialog dialog(Context context, View view){
+    public  static AlertDialog configDialog(Context context, View view){
         AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(context, R.style.AlertDialogTheme).setCancelable(false);
 
         dialogBuilder.setView(view);
         AlertDialog dialog = dialogBuilder.create();
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            //dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
+
         }
         return dialog;
+    }
+    public static boolean isCurrentUser(String userId){
+     return userId.equals(getCurrentUser());
     }
 
 }

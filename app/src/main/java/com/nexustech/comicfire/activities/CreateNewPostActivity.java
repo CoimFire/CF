@@ -40,8 +40,8 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class CreateNewPostActivity extends AppCompatActivity {
 
-    private ImageView postImage;
-    private TextView selectImage,uploadImage;
+    private ImageView postImage,selectImage;
+    private TextView uploadImage;
     private EditText etPostText;
     private static final int GalleryPick = 1;
     private DatabaseReference cfPostRef, cfUserRef;
@@ -60,7 +60,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
         Utils.setTopBar(getWindow(),getResources());
 
         postImage=findViewById(R.id.post_image);
-        selectImage=findViewById(R.id.tv_select);
+        selectImage=findViewById(R.id.iv_select);
         uploadImage=findViewById(R.id.tv_upload);
         etPostText =findViewById(R.id.et_post_text);
 
@@ -92,7 +92,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
     private void storeImage() {
 
         progressdialog.show();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         curDate = dateFormat.format(new Date());
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
@@ -134,11 +134,14 @@ public class CreateNewPostActivity extends AppCompatActivity {
 
 
         }
-        else if (postText.isEmpty()){
-            Toast.makeText(CreateNewPostActivity.this, "Please add image heading..", Toast.LENGTH_SHORT).show();
-        }
+
         else {
-            Toast.makeText(this, "Add image", Toast.LENGTH_SHORT).show();
+             if (postText.isEmpty()){
+                Toast.makeText(CreateNewPostActivity.this, "Please add image heading..", Toast.LENGTH_SHORT).show();
+            }else {
+                 savePostInformation();
+             }
+
         }
 
 

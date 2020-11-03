@@ -1,15 +1,25 @@
 package com.nexustech.comicfire.adapters;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,23 +32,31 @@ import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.activities.ViewSinglePostActivity;
 import com.nexustech.comicfire.domains.Posts;
 import com.nexustech.comicfire.utils.HandleActions;
+import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 import static com.nexustech.comicfire.utils.Constants.LIKE_STATUS;
+import static com.nexustech.comicfire.utils.HandleActions.intentToProfile;
+import static com.nexustech.comicfire.utils.HandleActions.openPopupForOthers;
+import static com.nexustech.comicfire.utils.HandleActions.openPopupForOwn;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>{
 
     List<Posts> mPostList;
     Context context;
+    String[] menu;
+    Activity activity;
 
-
-    public PostAdapter(Context context) {
+    public PostAdapter(Context context,Activity activity) {
         this.mPostList = new ArrayList<>();
         this.context = context;
+        this.activity=activity;
+
     }
 
     public void addAll(List<Posts> newCats){
@@ -63,14 +81,44 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return new PostViewHolder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+/*
+        Handler handler = new Handler();
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                if (mPostList.get(position).getUserId().equals(Utils.getCurrentUser())) {
+                    mPostList.remove(position);
+                    notifyDataSetChanged();
+                }
+            }
+        };
+        handler.post(runnable);
+
+ */
+
+
 
         holder.tvUserName.setText(mPostList.get(position).getDisplayName());
         holder.tvPostText.setText(mPostList.get(position).getPostText());
         Picasso.get().load(mPostList.get(position).getPostImage()).into(holder.ivPostImage);
         Picasso.get().load(mPostList.get(position).getProfileImage()).into(holder.ivProfileImage);
 
+        if (mPostList.get(position).getPostImage()==null){
+            holder.ivPostImage.setVisibility(View.GONE);
+            int counted=mPostList.get(position).getPostText().length();
+            if (counted<100){
+                holder.tvPostText.setTextSize(35);
+                holder.tvPostText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                holder.tvPostText.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
+            }
+
+        }
         holder.manageLikeButton(holder.ivLike,mPostList.get(position).getPostId(),context);
         holder.ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,13 +137,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleActions.intentToProfile(context,mPostList.get(position).getUserId());
+                intentToProfile(context,mPostList.get(position).getUserId());
             }
         });
         holder.tvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleActions.intentToProfile(context,mPostList.get(position).getUserId());
+                intentToProfile(context,mPostList.get(position).getUserId());
             }
         });
         holder.tvCommentsCount.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +170,61 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 holder.openVPostViewActivity(context,mPostList.get(position).getPostId());
             }
         });
+
+        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View rowView= LayoutInflater.from(context).inflate(R.layout.alert_dialog_for_menus,null);
+                AlertDialog dialog = Utils.configDialog(context,rowView);
+                ListView lvMenu=rowView.findViewById(R.id.lv_menu);
+                TextView tvCancel=rowView.findViewById(R.id.tv_cancel);
+                ArrayAdapter aAdapter;
+
+                if (Utils.isCurrentUser(mPostList.get(position).getUserId())){
+                    menu = context.getResources().getStringArray(R.array.own_post_menu);
+                }else {
+                    menu = context.getResources().getStringArray(R.array.others_post_menu);
+                }
+               
+
+                aAdapter = new ArrayAdapter(context, R.layout.layout_menu_name, R.id.tv_region_name, menu);
+                lvMenu.setAdapter(aAdapter);
+                Handler handler = new Handler();
+                Runnable runnable=new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                };
+                handler.post(runnable);
+
+                lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                        dialog.dismiss();
+                        TextView textView = view.findViewById(R.id.tv_region_name);
+                        String string = textView.getText().toString();
+                        if (Utils.isCurrentUser(mPostList.get(position).getUserId())) {
+                           openPopupForOwn(i,mPostList.get(position).getPostId(),context);
+
+                        }else {
+                            openPopupForOthers(i,mPostList.get(position).getPostId(),context);
+                        }
+                       // Toast.makeText(context, ""+string, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                });
+
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -132,7 +235,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvUserName,tvPostText,tvlikeCount,tvCommentsCount;
-        ImageView ivProfileImage,ivPostImage,ivLike,ivComment;
+        ImageView ivProfileImage,ivPostImage,ivLike,ivComment,ivTripleDot;
         ConstraintLayout constraintLayout;
         View view;
 
@@ -141,7 +244,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         private FirebaseAuth cfAuth;
         private String currentUserId;
-
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             view=itemView;
@@ -153,7 +255,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             ivLike=itemView.findViewById(R.id.ivLike);
             tvCommentsCount=itemView.findViewById(R.id.tvCommentCount);
             ivComment=itemView.findViewById(R.id.ivComments);
-
+            ivTripleDot=itemView.findViewById(R.id.trible_dot);
+             constraintLayout = itemView.findViewById(R.id.con_layout);
             cfAuth=FirebaseAuth.getInstance();
             currentUserId=cfAuth.getCurrentUser().getUid();
 

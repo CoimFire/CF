@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,12 +15,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
+import com.nexustech.comicfire.activities.BottomBarActivity;
 import com.nexustech.comicfire.activities.UserProfileActivity;
 import com.squareup.picasso.Picasso;
 
@@ -65,7 +69,7 @@ public class HandleActions {
     }
     public static void popupForFollowOrUnfollow(Context context,String searchedUserId,String type) {
         View rowView= LayoutInflater.from(context).inflate(R.layout.alert_dialog_follow_or_unfollow,null);
-        AlertDialog dialog = Utils.dialog(context,rowView);
+        AlertDialog dialog = Utils.configDialog(context,rowView);
         ImageView ivProfileImage=rowView.findViewById(R.id.ivMyProfile);
 
         ImageView ivCharacterImage=rowView.findViewById(R.id.ivMyCharacter);
@@ -186,7 +190,7 @@ public class HandleActions {
 
     public static void viewSingleImage(Context context, String imageUrl, int x, int y){
         View rowView= LayoutInflater.from(context).inflate(R.layout.alert_dialog_view_image,null);
-        AlertDialog dialog = Utils.dialog(context,rowView);
+        AlertDialog dialog = Utils.configDialog(context,rowView);
         ImageView ivClose=rowView.findViewById(R.id.iv_close);
         ImageView ivImage=rowView.findViewById(R.id.iv_common_image);
         TextView tvClose=rowView.findViewById(R.id.tv_close);
@@ -199,6 +203,118 @@ public class HandleActions {
             }
         });
         dialog.show();
+    }
+    public static void deletePost(Context context, String postId) {
+
+        Handler handler = new Handler();
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                DatabaseReference postRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
+                postRef.child(postId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            DatabaseReference myPostRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                                    .child("User").child(Utils.getCurrentUser()).child("MyPosts");
+                            myPostRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Utils.openAnotherActivity(context, BottomBarActivity.class);
+                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                           
+                        }
+                    }
+                });
+            }
+        };
+        handler.post(runnable);
+    }
+
+    public static void openPopupForOwn(int position, String postId, Context context) {
+        View rowView= LayoutInflater.from(context).inflate(R.layout.alert_dialog_general,null);
+        AlertDialog dialog = Utils.configDialog(context,rowView);
+        TextView tvTitle=rowView.findViewById(R.id.tv_title);
+        TextView tvMessage=rowView.findViewById(R.id.tv_message);
+        TextView tvCancel=rowView.findViewById(R.id.tv_cancel);
+        TextView tvConfirm=rowView.findViewById(R.id.tv_confirm);
+
+        if (position==0){
+            tvTitle.setText("Edit");
+            tvMessage.setText("Do you want edit this post?");
+        }else if (position==1){
+            tvTitle.setText("Delete");
+            tvMessage.setText("Are you sure you want delete this post?");
+        }else if (position==2){
+            tvTitle.setText("Share");
+            tvMessage.setText("Do you want share to this posts in other social media?");
+        }
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position==0){
+                    //Go to edit
+                }else if (position==1){
+                   deletePost(context,postId);
+                }else if (position==2){
+                    //sharePost();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+    public static void openPopupForOthers(int position,String postId, Context context) {
+        View rowView= LayoutInflater.from(context).inflate(R.layout.alert_dialog_general,null);
+        AlertDialog dialog = Utils.configDialog(context,rowView);
+        TextView tvTitle=rowView.findViewById(R.id.tv_title);
+        TextView tvMessage=rowView.findViewById(R.id.tv_message);
+        TextView tvCancel=rowView.findViewById(R.id.tv_cancel);
+        TextView tvConfirm=rowView.findViewById(R.id.tv_confirm);
+
+        if (position==0){
+            tvTitle.setText("Share");
+            tvMessage.setText("Do you want share to this posts in other social media?");
+        }else if (position==1){
+            tvTitle.setText("Report");
+            tvMessage.setText("Do you want report this post?");
+        }else if (position==2){
+            tvTitle.setText("Report");
+            tvMessage.setText("Do you want report this user?");
+        }
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position==0){
+                  //sharePost();
+                }else if (position==1){
+                   //reportPost();
+                    Toast.makeText(context, "Reported", Toast.LENGTH_SHORT).show();
+                }else if (position==2){
+                   //reportUser();
+                    Toast.makeText(context, "Reported", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
     }
 
 
