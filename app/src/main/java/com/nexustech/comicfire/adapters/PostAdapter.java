@@ -44,31 +44,32 @@ import static com.nexustech.comicfire.utils.Constants.LIKE_STATUS;
 import static com.nexustech.comicfire.utils.HandleActions.intentToProfile;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOthers;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOwn;
+import static com.nexustech.comicfire.utils.HandleActions.openVPostViewActivity;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>{
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     List<Posts> mPostList;
     Context context;
     String[] menu;
     Activity activity;
 
-    public PostAdapter(Context context,Activity activity) {
+    public PostAdapter(Context context, Activity activity) {
         this.mPostList = new ArrayList<>();
         this.context = context;
-        this.activity=activity;
+        this.activity = activity;
 
     }
 
-    public void addAll(List<Posts> newCats){
+    public void addAll(List<Posts> newCats) {
 
-        int initSize=newCats.size();
+        int initSize = newCats.size();
         mPostList.addAll(newCats);
-        notifyItemRangeChanged(initSize,newCats.size());
+        notifyItemRangeChanged(initSize, newCats.size());
 
     }
 
-    public String getLastItemId(){
-        return mPostList.get(mPostList.size()-1).getPostId();
+    public String getLastItemId() {
+        return mPostList.get(mPostList.size() - 1).getPostId();
     }
 
 
@@ -76,7 +77,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView= LayoutInflater.from(context).inflate(R.layout.layout_post,parent,false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.layout_post, parent, false);
 
         return new PostViewHolder(itemView);
     }
@@ -100,16 +101,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
  */
 
 
-
         holder.tvUserName.setText(mPostList.get(position).getDisplayName());
         holder.tvPostText.setText(mPostList.get(position).getPostText());
         Picasso.get().load(mPostList.get(position).getPostImage()).into(holder.ivPostImage);
         Picasso.get().load(mPostList.get(position).getProfileImage()).into(holder.ivProfileImage);
 
-        if (mPostList.get(position).getPostImage()==null){
+        if (mPostList.get(position).getPostImage() == null) {
             holder.ivPostImage.setVisibility(View.GONE);
-            int counted=mPostList.get(position).getPostText().length();
-            if (counted<100){
+            int counted = mPostList.get(position).getPostText().length();
+            if (counted < 100) {
                 holder.tvPostText.setTextSize(35);
                 holder.tvPostText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             }
@@ -119,78 +119,84 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
 
         }
-        holder.manageLikeButton(holder.ivLike,mPostList.get(position).getPostId(),context);
+        holder.manageLikeButton(holder.ivLike, mPostList.get(position).getPostId(), context);
         holder.ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // holder.likeActionHandle(context,mPostList.get(position).getPostId());
-                holder.openVPostViewActivity(context,mPostList.get(position).getPostId());
+                // holder.likeActionHandle(context,mPostList.get(position).getPostId());
+                openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
 
         holder.ivPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.openVPostViewActivity(context,mPostList.get(position).getPostId());
+                openVPostViewActivity(context, mPostList.get(position).getPostId());
+            }
+        });
+        holder.tvPostText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
         holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentToProfile(context,mPostList.get(position).getUserId());
+                intentToProfile(context, mPostList.get(position).getUserId());
             }
         });
         holder.tvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentToProfile(context,mPostList.get(position).getUserId());
+                intentToProfile(context, mPostList.get(position).getUserId());
             }
         });
         holder.tvCommentsCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.openVPostViewActivity(context,mPostList.get(position).getPostId());
+                openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
         holder.tvlikeCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.openVPostViewActivity(context,mPostList.get(position).getPostId());
+                openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
         holder.ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.openVPostViewActivity(context,mPostList.get(position).getPostId());
+                openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.openVPostViewActivity(context,mPostList.get(position).getPostId());
+                openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
 
         holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View rowView= LayoutInflater.from(context).inflate(R.layout.alert_dialog_for_menus,null);
-                AlertDialog dialog = Utils.configDialog(context,rowView);
-                ListView lvMenu=rowView.findViewById(R.id.lv_menu);
-                TextView tvCancel=rowView.findViewById(R.id.tv_cancel);
+                View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_for_menus, null);
+                AlertDialog dialog = Utils.configDialog(context, rowView);
+                ListView lvMenu = rowView.findViewById(R.id.lv_menu);
+                TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
                 ArrayAdapter aAdapter;
 
-                if (Utils.isCurrentUser(mPostList.get(position).getUserId())){
+                if (Utils.isCurrentUser(mPostList.get(position).getUserId())) {
                     menu = context.getResources().getStringArray(R.array.own_post_menu);
-                }else {
+                } else {
                     menu = context.getResources().getStringArray(R.array.others_post_menu);
                 }
-               
+
 
                 aAdapter = new ArrayAdapter(context, R.layout.layout_menu_name, R.id.tv_region_name, menu);
                 lvMenu.setAdapter(aAdapter);
                 Handler handler = new Handler();
-                Runnable runnable=new Runnable() {
+                Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
 
@@ -205,12 +211,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         TextView textView = view.findViewById(R.id.tv_region_name);
                         String string = textView.getText().toString();
                         if (Utils.isCurrentUser(mPostList.get(position).getUserId())) {
-                           openPopupForOwn(i,mPostList.get(position).getPostId(),context);
+                            openPopupForOwn(i, mPostList.get(position).getPostId(), context);
 
-                        }else {
-                            openPopupForOthers(i,mPostList.get(position).getPostId(),context);
+                        } else {
+                            openPopupForOthers(i, mPostList.get(position).getPostId(), context);
                         }
-                       // Toast.makeText(context, ""+string, Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(context, ""+string, Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -234,8 +240,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvUserName,tvPostText,tvlikeCount,tvCommentsCount;
-        ImageView ivProfileImage,ivPostImage,ivLike,ivComment,ivTripleDot;
+        TextView tvUserName, tvPostText, tvlikeCount, tvCommentsCount;
+        ImageView ivProfileImage, ivPostImage, ivLike, ivComment, ivTripleDot;
         ConstraintLayout constraintLayout;
         View view;
 
@@ -244,33 +250,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         private FirebaseAuth cfAuth;
         private String currentUserId;
+
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
-            view=itemView;
-            tvUserName=itemView.findViewById(R.id.tvProfileName);
-            ivProfileImage=itemView.findViewById(R.id.ivProfile);
-            ivPostImage=itemView.findViewById(R.id.ivPostImage);
-            tvPostText=itemView.findViewById(R.id.tvDescription);
-            tvlikeCount=itemView.findViewById(R.id.tvLikeCount);
-            ivLike=itemView.findViewById(R.id.ivLike);
-            tvCommentsCount=itemView.findViewById(R.id.tvCommentCount);
-            ivComment=itemView.findViewById(R.id.ivComments);
-            ivTripleDot=itemView.findViewById(R.id.trible_dot);
-             constraintLayout = itemView.findViewById(R.id.con_layout);
-            cfAuth=FirebaseAuth.getInstance();
-            currentUserId=cfAuth.getCurrentUser().getUid();
+            view = itemView;
+            tvUserName = itemView.findViewById(R.id.tvProfileName);
+            ivProfileImage = itemView.findViewById(R.id.ivProfile);
+            ivPostImage = itemView.findViewById(R.id.ivPostImage);
+            tvPostText = itemView.findViewById(R.id.tvDescription);
+            tvlikeCount = itemView.findViewById(R.id.tvLikeCount);
+            ivLike = itemView.findViewById(R.id.ivLike);
+            tvCommentsCount = itemView.findViewById(R.id.tvCommentCount);
+            ivComment = itemView.findViewById(R.id.ivComments);
+            ivTripleDot = itemView.findViewById(R.id.trible_dot);
+            constraintLayout = itemView.findViewById(R.id.con_layout);
+            cfAuth = FirebaseAuth.getInstance();
+            currentUserId = cfAuth.getCurrentUser().getUid();
 
         }
 
         public void manageLikeButton(ImageView ivLike, String postKey, Context context) {
-            likeRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Views");
+            likeRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Views");
             likeRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        long count=dataSnapshot.getChildrenCount();
-                        String ct=String.valueOf(count);
-                        tvlikeCount.setText(ct+" Views");
+                        long count = dataSnapshot.getChildrenCount();
+                        String ct = String.valueOf(count);
+                        tvlikeCount.setText(ct + " Views");
                        /* if (dataSnapshot.hasChild(currentUserId)) {
                             LIKE_STATUS = "LIKED";
                             ivLike.setImageResource(R.drawable.fire_default);
@@ -280,9 +287,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         }
 
                         */
-                    }
-                    else {
-                        tvlikeCount.setText(0+" Views");
+                    } else {
+                        tvlikeCount.setText(0 + " Views");
                         //LIKE_STATUS="NOT_LIKED";
                         //ivLike.setImageResource(R.drawable.fire_light_gray);
                     }
@@ -295,14 +301,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             });
 
 
-            likeRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Comments");
+            likeRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Comments");
             likeRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        long count=dataSnapshot.getChildrenCount();
-                        String ct=String.valueOf(count);
-                        tvCommentsCount.setText("Comments "+ct);
+                        long count = dataSnapshot.getChildrenCount();
+                        String ct = String.valueOf(count);
+                        tvCommentsCount.setText("Comments " + ct);
 
 
                        /* if (dataSnapshot.hasChild(currentUserId)) {
@@ -314,13 +320,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         }
 
                         */
-                    }
-                    else {
-                        tvCommentsCount.setText("Comments "+0);
+                    } else {
+                        tvCommentsCount.setText("Comments " + 0);
                         //LIKE_STATUS="NOT_LIKED";
                         //ivLike.setImageResource(R.drawable.fire_light_gray);
                     }
-
 
 
                 }
@@ -333,37 +337,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         public void likeActionHandle(Context context, String postKey) {
-            if(LIKE_STATUS.equals("NOT_LIKED")){
+            if (LIKE_STATUS.equals("NOT_LIKED")) {
                 like(postKey);
-            }else {
+            } else {
                 unLike(postKey);
             }
 
         }
 
         private void unLike(String postKey) {
-            likeRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Likes");
+            likeRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Likes");
             likeRef.child(currentUserId).removeValue();
 
-            LIKE_STATUS="NOT_LIKED";
-            manageLikeButton(ivLike,postKey,context);
+            LIKE_STATUS = "NOT_LIKED";
+            manageLikeButton(ivLike, postKey, context);
         }
 
         private void like(String postKey) {
-            likeRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Likes");
+            likeRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Likes");
             likeRef.child(currentUserId).child("UserId").setValue(currentUserId);
-            LIKE_STATUS="LIKED";
+            LIKE_STATUS = "LIKED";
 
-            manageLikeButton(ivLike,postKey,context);
+            manageLikeButton(ivLike, postKey, context);
 
         }
-        private void openVPostViewActivity(Context context,String postId){
-            Intent intent = new Intent(context, ViewSinglePostActivity.class);
-            intent.putExtra("REF_KEY", postId);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intent);
-        }
-
-
     }
 }

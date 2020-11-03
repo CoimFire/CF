@@ -15,13 +15,13 @@ import com.nexustech.comicfire.utils.Utils;
 
 public class CqFragment extends Fragment {
 
-    TextView tvMeme,tvQuiz;
+    TextView tvMeme, tvQuiz;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView= inflater.inflate(R.layout.fragment_cq, container, false);
-        tvMeme=rootView.findViewById(R.id.tv_meme_competition);
-        tvQuiz=rootView.findViewById(R.id.tv_quiz_competition);
+        View rootView = inflater.inflate(R.layout.fragment_cq, container, false);
+        tvMeme = rootView.findViewById(R.id.tv_meme_competition);
+        tvQuiz = rootView.findViewById(R.id.tv_quiz_competition);
 
         tvMeme.setOnClickListener(new View.OnClickListener() {
             @Override

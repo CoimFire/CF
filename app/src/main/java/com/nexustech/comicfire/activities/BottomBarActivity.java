@@ -31,7 +31,7 @@ public class BottomBarActivity extends AppCompatActivity {
     private Fragment cq;
     private Fragment notifications;
 
-    int FRAGMENT,id;
+    int FRAGMENT, id;
 
 
     private BottomNavigationView navigation;
@@ -41,7 +41,7 @@ public class BottomBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_bar);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(getWindow(), getResources());
 
         //BottomNavigationView navView = findViewById(R.id.nav_view);
 
@@ -60,6 +60,7 @@ public class BottomBarActivity extends AppCompatActivity {
 
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -117,7 +118,7 @@ public class BottomBarActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = item->{
+            = item -> {
         if (item.isChecked()) {
             Fragment fragment = getSupportFragmentManager().findFragmentByTag(Utils.CURRENT_NAVIGATION_BAR + "");
             if (fragment instanceof RefreshableFragment) {

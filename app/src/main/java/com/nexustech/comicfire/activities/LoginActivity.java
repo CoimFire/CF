@@ -42,24 +42,25 @@ import com.nexustech.comicfire.utils.Utils;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class LoginActivity extends AppCompatActivity {
-    private ImageView google,facebook;
-    private TextView login,tvNewAccount;
-    private EditText userName,password;
-    private static final int RC_SIGN_IN=5   ;
+    private ImageView google, facebook;
+    private TextView login, tvNewAccount;
+    private EditText userName, password;
+    private static final int RC_SIGN_IN = 5;
     private GoogleApiClient mGoogleSignInClient;
-    private static final String TAG="Login ";
+    private static final String TAG = "Login ";
     private FirebaseAuth cfAuth;
     private DatabaseReference profileRef;
     private String curUserId;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Utils.setTopBar(getWindow(),getResources());
-        cfAuth= FirebaseAuth.getInstance();
-        profileRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
+        Utils.setTopBar(getWindow(), getResources());
+        cfAuth = FirebaseAuth.getInstance();
+        profileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
         initializeViews();
         clickListeners();
         signinOptions();
@@ -81,14 +82,14 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
 
-        mGoogleSignInClient=new GoogleApiClient.Builder(this)
+        mGoogleSignInClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                         Toast.makeText(LoginActivity.this, "Connection to google sign in failed..", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
     }
 
@@ -117,20 +118,21 @@ public class LoginActivity extends AppCompatActivity {
         tvNewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(LoginActivity.this, SignInActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignInActivity.class);
                 startActivity(intent);
             }
         });
     }
 
     private void initializeViews() {
-      //  google=findViewById(R.id.googleLogo);
-      //  facebook=findViewById(R.id.facebookLogo);
-        login=findViewById(R.id.tvLogin);
-        userName=findViewById(R.id.etUsername);
-        password=findViewById(R.id.etPassword);
-        tvNewAccount=findViewById(R.id.tvNewAccount);
+        //  google=findViewById(R.id.googleLogo);
+        //  facebook=findViewById(R.id.facebookLogo);
+        login = findViewById(R.id.tvLogin);
+        userName = findViewById(R.id.etUsername);
+        password = findViewById(R.id.etPassword);
+        tvNewAccount = findViewById(R.id.tvNewAccount);
     }
+
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleSignInClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -140,15 +142,14 @@ public class LoginActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode== RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
 
-            GoogleSignInResult result= Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()){
-                GoogleSignInAccount account=result.getSignInAccount();
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
                 Toast.makeText(this, "Please wait while getting Auth result..", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Can't get auth result", Toast.LENGTH_SHORT).show();
             }
 
@@ -187,14 +188,13 @@ public class LoginActivity extends AppCompatActivity {
         profileRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                curUserId=cfAuth.getCurrentUser().getUid().toString();
-                if (dataSnapshot.hasChild(curUserId)){
-                    Intent intent =new Intent(LoginActivity.this,BottomBarActivity.class);
+                curUserId = cfAuth.getCurrentUser().getUid().toString();
+                if (dataSnapshot.hasChild(curUserId)) {
+                    Intent intent = new Intent(LoginActivity.this, BottomBarActivity.class);
                     startActivity(intent);
 
-                }
-                else {
-                    Intent intent =new Intent(LoginActivity.this, BottomBarActivity.class);
+                } else {
+                    Intent intent = new Intent(LoginActivity.this, BottomBarActivity.class);
                     startActivity(intent);
                 }
 
@@ -210,30 +210,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void allowingUsetToLogin() {
-        String mail=userName.getText().toString();
-        String passwordText=password.getText().toString();
+        String mail = userName.getText().toString();
+        String passwordText = password.getText().toString();
 
-        if (TextUtils.isEmpty(mail)){
+        if (TextUtils.isEmpty(mail)) {
             Toast.makeText(this, "Please enter your mail..", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(passwordText)){
+        } else if (TextUtils.isEmpty(passwordText)) {
             Toast.makeText(this, "Please enter your password..", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            cfAuth.signInWithEmailAndPassword(mail,passwordText)
+        } else {
+            cfAuth.signInWithEmailAndPassword(mail, passwordText)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                Intent intent=new Intent(LoginActivity.this,BottomBarActivity.class);
+                            if (task.isSuccessful()) {
+                                Intent intent = new Intent(LoginActivity.this, BottomBarActivity.class);
                                 startActivity(intent);
                                 validateProfile();
                                 // SendUserToMainActivity();
                                 Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                String message=task.getException().getMessage();
-                                Toast.makeText(LoginActivity.this, "Error.."+message, Toast.LENGTH_SHORT).show();
+                            } else {
+                                String message = task.getException().getMessage();
+                                Toast.makeText(LoginActivity.this, "Error.." + message, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

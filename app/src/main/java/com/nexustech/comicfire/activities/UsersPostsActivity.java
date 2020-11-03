@@ -42,13 +42,14 @@ public class UsersPostsActivity extends AppCompatActivity {
     String userId;
 
     DatabaseReference postRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_posts);
 
         rvPosts = findViewById(R.id.rv_posts);
-        userId=getIntent().getStringExtra("UserId");
+        userId = getIntent().getStringExtra("UserId");
 
         postRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).child("MyPosts");
         getLastItem();
@@ -83,7 +84,6 @@ public class UsersPostsActivity extends AppCompatActivity {
 
         catagoryAdapter.notifyDataSetChanged();
     }
-
 
 
     private void getCats() {

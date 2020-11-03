@@ -26,8 +26,8 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class UserProfileActivity extends AppCompatActivity {
     private String userId;
-    private ImageView profileImage,characterImage,ivPosts,followers,followings;
-    private TextView displayName,characterName,tvRequestButton,tvFollowingCount, tvFollowerCount, tvPostCount;
+    private ImageView profileImage, characterImage, ivPosts, followers, followings;
+    private TextView displayName, characterName, tvRequestButton, tvFollowingCount, tvFollowerCount, tvPostCount;
     private DatabaseReference cfProfileRef;
     private FirebaseAuth cfAuth;
     private String curUserId;
@@ -37,44 +37,44 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        Utils.setTopBar(getWindow(),getResources());
-        cfAuth=FirebaseAuth.getInstance();
-        curUserId=cfAuth.getCurrentUser().getUid();
+        Utils.setTopBar(getWindow(), getResources());
+        cfAuth = FirebaseAuth.getInstance();
+        curUserId = cfAuth.getCurrentUser().getUid();
 
-        ivPosts=findViewById(R.id.iv_user_posts);
-        profileImage=findViewById(R.id.ivMyProfile);
-        characterImage=findViewById(R.id.ivMyCharacter);
-        displayName=findViewById(R.id.tvMyName);
-        characterName=findViewById(R.id.tvMyCharacter);
-        followers=findViewById(R.id.iv_followers);
-        followings=findViewById(R.id.iv_followings);
-        tvRequestButton=findViewById(R.id.tv_request);
+        ivPosts = findViewById(R.id.iv_user_posts);
+        profileImage = findViewById(R.id.ivMyProfile);
+        characterImage = findViewById(R.id.ivMyCharacter);
+        displayName = findViewById(R.id.tvMyName);
+        characterName = findViewById(R.id.tvMyCharacter);
+        followers = findViewById(R.id.iv_followers);
+        followings = findViewById(R.id.iv_followings);
+        tvRequestButton = findViewById(R.id.tv_request);
 
 
         tvFollowerCount = findViewById(R.id.tv_followers);
         tvFollowingCount = findViewById(R.id.tv_followings);
         tvPostCount = findViewById(R.id.tv_user_posts);
 
-        userId=getIntent().getStringExtra("UserId");
-        if (!userId.isEmpty()){
-            cfProfileRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
+        userId = getIntent().getStringExtra("UserId");
+        if (!userId.isEmpty()) {
+            cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
             showProfileDetails(cfProfileRef);
-            HandleActions.manageRequestButton(userId,tvRequestButton);
+            HandleActions.manageRequestButton(userId, tvRequestButton);
             countDetails();
         }
 
         tvRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleActions.actionHandler(UserProfileActivity.this,userId);
+                HandleActions.actionHandler(UserProfileActivity.this, userId);
             }
         });
 
         ivPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(UserProfileActivity.this,UsersPostsActivity.class);
-                intent.putExtra("UserId",userId);
+                Intent intent = new Intent(UserProfileActivity.this, UsersPostsActivity.class);
+                intent.putExtra("UserId", userId);
                 startActivity(intent);
 
 
@@ -151,26 +151,26 @@ public class UserProfileActivity extends AppCompatActivity {
         cfProfileRef.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String profImageUrl=dataSnapshot.child("ProfileImage").getValue().toString();
+                if (dataSnapshot.exists()) {
+                    String profImageUrl = dataSnapshot.child("ProfileImage").getValue().toString();
                     Picasso.get().load(profImageUrl).into(profileImage);
-                    String charImageUrl=dataSnapshot.child("CharacterImage").getValue().toString();
+                    String charImageUrl = dataSnapshot.child("CharacterImage").getValue().toString();
                     Picasso.get().load(charImageUrl).fit().into(characterImage);
-                    String userName=dataSnapshot.child("DisplayName").getValue().toString();
+                    String userName = dataSnapshot.child("DisplayName").getValue().toString();
                     displayName.setText(userName);
-                    String userCharName=dataSnapshot.child("CharacterName").getValue().toString();
+                    String userCharName = dataSnapshot.child("CharacterName").getValue().toString();
                     characterName.setText(userCharName);
 
                     profileImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            HandleActions.viewSingleImage(UserProfileActivity.this,profImageUrl,characterImage.getWidth(),characterImage.getWidth());
+                            HandleActions.viewSingleImage(UserProfileActivity.this, profImageUrl, characterImage.getWidth(), characterImage.getWidth());
                         }
                     });
                     characterImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            HandleActions.viewSingleImage(UserProfileActivity.this,charImageUrl,characterImage.getWidth(),characterImage.getWidth()/2);
+                            HandleActions.viewSingleImage(UserProfileActivity.this, charImageUrl, characterImage.getWidth(), characterImage.getWidth() / 2);
                         }
                     });
                 }

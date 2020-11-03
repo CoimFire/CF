@@ -40,7 +40,7 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class CreateNewPostActivity extends AppCompatActivity {
 
-    private ImageView postImage,selectImage;
+    private ImageView postImage, selectImage;
     private TextView uploadImage;
     private EditText etPostText;
     private static final int GalleryPick = 1;
@@ -48,7 +48,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
     private StorageReference cfPostImageRef;
     FirebaseAuth cfAuth;
     private long countPosts = 0;
-    String downloadUrl, curUserId, curDate, curTime, userFullname, userProfImage,randomId,postText;
+    String downloadUrl, curUserId, curDate, curTime, userFullname, userProfImage, randomId, postText;
     Uri ImageUri;
     ProgressDialog progressdialog;
 
@@ -57,12 +57,12 @@ public class CreateNewPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_post);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(getWindow(), getResources());
 
-        postImage=findViewById(R.id.post_image);
-        selectImage=findViewById(R.id.iv_select);
-        uploadImage=findViewById(R.id.tv_upload);
-        etPostText =findViewById(R.id.et_post_text);
+        postImage = findViewById(R.id.post_image);
+        selectImage = findViewById(R.id.iv_select);
+        uploadImage = findViewById(R.id.tv_upload);
+        etPostText = findViewById(R.id.et_post_text);
 
         progressdialog = new ProgressDialog(this);
         progressdialog.setMessage("Please Wait....");
@@ -104,9 +104,9 @@ public class CreateNewPostActivity extends AppCompatActivity {
         // df.setTimeZone(TimeZone.getDefault());
         randomId = curDate + curTime;
 
-        postText=etPostText.getText().toString();
+        postText = etPostText.getText().toString();
 
-        if (ImageUri != null&&!postText.isEmpty()) {
+        if (ImageUri != null && !postText.isEmpty()) {
             final StorageReference filepath = cfPostImageRef.child(ImageUri.getLastPathSegment() + randomId + "jpg");
             filepath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -127,20 +127,19 @@ public class CreateNewPostActivity extends AppCompatActivity {
                     } else {
                         String message = task.getException().getMessage();
                         Toast.makeText(CreateNewPostActivity.this, "ERROR" + message, Toast.LENGTH_SHORT).show();
-
+                        progressdialog.dismiss();
                     }
                 }
             });
 
 
-        }
-
-        else {
-             if (postText.isEmpty()){
-                Toast.makeText(CreateNewPostActivity.this, "Please add image heading..", Toast.LENGTH_SHORT).show();
-            }else {
-                 savePostInformation();
-             }
+        } else {
+            if (postText.isEmpty()) {
+                progressdialog.dismiss();
+                Toast.makeText(CreateNewPostActivity.this, "Wrong move! You can't leave empty handed..", Toast.LENGTH_SHORT).show();
+            } else {
+                savePostInformation();
+            }
 
         }
 
@@ -188,7 +187,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
                         postMap.put("Date", curDate);
                         postMap.put("Time", curTime);
                         postMap.put("PostText", postText);
-                        postMap.put("PostId",randomId);
+                        postMap.put("PostId", randomId);
                         postMap.put("PostImage", downloadUrl);
                         postMap.put("ProfileImage", userProfImage);
                         postMap.put("DisplayName", userFullname);
@@ -231,7 +230,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
     }
 
     private void sendUserToHomeActivity() {
-        Intent intent=new Intent(CreateNewPostActivity.this,BottomBarActivity.class);
+        Intent intent = new Intent(CreateNewPostActivity.this, BottomBarActivity.class);
         startActivity(intent);
     }
 
@@ -241,6 +240,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, GalleryPick);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

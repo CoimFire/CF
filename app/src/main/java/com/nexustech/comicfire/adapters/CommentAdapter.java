@@ -36,16 +36,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.context = context;
     }
 
-    public void addAll(List<Comments> newComments){
+    public void addAll(List<Comments> newComments) {
 
-        int initSize=newComments.size();
+        int initSize = newComments.size();
         mCommentList.addAll(newComments);
-        notifyItemRangeChanged(initSize,newComments.size());
+        notifyItemRangeChanged(initSize, newComments.size());
 
     }
 
-    public String getLastItemId(){
-        return mCommentList.get(mCommentList.size()-1).getCommenterId();
+    public String getLastItemId() {
+        return mCommentList.get(mCommentList.size() - 1).getCommenterId();
     }
 
 
@@ -53,18 +53,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public CommentAdapter.CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView= LayoutInflater.from(context).inflate(R.layout.layout_comment,parent,false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.layout_comment, parent, false);
 
         return new CommentAdapter.CommentViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommentAdapter.CommentViewHolder holder, int position) {
-        String userId=mCommentList.get(position).getCommenterId();
+        String userId = mCommentList.get(position).getCommenterId();
         FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     holder.tvUserName.setText(dataSnapshot.child("DisplayName").getValue().toString());
                     Picasso.get().load(dataSnapshot.child("ProfileImage").getValue().toString()).into(holder.ivProfileImage);
                 }
@@ -80,16 +80,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.tvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleActions.intentToProfile(context,mCommentList.get(position).getCommenterId());
+                HandleActions.intentToProfile(context, mCommentList.get(position).getCommenterId());
             }
         });
         holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleActions.intentToProfile(context,mCommentList.get(position).getCommenterId());
+                HandleActions.intentToProfile(context, mCommentList.get(position).getCommenterId());
             }
         });
-
 
 
     }
@@ -103,16 +102,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         View view;
 
-        TextView tvUserName,tvComment;
+        TextView tvUserName, tvComment;
         ImageView ivProfileImage;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            view=itemView;
+            view = itemView;
 
-            tvUserName=itemView.findViewById(R.id.tv_display_name);
-            tvComment=itemView.findViewById(R.id.tv_comment);
-            ivProfileImage=itemView.findViewById(R.id.iv_profile_image);
+            tvUserName = itemView.findViewById(R.id.tv_display_name);
+            tvComment = itemView.findViewById(R.id.tv_comment);
+            ivProfileImage = itemView.findViewById(R.id.iv_profile_image);
 
         }
 

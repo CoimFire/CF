@@ -44,7 +44,7 @@ public class CreateMemeActivity extends AppCompatActivity {
     private FirebaseAuth cfAuth;
     private DatabaseReference cfPostRef, parentRef, userRef;
     private StorageReference cfPostImageRef;
-    private String downloadUrl,imageUrl;
+    private String downloadUrl, imageUrl;
     private long counter;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -52,7 +52,7 @@ public class CreateMemeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_meme);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(getWindow(), getResources());
 
         TextView tv = findViewById(R.id.done);
         ImageView imageView = findViewById(R.id.meme_image);
@@ -60,7 +60,7 @@ public class CreateMemeActivity extends AppCompatActivity {
         EditText et2 = findViewById(R.id.second_text);
         parentId = getIntent().getStringExtra("MemeId");
         postText = getIntent().getStringExtra("Title");
-        imageUrl=getIntent().getStringExtra("CoverImage");
+        imageUrl = getIntent().getStringExtra("CoverImage");
         curuserId = Utils.getCurrentUser();
         cfPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
         parentRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes").child(parentId);
@@ -71,7 +71,7 @@ public class CreateMemeActivity extends AppCompatActivity {
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
 
             // Log.d("permission", "permission denied to SEND_SMS - requesting it");
-            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
 
             requestPermissions(permissions, 1);
 
@@ -83,9 +83,9 @@ public class CreateMemeActivity extends AppCompatActivity {
                 //   String[] wordList = OffensiveWordlist.wordsList;
                 String text1 = et1.getText().toString();
                 String text2 = et2.getText().toString();
-                if (Utils.filterComment(text1)||Utils.filterComment(text2)){
+                if (Utils.filterComment(text1) || Utils.filterComment(text2)) {
                     Toast.makeText(CreateMemeActivity.this, "Ouff...Dude Language..!", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     ConstraintLayout shareLayout = findViewById(R.id.constraintLayout);
                     shareLayout.setDrawingCacheEnabled(true);
                     shareLayout.buildDrawingCache();
@@ -144,7 +144,7 @@ public class CreateMemeActivity extends AppCompatActivity {
                                                         public void onComplete(@NonNull Task task) {
                                                             if (task.isSuccessful()) {
                                                                 Toast.makeText(CreateMemeActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                                                                Utils.openAnotherActivity(CreateMemeActivity.this,BottomBarActivity.class);
+                                                                Utils.openAnotherActivity(CreateMemeActivity.this, BottomBarActivity.class);
                                                             } else {
                                                                 String message = task.getException().getMessage();
                                                                 Toast.makeText(CreateMemeActivity.this, "Error.." + message, Toast.LENGTH_SHORT).show();

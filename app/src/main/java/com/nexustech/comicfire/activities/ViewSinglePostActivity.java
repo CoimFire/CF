@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class ViewSinglePostActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class ViewSinglePostActivity extends AppCompatActivity {
 
 
     EditText etComment;
-    TextView tvPosttext, tvHeading, tvViews, tvProfileName,tvCommentCount;
+    TextView tvPosttext, tvHeading, tvViews, tvProfileName, tvCommentCount;
     ImageView ivPostImage, ivProfileImage, ivSendComment;
     String views, postText, postImage, postId, userId, currentUserId, profileName, profileImage;
     RecyclerView rvComments;
@@ -61,18 +62,18 @@ public class ViewSinglePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_single_post);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(getWindow(), getResources());
 
         tvPosttext = findViewById(R.id.tv_post_text);
         ivPostImage = findViewById(R.id.ivPostImage);
         tvHeading = findViewById(R.id.tvHeading);
         tvViews = findViewById(R.id.tvLikeCount);
         tvProfileName = findViewById(R.id.tvProfileName);
-        tvCommentCount=findViewById(R.id.tvCommentCount);
+        tvCommentCount = findViewById(R.id.tvCommentCount);
         etComment = findViewById(R.id.et_comment);
         ivSendComment = findViewById(R.id.iv_send);
         rvComments = findViewById(R.id.rv_comments);
-        ivProfileImage=findViewById(R.id.ivProfile);
+        ivProfileImage = findViewById(R.id.ivProfile);
 
         //postText=getIntent().getStringExtra("postText");
         //postImage=getIntent().getStringExtra("postImage");
@@ -89,10 +90,27 @@ public class ViewSinglePostActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     postText = dataSnapshot.child("PostText").getValue().toString();
-                    postImage = dataSnapshot.child("PostImage").getValue().toString();
+                    Object postImageUrl = dataSnapshot.child("PostImage").getValue();
                     tvPosttext.setText(postText);
-                    Picasso.get().load(postImage).into(ivPostImage);
                     userId = dataSnapshot.child("UserId").getValue().toString();
+
+                    // if (dataSnapshot.hasChild("PostImage"))
+                    if (postImageUrl == null) {
+                        ivPostImage.setVisibility(View.GONE);
+                        int counted = postText.length();
+                        if (counted < 100) {
+                            tvPosttext.setTextSize(35);
+                            tvPosttext.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            tvPosttext.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
+                        }
+
+                    } else {
+                        postImage = postImageUrl.toString();
+                        Picasso.get().load(postImage).into(ivPostImage);
+                    }
                     showuserDetails(userId);
                     showViews();
                 }
@@ -268,7 +286,7 @@ public class ViewSinglePostActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     long count = dataSnapshot.getChildrenCount();
                     String ct = String.valueOf(count);
-                    tvCommentCount.setText("Comments "+ct);
+                    tvCommentCount.setText("Comments " + ct);
 
                 } else {
                     tvCommentCount.setText("Comments 0");
@@ -289,7 +307,7 @@ public class ViewSinglePostActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     profileName = dataSnapshot.child("DisplayName").getValue().toString();
-                    profileImage=dataSnapshot.child("ProfileImage").getValue().toString();
+                    profileImage = dataSnapshot.child("ProfileImage").getValue().toString();
                     tvProfileName.setText(profileName);
                     Picasso.get().load(profileImage).into(ivProfileImage);
                 }

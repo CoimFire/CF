@@ -38,11 +38,12 @@ public class FriendsFragment extends Fragment {
     private String curUserId;
 
     public static DatabaseReference cfFollowingRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(Utils.getCurrentUser()).child("Followings");
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView= inflater.inflate(R.layout.fragment_friends, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
 
 
         ivSearch = rootView.findViewById(R.id.ivSearchFriends);
@@ -85,11 +86,11 @@ public class FriendsFragment extends Fragment {
                         findFriendsViewHolder.setProfileImage(model.getProfileImage());
                         String searchedUserId = getRef(position).getKey();
 
-                        HandleActions.manageRequestButton(searchedUserId,findFriendsViewHolder.tvRequest);
+                        HandleActions.manageRequestButton(searchedUserId, findFriendsViewHolder.tvRequest);
                         findFriendsViewHolder.tvRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                HandleActions.actionHandler(getContext(),searchedUserId);
+                                HandleActions.actionHandler(getContext(), searchedUserId);
 
                             }
                         });
@@ -129,7 +130,7 @@ public class FriendsFragment extends Fragment {
         private FirebaseAuth cfAuth;
         private String currentUserId;
         DatabaseReference cfFollowerRef;
-     //   DatabaseReference cfFollowingRef;
+        //   DatabaseReference cfFollowingRef;
         ImageView profImage;
 
         public UserViewHolder(@NonNull View itemView) {
@@ -139,7 +140,7 @@ public class FriendsFragment extends Fragment {
             cfAuth = FirebaseAuth.getInstance();
             currentUserId = cfAuth.getCurrentUser().getUid();
             cfFollowerRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(currentUserId).child("Followers");
-          //  cfFollowingRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(currentUserId).child("Followings");
+            //  cfFollowingRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(currentUserId).child("Followings");
             profImage = cfView.findViewById(R.id.iv_profile);
             profName = cfView.findViewById(R.id.tv_user_name);
             characterName = cfView.findViewById(R.id.tv_character_name);
@@ -156,7 +157,6 @@ public class FriendsFragment extends Fragment {
         public void setCharacterName(String CharacterName) {
             characterName.setText(CharacterName);
         }
-
 
 
     }
