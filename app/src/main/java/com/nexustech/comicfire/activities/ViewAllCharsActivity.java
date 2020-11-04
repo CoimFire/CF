@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -39,20 +40,20 @@ public class ViewAllCharsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_chars);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(getWindow(), getResources());
 
-        rvChars=findViewById(R.id.rv_list_chars);
+        rvChars = findViewById(R.id.rv_list_chars);
 
         rvChars.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager=new GridLayoutManager(this,2);
-        cfCharRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Characters");
+        mLayoutManager = new GridLayoutManager(this, 2);
+        cfCharRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Characters");
 
         // Set the layout manager to your recyclerview
         rvChars.setLayoutManager(mLayoutManager);
-        userId=getIntent().getStringExtra("UserId");
-        points=getIntent().getIntExtra("Points",0);
+        userId = getIntent().getStringExtra("UserId");
+        points = getIntent().getIntExtra("Points", 0);
         showAllChars();
     }
 
@@ -73,18 +74,18 @@ public class ViewAllCharsActivity extends AppCompatActivity {
                         postViewHolder.setCharacterProfile(model.getCharacterProfile());
                         postViewHolder.setCharacterName(model.getCharacterName());
                         postViewHolder.setRequiredPoints(model.getRequiredPoints());
-                        postViewHolder.setLockIcon(points,model.getRequiredPoints());
+                        postViewHolder.setLockIcon(points, model.getRequiredPoints());
                         postViewHolder.ivLock.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(ViewAllCharsActivity.this, "You need "+model.getRequiredPoints()+ " Points", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ViewAllCharsActivity.this, "You need " + model.getRequiredPoints() + " Points", Toast.LENGTH_SHORT).show();
                             }
                         });
 
                         postViewHolder.tvSelect.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                postViewHolder.setCharacter(model.getCharacterName(),model.getCharacterProfile(),model.getCharImage());
+                                postViewHolder.setCharacter(model.getCharacterName(), model.getCharacterProfile(), model.getCharImage());
                             }
                         });
 
@@ -93,14 +94,14 @@ public class ViewAllCharsActivity extends AppCompatActivity {
 
         rvChars.setAdapter(firebaseRecyclerAdapter);
     }
+
     public static class CharacterViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        TextView tvCharName,tvSelect;
-        ImageView ivCharProfImage,ivCharImage,ivLock;
+        TextView tvCharName, tvSelect;
+        ImageView ivCharProfImage, ivCharImage, ivLock;
         private FirebaseAuth cfAuth;
         private String currentUserId;
-        DatabaseReference checkReqSent,userRef;
-
+        DatabaseReference checkReqSent, userRef;
 
 
         public CharacterViewHolder(@NonNull View itemView) {
@@ -108,13 +109,13 @@ public class ViewAllCharsActivity extends AppCompatActivity {
             cfView = itemView;
             ivCharImage = cfView.findViewById(R.id.iv_char_image);
             ivCharProfImage = cfView.findViewById(R.id.iv_char_profile);
-            tvCharName=cfView.findViewById(R.id.tv_character_name);
-            ivLock=cfView.findViewById(R.id.iv_char_lock);
-            tvSelect=cfView.findViewById(R.id.tv_select_character);
+            tvCharName = cfView.findViewById(R.id.tv_character_name);
+            ivLock = cfView.findViewById(R.id.iv_char_lock);
+            tvSelect = cfView.findViewById(R.id.tv_select_character);
 
 
-            cfAuth= FirebaseAuth.getInstance();
-            currentUserId=cfAuth.getCurrentUser().getUid();
+            cfAuth = FirebaseAuth.getInstance();
+            currentUserId = cfAuth.getCurrentUser().getUid();
         }
 
         public void setCharacterName(String CharacterName) {
@@ -136,16 +137,16 @@ public class ViewAllCharsActivity extends AppCompatActivity {
         }
 
         public void setLockIcon(int points, String requiredPoints) {
-            int reqPoint= Integer.parseInt(requiredPoints);
-            if (reqPoint<points){
+            int reqPoint = Integer.parseInt(requiredPoints);
+            if (reqPoint < points) {
                 ivLock.setVisibility(View.INVISIBLE);
-            }else {
+            } else {
                 tvSelect.setEnabled(false);
             }
         }
 
         public void setCharacter(String characterName, String characterProfile, String charImage) {
-            userRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(currentUserId);
+            userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(currentUserId);
             userRef.child("CharacterName").setValue(characterName);
             userRef.child("ProfileImage").setValue(characterProfile);
             userRef.child("CharacterImage").setValue(charImage);

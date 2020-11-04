@@ -32,37 +32,38 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class MemeDetailsActivity extends AppCompatActivity {
 
-    private String coverImageUrl,parentkey,postText,curuserId;
+    private String coverImageUrl, parentkey, postText, curuserId;
     ImageView coverImage;
     TextView accept;
     RecyclerView rvChildList;
-    DatabaseReference cfChildernMemes,cfPostRef;
+    DatabaseReference cfChildernMemes, cfPostRef;
     FirebaseAuth cfAuth;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meme_details);
 
-        Utils.setTopBar(getWindow(),getResources());
-        cfAuth=FirebaseAuth.getInstance();
-        coverImageUrl=getIntent().getStringExtra("CoverImage");
-        parentkey=getIntent().getStringExtra("MemeId");
-        postText=getIntent().getStringExtra("Title");
-        cfPostRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
-        cfChildernMemes= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes").child(parentkey).child("ChildMemes");
-        curuserId=cfAuth.getCurrentUser().getUid();
-        coverImage=findViewById(R.id.iv_cover);
-        accept=findViewById(R.id.tv_accept);
+        Utils.setTopBar(getWindow(), getResources());
+        cfAuth = FirebaseAuth.getInstance();
+        coverImageUrl = getIntent().getStringExtra("CoverImage");
+        parentkey = getIntent().getStringExtra("MemeId");
+        postText = getIntent().getStringExtra("Title");
+        cfPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
+        cfChildernMemes = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes").child(parentkey).child("ChildMemes");
+        curuserId = cfAuth.getCurrentUser().getUid();
+        coverImage = findViewById(R.id.iv_cover);
+        accept = findViewById(R.id.tv_accept);
         Picasso.get().load(coverImageUrl).into(coverImage);
-        rvChildList=findViewById(R.id.rv_child);
+        rvChildList = findViewById(R.id.rv_child);
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MemeDetailsActivity.this,CreateMemeActivity.class);
-                intent.putExtra("MemeId",parentkey);
-                intent.putExtra("Title",postText);
-                intent.putExtra("CoverImage",coverImageUrl);
+                Intent intent = new Intent(MemeDetailsActivity.this, CreateMemeActivity.class);
+                intent.putExtra("MemeId", parentkey);
+                intent.putExtra("Title", postText);
+                intent.putExtra("CoverImage", coverImageUrl);
                 startActivity(intent);
             }
         });
@@ -77,10 +78,12 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
         showChildMemes();
     }
+
     private void anounceResult(String parentkey) {
-        DatabaseReference memRef= FirebaseDatabase.getInstance().getReference().child("Memes").child(parentkey);
+        DatabaseReference memRef = FirebaseDatabase.getInstance().getReference().child("Memes").child(parentkey);
         memRef.child("State").setValue("Finished");
     }
+
     private void showChildMemes() {
         Query postQuery = cfChildernMemes.orderByChild("Counter");
         FirebaseRecyclerAdapter<Posts, PostViewHolder> firebaseRecyclerAdapter =
@@ -108,21 +111,21 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
                             }
                         });
-                        postViewHolder.manageLikeButton(postViewHolder.ivLike,postKey,MemeDetailsActivity.this);
+                        postViewHolder.manageLikeButton(postViewHolder.ivLike, postKey, MemeDetailsActivity.this);
 
                     }
                 };
 
         rvChildList.setAdapter(firebaseRecyclerAdapter);
     }
+
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        TextView profName,tvPostText,likeCount;
-        ImageView profImage,ivPostImage,ivLike,tribleDot;
+        TextView profName, tvPostText, likeCount;
+        ImageView profImage, ivPostImage, ivLike, tribleDot;
         private FirebaseAuth cfAuth;
-        private String currentUserId,postId;
-        DatabaseReference checkReqSent,likeRef,cfMemeRef;
-
+        private String currentUserId, postId;
+        DatabaseReference checkReqSent, likeRef, cfMemeRef;
 
 
         public PostViewHolder(@NonNull View itemView) {
@@ -130,14 +133,14 @@ public class MemeDetailsActivity extends AppCompatActivity {
             cfView = itemView;
             profImage = cfView.findViewById(R.id.ivProfile);
             profName = cfView.findViewById(R.id.tvProfileName);
-            ivPostImage=cfView.findViewById(R.id.ivPostImage);
-            tvPostText=cfView.findViewById(R.id.tvDescription);
-            ivLike=cfView.findViewById(R.id.ivLike);
-            tribleDot=cfView.findViewById(R.id.trible_dot);
-            cfAuth=FirebaseAuth.getInstance();
-            currentUserId=cfAuth.getCurrentUser().getUid();
-            likeCount=cfView.findViewById(R.id.tvLikeCount);
-            cfMemeRef=FirebaseDatabase.getInstance().getReference().child("Memes");
+            ivPostImage = cfView.findViewById(R.id.ivPostImage);
+            tvPostText = cfView.findViewById(R.id.tvDescription);
+            ivLike = cfView.findViewById(R.id.ivLike);
+            tribleDot = cfView.findViewById(R.id.trible_dot);
+            cfAuth = FirebaseAuth.getInstance();
+            currentUserId = cfAuth.getCurrentUser().getUid();
+            likeCount = cfView.findViewById(R.id.tvLikeCount);
+            cfMemeRef = FirebaseDatabase.getInstance().getReference().child("Memes");
 
         }
 
@@ -159,16 +162,16 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
 
         public void manageLikeButton(ImageView ivLike, String postKey, Context context) {
-            likeRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Views");
+            likeRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postKey).child("Views");
             likeRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        long count=dataSnapshot.getChildrenCount();
-                        String ct=String.valueOf(count);
+                        long count = dataSnapshot.getChildrenCount();
+                        String ct = String.valueOf(count);
                         likeCount.setText(ct);
 
-                    }else {
+                    } else {
                         likeCount.setText("0");
                     }
 

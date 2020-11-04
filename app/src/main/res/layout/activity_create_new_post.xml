@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/layout_background"
     tools:context=".activities.CreateNewPostActivity">
 
     <TextView
@@ -15,33 +16,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/main_theme"/>
+
     <EditText
         android:id="@+id/et_post_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/layout_background"
+        android:hint="Enter your post heading"
         android:paddingHorizontal="10dp"
         android:paddingVertical="8dp"
-        android:hint="Enter your post heading"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_select"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeading"
-        android:background="@drawable/edit_text_background"/>
+        app:layout_constraintTop_toBottomOf="@id/tvHeading" />
 
     <ImageView
         android:id="@+id/post_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_post_text"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/placeholder" />
+        android:layout_marginLeft="10dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -70,6 +69,7 @@
         android:background="@drawable/all_button_background"
         android:paddingHorizontal="20dp"
         android:text="Select"
+        android:visibility="invisible"
         android:textSize="18sp"
         android:paddingVertical="4dp"
         android:textColor="@color/white"
@@ -87,18 +87,30 @@
         android:id="@+id/tv_upload"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:background="@drawable/all_button_background"
-        android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:textSize="18dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/main_theme_radius"
+        android:gravity="center_horizontal"
         android:paddingVertical="4dp"
-        android:text="Upload"
+        android:text="Post"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/post_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline486"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        android:gravity="center_horizontal" />
+        app:layout_constraintStart_toStartOf="@+id/guideline486"
+        app:layout_constraintTop_toTopOf="@+id/post_image" />
+
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeading"
+        app:srcCompat="@drawable/baseline_add_a_photo_black_18dp"
+        android:layout_marginRight="5dp"
+        app:tint="@color/steel_blue" />
 </androidx.constraintlayout.widget.ConstraintLayout>

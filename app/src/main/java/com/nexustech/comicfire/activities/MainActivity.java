@@ -36,15 +36,16 @@ public class MainActivity extends AppCompatActivity {
     private String userId;
     Button btnLogout;
     String curUserId;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(getWindow(), getResources());
 
-        cfAuth=FirebaseAuth.getInstance();
-        cfUserRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE);
+        cfAuth = FirebaseAuth.getInstance();
+        cfUserRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE);
 
 
         if (cfAuth.getCurrentUser() != null) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
 
                 // Log.d("permission", "permission denied to SEND_SMS - requesting it");
-                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
 
                 requestPermissions(permissions, 1);
 
@@ -67,14 +68,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                if(curUserId==null){
+                if (curUserId == null) {
                     SendUserToLoginActivity();
-                }
-                else {
+                } else {
                     SendUserToHomeActivity();
                     // CheckUserExistence();
 
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void SendUserToHomeActivity() {
 
-            Intent intent=new Intent(MainActivity.this, BottomBarActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, BottomBarActivity.class);
+        startActivity(intent);
 
 
     }
@@ -98,24 +98,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.child(curUserId).exists()){
+                if (dataSnapshot.child(curUserId).exists()) {
                     if (dataSnapshot.child(curUserId).hasChild("ProfileCreated")) {
                         //SendUserToHomeActivity();
                         SendUserToLoginActivity();
-                    }
-                    else {
+                    } else {
                         // SendUserToSetupActivity();
                         SendUserToLoginActivity();
                     }
-                }
-
-                else{
+                } else {
                     SendUserToLoginActivity();
                 }
 
 
             }
-
 
 
             @Override
@@ -127,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void SendUserToLoginActivity() {
-        Intent setupIntent=new Intent(MainActivity.this, LoginActivity.class);
+        Intent setupIntent = new Intent(MainActivity.this, LoginActivity.class);
         setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setupIntent);
     }

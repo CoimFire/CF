@@ -14,4 +14,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_admin_bottom_bar">AdminBottomBarActivity</string>
+
+    <string-array name="own_post_menu">
+        <item>Edit</item>
+        <item>Delete</item>
+        <item>Share</item>
+    </string-array>
+
+    <string-array name="others_post_menu">
+        <item>Share</item>
+        <item>Report this post</item>
+        <item>Report this user</item>
+    </string-array>
+
 </resources>

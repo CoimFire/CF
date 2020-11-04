@@ -38,7 +38,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_memes);
 
-        rvMeme=findViewById(R.id.rv_memes);
+        rvMeme = findViewById(R.id.rv_memes);
         rvMeme.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -47,7 +47,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
         // Set the layout manager to your recyclerview
         rvMeme.setLayoutManager(mLayoutManager);
 
-        cfMemeCoverRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes");
+        cfMemeCoverRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes");
         showAllMemes();
 
     }
@@ -68,22 +68,22 @@ public class ViewAllMemesActivity extends AppCompatActivity {
                         String memeKey = getRef(position).getKey();
                         memeViewHolder.setMemeName(model.getMemeName());
                         memeViewHolder.setCoverImage(model.getMemeImage());
-                        String state=model.getState();
-                        if ("Finished".equals(state)){
+                        String state = model.getState();
+                        if ("Finished".equals(state)) {
                             memeViewHolder.timer.setText("Competition Finished");
                             memeViewHolder.tvTimerLabel.setVisibility(View.INVISIBLE);
                             memeViewHolder.go.setVisibility(View.INVISIBLE);
 
-                        }else {
+                        } else {
                             memeViewHolder.showCounter(memeKey, model.getCreatedDate());
                         }
                         memeViewHolder.go.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent= new Intent(ViewAllMemesActivity.this, MemeDetailsActivity.class);
-                                intent.putExtra("MemeId",memeKey);
-                                intent.putExtra("Title",model.getMemeName());
-                                intent.putExtra("CoverImage",model.getMemeImage());
+                                Intent intent = new Intent(ViewAllMemesActivity.this, MemeDetailsActivity.class);
+                                intent.putExtra("MemeId", memeKey);
+                                intent.putExtra("Title", model.getMemeName());
+                                intent.putExtra("CoverImage", model.getMemeImage());
                                 startActivity(intent);
                             }
                         });
@@ -93,20 +93,21 @@ public class ViewAllMemesActivity extends AppCompatActivity {
         rvMeme.setAdapter(firebaseRecyclerAdapter);
 
     }
+
     public static class MemeViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        TextView tvMemeName,timer,go,tvTimerLabel;
+        TextView tvMemeName, timer, go, tvTimerLabel;
         ImageView memeImage;
-        Date createdDate,expireDate;
+        Date createdDate, expireDate;
 
         public MemeViewHolder(@NonNull View itemView) {
             super(itemView);
             cfView = itemView;
-            tvMemeName=cfView.findViewById(R.id.meme_name);
-            memeImage=cfView.findViewById(R.id.meme_cover);
-            timer=cfView.findViewById(R.id.timer);
-            go=cfView.findViewById(R.id.go);
-            tvTimerLabel=cfView.findViewById(R.id.timerlabel);
+            tvMemeName = cfView.findViewById(R.id.meme_name);
+            memeImage = cfView.findViewById(R.id.meme_cover);
+            timer = cfView.findViewById(R.id.timer);
+            go = cfView.findViewById(R.id.go);
+            tvTimerLabel = cfView.findViewById(R.id.timerlabel);
 
         }
 
@@ -126,21 +127,19 @@ public class ViewAllMemesActivity extends AppCompatActivity {
             String date2 = format.format(new Date());
 
             try {
-                createdDate=format.parse(date1);
-                expireDate=format.parse(date2);
+                createdDate = format.parse(date1);
+                expireDate = format.parse(date2);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
 
-
-            long createdDateMilli=createdDate.getTime()+432000000;
-            long expireDateMilli= expireDate.getTime();
-            long difference=createdDateMilli-expireDateMilli;
-
+            long createdDateMilli = createdDate.getTime() + 432000000;
+            long expireDateMilli = expireDate.getTime();
+            long difference = createdDateMilli - expireDateMilli;
 
 
-            new CountDownTimer(difference , 1000) {
+            new CountDownTimer(difference, 1000) {
                 public void onTick(long millisUntilFinish) {
                     int seconds = (int) (millisUntilFinish / 1000) % 60;
                     int minutes = (int) (millisUntilFinish / (1000 * 60)) % 60;
@@ -151,6 +150,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
 
                     timer.setText(ctText);
                 }
+
                 public void onFinish() {
                     timer.setText("Expired");
                     // accept.setVisibility(View.INVISIBLE);
@@ -160,7 +160,8 @@ public class ViewAllMemesActivity extends AppCompatActivity {
             }.start();
 
         }
-        private long getTimeUnit(long timeInMills, TimeUnit timeUnit){
+
+        private long getTimeUnit(long timeInMills, TimeUnit timeUnit) {
             return timeUnit.convert(timeInMills, TimeUnit.MILLISECONDS);
         }
     }

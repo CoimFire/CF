@@ -33,11 +33,11 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class SignInActivity extends AppCompatActivity {
     private TextView signin;
-    private EditText userName,password,reTypePassword,et_name;
-    private static final int RC_SIGN_IN=1;
-    private static final String TAG="Login ";
+    private EditText userName, password, reTypePassword, et_name;
+    private static final int RC_SIGN_IN = 1;
+    private static final String TAG = "Login ";
     private FirebaseAuth cfAuth;
-    private DatabaseReference userRef,charRef;
+    private DatabaseReference userRef, charRef;
     private String curUserId;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -45,15 +45,16 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(getWindow(), getResources());
 
-        userRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
-        charRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Characters").child(DEFAULT_CHARACTER);
+        userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
+        charRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Characters").child(DEFAULT_CHARACTER);
 
         initializeViews();
         clickListeners();
 
     }
+
     private void clickListeners() {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,26 +66,26 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        userName=findViewById(R.id.etEmail);
-        password=findViewById(R.id.etPassword);
-        reTypePassword=findViewById(R.id.etReTypePassword);
-        signin=findViewById(R.id.tvCreateAccount);
-        et_name=findViewById(R.id.et_name);
+        userName = findViewById(R.id.etEmail);
+        password = findViewById(R.id.etPassword);
+        reTypePassword = findViewById(R.id.etReTypePassword);
+        signin = findViewById(R.id.tvCreateAccount);
+        et_name = findViewById(R.id.et_name);
 
     }
+
     private void CreateNewAccount() {
 
         String email = userName.getText().toString();
         String pass = password.getText().toString();
         String confirmPassword = reTypePassword.getText().toString();
-        String name=et_name.getText().toString();
+        String name = et_name.getText().toString();
 
 
-        if (TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Please enter your Name..", Toast.LENGTH_SHORT).show();
 
-        }
-        else if (TextUtils.isEmpty(email)) {
+        } else if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please enter your E mail..", Toast.LENGTH_SHORT).show();
 
         } else if (TextUtils.isEmpty(pass)) {
@@ -96,8 +97,7 @@ public class SignInActivity extends AppCompatActivity {
         } else if (!pass.equals(confirmPassword)) {
             Toast.makeText(this, "Password not match..", Toast.LENGTH_SHORT).show();
 
-        }
-        else {
+        } else {
 
             cfAuth = FirebaseAuth.getInstance();
 
@@ -109,7 +109,7 @@ public class SignInActivity extends AppCompatActivity {
                                 cfAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        saveUserInfo(cfAuth,name);
+                                        saveUserInfo(cfAuth, name);
                                     }
                                 });
                             } else {
@@ -128,28 +128,28 @@ public class SignInActivity extends AppCompatActivity {
         charRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String currentUser=cfAuth.getCurrentUser().getUid();
-                    String date= Utils.getDate();
-                    String profileImage,characterImage,profileName;
-                    profileImage=dataSnapshot.child("CharacterProfile").getValue().toString();
-                    characterImage=dataSnapshot.child("CharImage").getValue().toString();
-                    profileName=dataSnapshot.child("CharacterName").getValue().toString();
+                if (dataSnapshot.exists()) {
+                    String currentUser = cfAuth.getCurrentUser().getUid();
+                    String date = Utils.getDate();
+                    String profileImage, characterImage, profileName;
+                    profileImage = dataSnapshot.child("CharacterProfile").getValue().toString();
+                    characterImage = dataSnapshot.child("CharImage").getValue().toString();
+                    profileName = dataSnapshot.child("CharacterName").getValue().toString();
 
-                    HashMap hashMap=new HashMap();
-                    hashMap.put("UserId",currentUser);
-                    hashMap.put("CreatedDate",date);
-                    hashMap.put("DisplayName",name);
-                    hashMap.put("CharacterName",profileName);
-                    hashMap.put("CharacterImage",characterImage);
-                    hashMap.put("ProfileImage",profileImage);
+                    HashMap hashMap = new HashMap();
+                    hashMap.put("UserId", currentUser);
+                    hashMap.put("CreatedDate", date);
+                    hashMap.put("DisplayName", name);
+                    hashMap.put("CharacterName", profileName);
+                    hashMap.put("CharacterImage", characterImage);
+                    hashMap.put("ProfileImage", profileImage);
                     userRef.child(currentUser).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Toast.makeText(SignInActivity.this, "Open your email and verify", Toast.LENGTH_SHORT).show();
                                 sendUserToHomeActivity();
-                            }else {
+                            } else {
                                 Toast.makeText(SignInActivity.this, "ERROR : Creating account", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -168,7 +168,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void sendUserToHomeActivity() {
-        Intent intent=new Intent(SignInActivity.this,BottomBarActivity.class);
+        Intent intent = new Intent(SignInActivity.this, BottomBarActivity.class);
         startActivity(intent);
 
     }

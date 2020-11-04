@@ -159,8 +159,8 @@ public class ProfileFragment extends Fragment {
         myPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), UsersPostsActivity.class);
-                intent.putExtra("UserId",Utils.getCurrentUser());
+                Intent intent = new Intent(getContext(), UsersPostsActivity.class);
+                intent.putExtra("UserId", Utils.getCurrentUser());
                 startActivity(intent);
             }
         });
