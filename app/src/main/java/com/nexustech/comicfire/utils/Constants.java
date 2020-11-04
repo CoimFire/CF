@@ -10,5 +10,5 @@ public class Constants {
 
     public static final String FILES = "files/";
 
-    public static final String SCREENSHOT_JPG_STRING="screenShot.jpg";
+    public static final String SCREENSHOT_JPG_STRING="cf.jpg";
 }

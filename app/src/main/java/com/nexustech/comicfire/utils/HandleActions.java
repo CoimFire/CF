@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 import static com.nexustech.comicfire.utils.Constants.CURRENT_STATE;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
@@ -45,6 +47,8 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 public class HandleActions {
 
     public static String curUserId = Utils.getCurrentUser();
+    public static String reason;
+
     public static DatabaseReference cfFollowingRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("Followings");
 
     public static void manageRequestButton(String searchedUserId, TextView tvRequest) {
@@ -294,37 +298,24 @@ public class HandleActions {
     }
 
 
-    public static void openPopupForOthers(int position, String postId, Context context) {
+    public static void openPopupForOthers(ImageView ivPostImage, int position, String postId , String postText, Context context) {
         View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_general, null);
         AlertDialog dialog = Utils.configDialog(context, rowView);
         TextView tvTitle = rowView.findViewById(R.id.tv_title);
         TextView tvMessage = rowView.findViewById(R.id.tv_message);
         TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
         TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
-
-        if (position == 0) {
-            tvTitle.setText("Share");
-            tvMessage.setText("Do you want share to this posts in other social media?");
-        } else if (position == 1) {
-            tvTitle.setText("Report");
-            tvMessage.setText("Do you want report this post?");
-        } else if (position == 2) {
-            tvTitle.setText("Report");
-            tvMessage.setText("Do you want report this user?");
-        }
+        tvTitle.setText("Share");
+        tvMessage.setText("Do you want share to this posts in other social media?");
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position == 0) {
-                    //sharePost();
-                } else if (position == 1) {
-                    //reportPost();
-                    Toast.makeText(context, "Reported", Toast.LENGTH_SHORT).show();
-                } else if (position == 2) {
-                    //reportUser();
-                    Toast.makeText(context, "Reported", Toast.LENGTH_SHORT).show();
+                try {
+                    shareImageToSocialMedia(ivPostImage,postId,postText,context);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                dialog.dismiss();
+        dialog.dismiss();
             }
         });
         tvCancel.setOnClickListener(new View.OnClickListener() {
@@ -351,48 +342,52 @@ public class HandleActions {
         context.startActivity(intent);
     }
 
-    public static void shareImageToSocialMedia(ImageView ivPostImage, String postText, String postId, Context context) throws IOException {
+    public static void shareImageToSocialMedia(ImageView ivPostImage, String postId , String postText, Context context) throws IOException {
         BitmapDrawable drawable = (BitmapDrawable) ivPostImage.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
+
         // Bitmap bitmap = ivPostImage.getDrawingCache();
 
-        if (bitmap == null) {
-            Toast.makeText(context, "null", Toast.LENGTH_SHORT).show();
+
+        if (drawable != null) {
+            Bitmap bitmap = drawable.getBitmap();
+            //   Toast.makeText(context, "hghjhj", Toast.LENGTH_SHORT).show();
+            File sdCard = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+            File dir = new File(sdCard.getAbsolutePath() + "/ComicFire");
+            dir.mkdir();
+            String fname = postId + Constants.SCREENSHOT_JPG_STRING;
+            File outFile = new File(dir, fname);
+            // File file = new File(myDir, sdCard);
+
+            FileOutputStream out = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+
+            out.flush();
+            out.close();
+
+
+            Bitmap appIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.comicfire_logo);
+
+            Bitmap resizedAppIconBitmap = Bitmap.createScaledBitmap(appIconBitmap, 125, 125, false);
+            Bitmap resizedScreenBitmap = Bitmap.createScaledBitmap(bitmap, ivPostImage.getWidth(), ivPostImage.getHeight(), false);
+
+            Bitmap mergeBitmap = mergeTwoBitmap(resizedScreenBitmap, resizedAppIconBitmap, context);
+            Uri mergeUri = getBitmapUri(mergeBitmap, context, postId);
+            Shareable shareInstance = new Shareable.Builder(context)
+                    .message(postText+"\n\n #ComicFire")
+                    .socialChannel(Shareable.Builder.ANY)
+                    .image(mergeUri)
+                    .url("www.google.com")
+                    .build();
+            shareInstance.share();
+        }else {
+            Shareable shareInstance = new Shareable.Builder(context)
+                    .message(postText+"\n\n #ComicFire")
+                    .socialChannel(Shareable.Builder.ANY)
+                    .url("www.google.com")
+                    .build();
+            shareInstance.share();
         }
-        //   Toast.makeText(context, "hghjhj", Toast.LENGTH_SHORT).show();
-        File sdCard = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File dir = new File(sdCard.getAbsolutePath() + "/ComicFire");
-        dir.mkdir();
-        String fname =  postId + Constants.SCREENSHOT_JPG_STRING;
-        File outFile = new File(dir, fname);
-       // File file = new File(myDir, sdCard);
-
-        FileOutputStream out = new FileOutputStream(outFile);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-
-        out.flush();
-        out.close();
-
-
-        Bitmap appIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.comicfire_logo);
-
-        Bitmap resizedAppIconBitmap = Bitmap.createScaledBitmap(appIconBitmap, 125, 125, false);
-        Bitmap resizedScreenBitmap = Bitmap.createScaledBitmap(bitmap, ivPostImage.getWidth(), ivPostImage.getHeight(), false);
-
-        Bitmap mergeBitmap = mergeTwoBitmap(resizedScreenBitmap, resizedAppIconBitmap, context);
-        Uri mergeUri = getBitmapUri(mergeBitmap, context,postId);
-
-
-        Shareable shareInstance = new Shareable.Builder(context)
-                .message(postId+"\n\n #ComicFire")
-                .socialChannel(Shareable.Builder.ANY)
-                .image(mergeUri)
-                .url("www.google.com")
-                .build();
-        shareInstance.share();
-
-
     }
 
     private static Bitmap mergeTwoBitmap(Bitmap resizedScreenBitmap, Bitmap resizedAppIconBitmap, Context context) {
@@ -415,5 +410,70 @@ public class HandleActions {
         return Uri.parse(path);
     }
 
+    public static void openReportPostPopup(int i, String postId, String userId, Context context){
+        View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_report, null);
+        AlertDialog dialog = Utils.configDialog(context, rowView);
+        TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+        TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+
+
+        RadioGroup rg = rowView.findViewById(R.id.radio);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                switch (checkedId){
+                    case R.id.radio_abusive:
+                        reason="Abusive";
+                        break;
+                    case R.id.radio_sexual_content:
+                        reason="Sexual Content";
+                        break;
+                    case R.id.radio_irrelevent:
+                        reason="Irrelevent";
+                        break;
+                    case R.id.radio_something_else:
+                        reason="Something Else";
+                        break;
+                }
+
+            }
+        });
+
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=Utils.createRandomId();
+                String type;
+                if (i==1)
+                    type="Post";
+                else
+                    type="User";
+
+                HashMap hashMap=new HashMap();
+                hashMap.put("ReportId",id);
+                hashMap.put("PostId",postId);
+                hashMap.put("UserId",userId);
+                hashMap.put("Type",type);
+                hashMap.put("Reason",reason);
+                FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Reports").child(id)
+                        .updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        Toast.makeText(context, "Reported successfully", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
 
 }

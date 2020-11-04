@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -39,6 +40,7 @@ import static com.nexustech.comicfire.utils.Constants.LIKE_STATUS;
 import static com.nexustech.comicfire.utils.HandleActions.intentToProfile;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOthers;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOwn;
+import static com.nexustech.comicfire.utils.HandleActions.openReportPostPopup;
 import static com.nexustech.comicfire.utils.HandleActions.openVPostViewActivity;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
@@ -190,7 +192,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                 aAdapter = new ArrayAdapter(context, R.layout.layout_menu_name, R.id.tv_region_name, menu);
                 lvMenu.setAdapter(aAdapter);
-                Handler handler = new Handler();
+             /*   Handler handler = new Handler();
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -199,6 +201,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 };
                 handler.post(runnable);
 
+              */
+
                 lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -206,13 +210,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         TextView textView = view.findViewById(R.id.tv_region_name);
                         String string = textView.getText().toString();
                         if (Utils.isCurrentUser(mPostList.get(position).getUserId())) {
-                            openPopupForOwn(holder.ivPostImage,i, mPostList.get(position).getPostId(),mPostList.get(position).getPostText(), context);
+
+                            openPopupForOwn(holder.ivPostImage, i, mPostList.get(position).getPostId(), mPostList.get(position).getPostText(), context);
 
                         } else {
-                            openPopupForOthers(i, mPostList.get(position).getPostId(), context);
+                            if (i == 0) {
+                                openPopupForOthers(holder.ivPostImage, i, mPostList.get(position).getPostId(), mPostList.get(position).getPostText(), context);
+                            } else if (i == 1) {
+                                openReportPostPopup(i, mPostList.get(position).getPostId(), mPostList.get(position).getUserId(), context);
+                            } else if (i == 2) {
+                                openReportPostPopup(i, mPostList.get(position).getPostId(), mPostList.get(position).getUserId(), context);
+                            }
                         }
-                        // Toast.makeText(context, ""+string, Toast.LENGTH_SHORT).show();
-
                     }
 
                 });
