@@ -3,6 +3,7 @@ package com.nexustech.comicfire.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +31,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 import static com.nexustech.comicfire.utils.Constants.LIKE_STATUS;
 
@@ -75,16 +78,34 @@ public class UserPostsAdapter extends RecyclerView.Adapter<UserPostsAdapter.Post
 
         DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(mPostList.get(position).getPostKey());
         postRef.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String postText = dataSnapshot.child("PostText").getValue().toString();
-                    String postImage = dataSnapshot.child("PostImage").getValue().toString();
+                    Object postImageUrl = dataSnapshot.child("PostImage").getValue();
                     holder.tvPostText.setText(postText);
-                    Picasso.get().load(postImage).into(holder.ivPostImage);
+
                     String userId = dataSnapshot.child("UserId").getValue().toString();
                     holder.showuserDetails(userId);
                     holder.showViews(postRef);
+
+                    if (postImageUrl == null) {
+                        holder.ivPostImage.setVisibility(View.GONE);
+                        int counted = postText.length();
+                        if (counted < 100) {
+                            holder.tvPostText.setTextSize(35);
+                            holder.tvPostText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            holder.tvPostText.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
+                        }
+
+                    }else {
+                       String postImage=postImageUrl.toString();
+                        Picasso.get().load(postImage).into(holder.ivPostImage);
+                    }
                 }
             }
 

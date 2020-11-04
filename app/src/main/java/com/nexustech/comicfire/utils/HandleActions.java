@@ -3,10 +3,15 @@ package com.nexustech.comicfire.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +33,11 @@ import com.nexustech.comicfire.activities.EditPostActivity;
 import com.nexustech.comicfire.activities.UserProfileActivity;
 import com.nexustech.comicfire.activities.ViewSinglePostActivity;
 import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import static com.nexustech.comicfire.utils.Constants.CURRENT_STATE;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
@@ -237,7 +247,7 @@ public class HandleActions {
         handler.post(runnable);
     }
 
-    public static void openPopupForOwn(int position, String postId, Context context) {
+    public static void openPopupForOwn(ImageView ivPostImage, int position, String postId, String postText, Context context) {
         View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_general, null);
         AlertDialog dialog = Utils.configDialog(context, rowView);
         TextView tvTitle = rowView.findViewById(R.id.tv_title);
@@ -263,7 +273,11 @@ public class HandleActions {
                 } else if (position == 1) {
                     deletePost(context, postId);
                 } else if (position == 2) {
-                    //sharePost();
+                    try {
+                        shareImageToSocialMedia(ivPostImage,postId,postText,context);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 dialog.dismiss();
             }
@@ -278,6 +292,7 @@ public class HandleActions {
         dialog.show();
 
     }
+
 
     public static void openPopupForOthers(int position, String postId, Context context) {
         View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_general, null);
@@ -335,5 +350,70 @@ public class HandleActions {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
+
+    public static void shareImageToSocialMedia(ImageView ivPostImage, String postText, String postId, Context context) throws IOException {
+        BitmapDrawable drawable = (BitmapDrawable) ivPostImage.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        // Bitmap bitmap = ivPostImage.getDrawingCache();
+
+        if (bitmap == null) {
+            Toast.makeText(context, "null", Toast.LENGTH_SHORT).show();
+        }
+        //   Toast.makeText(context, "hghjhj", Toast.LENGTH_SHORT).show();
+        File sdCard = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File dir = new File(sdCard.getAbsolutePath() + "/ComicFire");
+        dir.mkdir();
+        String fname =  postId + Constants.SCREENSHOT_JPG_STRING;
+        File outFile = new File(dir, fname);
+       // File file = new File(myDir, sdCard);
+
+        FileOutputStream out = new FileOutputStream(outFile);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+
+        out.flush();
+        out.close();
+
+
+        Bitmap appIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.comicfire_logo);
+
+        Bitmap resizedAppIconBitmap = Bitmap.createScaledBitmap(appIconBitmap, 125, 125, false);
+        Bitmap resizedScreenBitmap = Bitmap.createScaledBitmap(bitmap, ivPostImage.getWidth(), ivPostImage.getHeight(), false);
+
+        Bitmap mergeBitmap = mergeTwoBitmap(resizedScreenBitmap, resizedAppIconBitmap, context);
+        Uri mergeUri = getBitmapUri(mergeBitmap, context,postId);
+
+
+        Shareable shareInstance = new Shareable.Builder(context)
+                .message(postId+"\n\n #ComicFire")
+                .socialChannel(Shareable.Builder.ANY)
+                .image(mergeUri)
+                .url("www.google.com")
+                .build();
+        shareInstance.share();
+
+
+    }
+
+    private static Bitmap mergeTwoBitmap(Bitmap resizedScreenBitmap, Bitmap resizedAppIconBitmap, Context context) {
+        int resizedScreenWidth = resizedScreenBitmap.getWidth();
+        int resizedScreenHeight = resizedScreenBitmap.getHeight();
+        int left = 5;
+        int top = 5;
+        Bitmap mergeBitmap = Bitmap.createBitmap(resizedScreenWidth, resizedScreenHeight, resizedScreenBitmap.getConfig());
+        Canvas canvas = new Canvas(mergeBitmap);
+        canvas.drawBitmap(resizedScreenBitmap, new Matrix(), null);
+        canvas.drawBitmap(resizedAppIconBitmap, left, top, null);
+        return mergeBitmap;
+    }
+
+    private static Uri getBitmapUri(Bitmap mergeBitmap, Context context, String postId) {
+        int quality = 100;
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        mergeBitmap.compress(Bitmap.CompressFormat.JPEG, quality, os);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), mergeBitmap, postId, null);
+        return Uri.parse(path);
+    }
+
 
 }

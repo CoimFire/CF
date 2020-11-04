@@ -106,7 +106,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
 
         postText = etPostText.getText().toString();
 
-        if (ImageUri != null && !postText.isEmpty()) {
+        if (ImageUri != null) {
             final StorageReference filepath = cfPostImageRef.child(ImageUri.getLastPathSegment() + randomId + "jpg");
             filepath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -133,16 +133,13 @@ public class CreateNewPostActivity extends AppCompatActivity {
             });
 
 
-        } else {
-            if (postText.isEmpty()) {
-                progressdialog.dismiss();
-                Toast.makeText(CreateNewPostActivity.this, "Wrong move! You can't leave empty handed..", Toast.LENGTH_SHORT).show();
-            } else {
-                savePostInformation();
-            }
-
+        } else if (!postText.isEmpty()) {
+            progressdialog.dismiss();
+            savePostInformation();
+       } else {
+            Toast.makeText(CreateNewPostActivity.this, "Wrong move! You can't leave empty handed..", Toast.LENGTH_SHORT).show();
+            progressdialog.dismiss();
         }
-
 
     }
 

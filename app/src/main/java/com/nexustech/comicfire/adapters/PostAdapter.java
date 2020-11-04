@@ -3,7 +3,6 @@ package com.nexustech.comicfire.adapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,12 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,9 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
-import com.nexustech.comicfire.activities.ViewSinglePostActivity;
 import com.nexustech.comicfire.domains.Posts;
-import com.nexustech.comicfire.utils.HandleActions;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -211,7 +206,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         TextView textView = view.findViewById(R.id.tv_region_name);
                         String string = textView.getText().toString();
                         if (Utils.isCurrentUser(mPostList.get(position).getUserId())) {
-                            openPopupForOwn(i, mPostList.get(position).getPostId(), context);
+                            openPopupForOwn(holder.ivPostImage,i, mPostList.get(position).getPostId(),mPostList.get(position).getPostText(), context);
 
                         } else {
                             openPopupForOthers(i, mPostList.get(position).getPostId(), context);
@@ -229,7 +224,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     }
                 });
                 dialog.show();
+
+
             }
+
+
         });
     }
 
