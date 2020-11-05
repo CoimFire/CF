@@ -54,4 +54,22 @@
         app:layout_constraintTop_toBottomOf="@id/tv_meme_competition"
         android:gravity="center_horizontal" />
 
+    <TextView
+        android:id="@+id/tv_fact_of_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginTop="4dp"
+        android:textSize="20sp"
+        android:textColor="@color/lightGray"
+        android:text="FACT OF THE DAY"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="20dp"
+        android:fontFamily="@font/default_font"
+        android:background="@color/steel_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_competition"
+        android:gravity="center_horizontal" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

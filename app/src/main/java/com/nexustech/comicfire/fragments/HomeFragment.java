@@ -1,5 +1,6 @@
 package com.nexustech.comicfire.fragments;
 
+import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +50,7 @@ public class HomeFragment extends Fragment {
     boolean isLoading = false, isMaxData = false;
     String last_node = "", last_key = "";
 
-    DatabaseReference postRef;
+    DatabaseReference postRef,factRef;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
 
@@ -101,6 +103,7 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
 
 
     private void getCats() {
