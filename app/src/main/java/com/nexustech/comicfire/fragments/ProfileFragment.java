@@ -1,6 +1,8 @@
 package com.nexustech.comicfire.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -33,7 +35,7 @@ public class ProfileFragment extends Fragment {
 
     private DatabaseReference cfProfileRef;
     private FirebaseAuth cfAuth;
-    private String curUserId;
+    private String curUserId,points;
     private TextView myPoints;
     int total;
 
@@ -74,11 +76,10 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            if (dataSnapshot.hasChild("MyPosts") && dataSnapshot.hasChild("Followings")) {
-                                long posts = dataSnapshot.child("MyPosts").getChildrenCount();
+                            if (dataSnapshot.hasChild("Points")) {
+                                String posts = dataSnapshot.child("Points").getValue().toString();
                                 // long followers=dataSnapshot.child("Followers").getChildrenCount();
-                                long followings = dataSnapshot.child("Followings").getChildrenCount();
-                                total = (int) (posts + followings) * 5;
+                                total = Integer.parseInt(posts);
                             } else {
                                 total = 0;
 
@@ -208,13 +209,20 @@ public class ProfileFragment extends Fragment {
                         // long followers=dataSnapshot.child("Followers").getChildrenCount();
                         long followings = dataSnapshot.child("Followings").getChildrenCount();
                         int total = (int) (posts + followings) * 5;
-                        String s = String.valueOf(total);
-                        myPoints.setText(s);
+                        points = String.valueOf(total);
+                        myPoints.setText(points);
 
                     } else {
-
                         myPoints.setText("0");
-
+                        points="0";
+                    }
+                    SharedPreferences preferences=getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);
+                    String oldPoints=preferences.getString("POINTS","0");
+                    if (!oldPoints.equals(points)){
+                        cfProfileRef.child("Points").setValue(points);
+                        SharedPreferences.Editor editor=preferences.edit();
+                        editor.putString("POINTS",points);
+                        editor.apply();
                     }
                 }
 
