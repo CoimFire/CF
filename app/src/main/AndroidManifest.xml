@@ -3,8 +3,8 @@
     package="com.nexustech.comicfire">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +13,10 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".activities.EditPostActivity"></activity>
+        <activity android:name=".activities.QuizDetailsActivity"></activity>
+        <activity android:name=".activities.QuizCompetitionActivity" />
+        <activity android:name=".activities.ViewAllQuizActivity" />
+        <activity android:name=".activities.EditPostActivity" />
         <activity android:name=".activities.UsersPostsActivity" />
         <activity android:name=".activities.CreateMemeActivity" />
         <activity android:name=".activities.MemeDetailsActivity" />

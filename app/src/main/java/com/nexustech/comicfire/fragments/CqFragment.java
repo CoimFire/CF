@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.activities.ViewAllMemesActivity;
+import com.nexustech.comicfire.activities.ViewAllQuizActivity;
 import com.nexustech.comicfire.utils.Utils;
 
 import static com.nexustech.comicfire.utils.PopupLayouts.showFact;
 import static com.nexustech.comicfire.utils.PopupLayouts.showFactOnClick;
+import static com.nexustech.comicfire.utils.Utils.openAnotherActivity;
 
 public class CqFragment extends Fragment {
 
@@ -38,7 +40,14 @@ public class CqFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Utils.openAnotherActivity(getContext(), ViewAllMemesActivity.class);
+                openAnotherActivity(getContext(), ViewAllMemesActivity.class);
+            }
+        });
+
+        tvQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAnotherActivity(getContext(), ViewAllQuizActivity.class);
             }
         });
 
