@@ -8,16 +8,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,6 +100,7 @@ public class QuizCompetitionActivity extends AppCompatActivity {
             radioGroup.setVisibility(View.INVISIBLE);
             tvNext.setVisibility(View.INVISIBLE);
             tvResult.setVisibility(View.INVISIBLE);
+            openPopup();
         } else {
             cfQuizRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Quiz").child(quizId).child(String.valueOf(position));
             cfQuizDetailsRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("QuizDetails").child(quizId).child("Contestants");
@@ -163,6 +167,24 @@ public class QuizCompetitionActivity extends AppCompatActivity {
             });
         }
 
+    }
+
+    private void openPopup() {
+        View rowView = LayoutInflater.from(QuizCompetitionActivity.this).inflate(R.layout.alert_dialog_quiz_result, null);
+        AlertDialog dialog = Utils.configDialog(QuizCompetitionActivity.this, rowView);
+        TextView tvResult=rowView.findViewById(R.id.tv_result);
+        TextView tvPoints=rowView.findViewById(R.id.tv_points);
+        TextView tvClose=rowView.findViewById(R.id.tv_close);
+        tvResult.setText("Your result is "+points+"/10");
+        tvPoints.setText("You got "+points*100+" points");
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Utils.openAnotherActivity(QuizCompetitionActivity.this,BottomBarActivity.class);
+            }
+        });
+        dialog.show();
     }
 
     public void nextPage() {
