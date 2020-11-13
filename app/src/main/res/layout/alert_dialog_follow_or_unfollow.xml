@@ -148,7 +148,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/main_theme_radius"
-            android:paddingHorizontal="30dp"
+            android:paddingHorizontal="50dp"
             android:paddingVertical="4dp"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -158,10 +158,28 @@
             android:layout_marginBottom="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_followings"
             android:layout_marginRight="4dp"
             android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/stroke_sample"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="4dp"
+            android:text="Cancel"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_request"
+            app:layout_constraintStart_toStartOf="@+id/tv_request"
+            app:layout_constraintTop_toBottomOf="@id/tv_request" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

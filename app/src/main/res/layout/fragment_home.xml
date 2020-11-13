@@ -12,21 +12,54 @@
         android:layout_height="match_parent"
         >
         <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/steel_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/logo_croped"
+            app:layout_constraintBottom_toBottomOf="@id/tv_label"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_label"
+            app:layout_constraintTop_toTopOf="@id/tv_label" />
+
+        <TextView
+            android:id="@+id/tv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"
+            android:text="COMIC FIRE"
+            android:textColor="@color/steel_blue"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/iv_logo"
+            app:layout_constraintStart_toStartOf="@+id/iv_logo"
+            app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+        <TextView
             android:id="@+id/tv_create_new"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
+            android:layout_height="60dp"
+            android:textSize="18sp"
             android:textColor="@color/lightGray"
             android:text="Create new post.."
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="20dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
+            android:background="@drawable/layout_background"
             android:fontFamily="@font/default_font"
-            android:background="@color/steel_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tv_logo"
+            android:gravity="bottom"
             tools:ignore="RtlCompat" />
 
 
@@ -35,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

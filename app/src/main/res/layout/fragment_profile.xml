@@ -197,6 +197,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/imageView2"
             app:srcCompat="@drawable/white_layer" />
+        <TextView
+            android:id="@+id/points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20sp"
+            android:text="Points"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/hero_shop"
+            android:layout_marginLeft="4dp" />
+
+        <TextView
+            android:id="@+id/tvMyPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="000"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/points"
+            app:layout_constraintStart_toEndOf="@+id/points"
+            app:layout_constraintTop_toTopOf="@+id/points"
+            android:layout_marginLeft="8dp" />
+
+        <TextView
+            android:id="@+id/instruct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:ellipsize="marquee"
+            android:text="Use points in Hero Shop"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/whiteLayer"
+            app:layout_constraintEnd_toEndOf="@+id/whiteLayer"
+            app:layout_constraintHorizontal_bias="0.197"
+            app:layout_constraintStart_toStartOf="@+id/whiteLayer"
+            app:srcCompat="@drawable/main_theme" />
 
 
         <TextView
@@ -204,11 +244,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/image_border"
-            android:paddingHorizontal="15dp"
+            android:background="@drawable/alert_dialog_background"
+            android:textColor="@color/white"
+            android:paddingHorizontal="25dp"
             android:paddingVertical="5dp"
-            android:text="LOGOUT"
-            android:textSize="15sp"
+            android:text="SIGNOUT"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -265,45 +306,6 @@
             app:layout_constraintStart_toStartOf="@+id/tv_hero_shop"
             android:layout_marginRight="4dp" />
 
-        <TextView
-            android:id="@+id/points"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="20sp"
-            android:text="Points"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/hero_shop"
-            android:layout_marginLeft="4dp" />
 
-        <TextView
-            android:id="@+id/tvMyPoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="000"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/points"
-            app:layout_constraintStart_toEndOf="@+id/points"
-            app:layout_constraintTop_toTopOf="@+id/points"
-            android:layout_marginLeft="8dp" />
-
-        <TextView
-            android:id="@+id/instruct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:ellipsize="marquee"
-            android:text="Use points in Hero Shop"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/whiteLayer"
-            app:layout_constraintEnd_toEndOf="@+id/whiteLayer"
-            app:layout_constraintHorizontal_bias="0.197"
-            app:layout_constraintStart_toStartOf="@+id/whiteLayer"
-            app:srcCompat="@drawable/main_theme" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

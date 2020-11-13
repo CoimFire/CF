@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/light_background">
+    android:background="@drawable/alert_dialog_background">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -20,6 +20,7 @@
         android:textStyle="bold"
         android:ellipsize="marquee"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +39,7 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="5dp"
         android:textSize="16sp"
-        android:background="@drawable/layout_background"
+        android:background="@drawable/light_background"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -55,8 +56,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
         android:textSize="18sp"
-        android:background="@drawable/stroke_post_layout"
+        android:background="@drawable/background_stroke"
         android:text="Cancel"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"

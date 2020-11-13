@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,6 +174,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
+        holder.setCharacterName(mPostList.get(position).getUserId());
 
         holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +183,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 AlertDialog dialog = Utils.configDialog(context, rowView);
                 ListView lvMenu = rowView.findViewById(R.id.lv_menu);
                 TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+                Utils.setDialogPosition(dialog);
                 ArrayAdapter aAdapter;
 
                 if (Utils.isCurrentUser(mPostList.get(position).getUserId())) {
@@ -248,7 +251,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvUserName, tvPostText, tvlikeCount, tvCommentsCount;
+        TextView tvUserName, tvPostText, tvlikeCount, tvCommentsCount,tvChatacterName;
         ImageView ivProfileImage, ivPostImage, ivLike, ivComment, ivTripleDot;
         ConstraintLayout constraintLayout;
         View view;
@@ -272,6 +275,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             ivComment = itemView.findViewById(R.id.ivComments);
             ivTripleDot = itemView.findViewById(R.id.trible_dot);
             constraintLayout = itemView.findViewById(R.id.con_layout);
+            tvChatacterName=itemView.findViewById(R.id.tv_character_name);
             cfAuth = FirebaseAuth.getInstance();
             currentUserId = cfAuth.getCurrentUser().getUid();
 
@@ -367,6 +371,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             LIKE_STATUS = "LIKED";
 
             manageLikeButton(ivLike, postKey, context);
+
+        }
+        public void setCharacterName(String userId){
+            DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        String name=dataSnapshot.child("CharacterName").getValue().toString();
+                        tvChatacterName.setText(name);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         }
     }

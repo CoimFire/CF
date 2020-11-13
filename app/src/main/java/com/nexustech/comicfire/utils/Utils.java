@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -117,6 +118,11 @@ public class Utils {
 
     public static boolean isCurrentUser(String userId) {
         return userId.equals(getCurrentUser());
+    }
+
+    public static void setDialogPosition(AlertDialog dialog){
+
+        dialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
     }
 
 }

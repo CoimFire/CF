@@ -27,7 +27,8 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 public class UserProfileActivity extends AppCompatActivity {
     private String userId;
     private ImageView profileImage, characterImage, ivPosts, followers, followings;
-    private TextView displayName, characterName, tvRequestButton, tvFollowingCount, tvFollowerCount, tvPostCount;
+    private TextView displayName, characterName, tvRequestButton, tvFollowingCount, tvFollowerCount, tvPostCount,
+            tvPoints;
     private DatabaseReference cfProfileRef;
     private FirebaseAuth cfAuth;
     private String curUserId;
@@ -49,6 +50,8 @@ public class UserProfileActivity extends AppCompatActivity {
         followers = findViewById(R.id.iv_followers);
         followings = findViewById(R.id.iv_followings);
         tvRequestButton = findViewById(R.id.tv_request);
+        tvPoints=findViewById(R.id.tv_points);
+
 
 
         tvFollowerCount = findViewById(R.id.tv_followers);
@@ -160,6 +163,13 @@ public class UserProfileActivity extends AppCompatActivity {
                     displayName.setText(userName);
                     String userCharName = dataSnapshot.child("CharacterName").getValue().toString();
                     characterName.setText(userCharName);
+
+                    if (dataSnapshot.hasChild("Points")) {
+                        String points = dataSnapshot.child("Points").getValue().toString();
+                        tvPoints.setText("Points : " + points);
+                    }else {
+                        tvPoints.setText("Points : " + 0);
+                    }
 
                     profileImage.setOnClickListener(new View.OnClickListener() {
                         @Override

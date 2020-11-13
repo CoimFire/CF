@@ -1,10 +1,12 @@
 package com.nexustech.comicfire.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.adapters.PostAdapter;
 import com.nexustech.comicfire.adapters.UserPostsAdapter;
 import com.nexustech.comicfire.domains.UserPosts;
+import com.nexustech.comicfire.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +46,12 @@ public class UsersPostsActivity extends AppCompatActivity {
 
     DatabaseReference postRef;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_posts);
+        Utils.setTopBar(getWindow(),getResources());
 
         rvPosts = findViewById(R.id.rv_posts);
         userId = getIntent().getStringExtra("UserId");

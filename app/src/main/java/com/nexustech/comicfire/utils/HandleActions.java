@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -98,6 +99,7 @@ public class HandleActions {
         TextView tvFollowerCount = rowView.findViewById(R.id.tv_followers);
         TextView tvPostCount = rowView.findViewById(R.id.tv_user_posts);
         TextView tvRequest = rowView.findViewById(R.id.tv_request);
+        TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
         DatabaseReference cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
 
         if (type.equals("FOLLOW")) {
@@ -180,6 +182,14 @@ public class HandleActions {
                 dialog.dismiss();
             }
         });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
 
     }
@@ -417,7 +427,7 @@ public class HandleActions {
         AlertDialog dialog = Utils.configDialog(context, rowView);
         TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
         TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
-
+        Utils.setDialogPosition(dialog);
 
         RadioGroup rg = rowView.findViewById(R.id.radio);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

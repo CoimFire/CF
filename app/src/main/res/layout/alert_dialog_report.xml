@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp"
         android:text="Report"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_horizontal" />
 
@@ -75,7 +75,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
-        android:background="@drawable/stroke_post_layout"
+        android:background="@drawable/stroke_sample"
         android:text="Cancel"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"
@@ -94,7 +94,9 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
-        android:background="@drawable/confirm_button"
+        android:background="@drawable/all_button_background"
+        android:textColor="@color/white"
+
         android:text="Report"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"

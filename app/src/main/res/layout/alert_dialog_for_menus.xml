@@ -6,8 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="30dp"
-
-    android:background="@drawable/confirm_button">
+    android:background="@drawable/layout_background">
 
     <ListView
         android:id="@+id/lv_menu"
@@ -34,7 +33,7 @@
         android:textSize="18sp"
         android:clickable="true"
         android:textColor="@color/royal_blue"
-        android:background="@drawable/stroke_post_layout"
+        android:background="@drawable/background_stroke"
         android:text="Cancel"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"

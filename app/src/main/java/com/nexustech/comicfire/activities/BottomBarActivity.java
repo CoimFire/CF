@@ -78,7 +78,7 @@ public class BottomBarActivity extends AppCompatActivity {
         super.onResume();
         navigation.getMenu().findItem(Utils.CURRENT_NAVIGATION_BAR).setChecked(true);
         selectFragment();
-        showFact(this);
+        //showFact(this);
 
     }
 
