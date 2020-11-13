@@ -1,16 +1,17 @@
 package com.nexustech.comicfire.domains;
 
 public class Users {
-    String DisplayName,ProfileImage,CharacterName,UserId;
+    String DisplayName,ProfileImage,CharacterName,UserId, Points;
 
     public Users() {
     }
 
-    public Users(String displayName, String profileImage, String characterName, String userId) {
+    public Users(String displayName, String profileImage, String characterName, String userId, String points) {
         DisplayName = displayName;
         ProfileImage = profileImage;
         CharacterName = characterName;
         UserId = userId;
+        Points = points;
     }
 
     public String getDisplayName() {
@@ -43,5 +44,13 @@ public class Users {
 
     public void setUserId(String userId) {
         UserId = userId;
+    }
+
+    public String getPoints() {
+        return Points;
+    }
+
+    public void setPoints(String points) {
+        Points = points;
     }
 }

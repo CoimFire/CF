@@ -92,6 +92,7 @@ public class Utils {
 
     public static void openAnotherActivity(Context context, Class targetActivity) {
         Intent intent = new Intent(context, targetActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 

@@ -1,17 +1,28 @@
 package com.nexustech.comicfire.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.fragments.CqFragment;
 import com.nexustech.comicfire.fragments.FriendsFragment;
@@ -23,6 +34,9 @@ import com.nexustech.comicfire.utils.Utils;
 
 import java.util.List;
 
+import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.PopupLayouts.showFact;
+
 public class BottomBarActivity extends AppCompatActivity {
 
     private Fragment home;
@@ -33,7 +47,7 @@ public class BottomBarActivity extends AppCompatActivity {
 
     int FRAGMENT, id;
 
-
+    String currentDay, popupShowedDay;
     private BottomNavigationView navigation;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -42,11 +56,7 @@ public class BottomBarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_bar);
         Utils.setTopBar(getWindow(), getResources());
-
-        //BottomNavigationView navView = findViewById(R.id.nav_view);
-
-        // Pass
-
+        showFact(this);
 
         profile = new ProfileFragment();
         friends = new FriendsFragment();
@@ -61,11 +71,14 @@ public class BottomBarActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
         navigation.getMenu().findItem(Utils.CURRENT_NAVIGATION_BAR).setChecked(true);
         selectFragment();
+        showFact(this);
 
     }
 

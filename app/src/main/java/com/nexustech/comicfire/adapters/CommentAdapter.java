@@ -1,6 +1,7 @@
 package com.nexustech.comicfire.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.domains.Comments;
 import com.nexustech.comicfire.utils.HandleActions;
+import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.HandleActions.deletComment;
+import static com.nexustech.comicfire.utils.HandleActions.editComment;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
@@ -89,8 +93,37 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 HandleActions.intentToProfile(context, mCommentList.get(position).getCommenterId());
             }
         });
+        if (mCommentList.get(position).getCommenterId().equals(Utils.createRandomId()) && mCommentList.get(position).getParentUserId().equals(Utils.getCurrentUser())) {
+            holder.tvEditComment.setVisibility(View.VISIBLE);
+            holder.tvDeleteComment.setVisibility(View.VISIBLE);
+        }else if (mCommentList.get(position).getCommenterId().equals(Utils.getCurrentUser())){
+            holder.tvEditComment.setVisibility(View.VISIBLE);
+            holder.tvDeleteComment.setVisibility(View.VISIBLE);
+        }else if (mCommentList.get(position).getParentUserId().equals(Utils.getCurrentUser())){
+            holder.tvDeleteComment.setVisibility(View.VISIBLE);
+        }
 
+        holder.tvEditComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Handler handler = new Handler();
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        editComment(context,mCommentList.get(position).getPostId(),mCommentList.get(position).getCommentId(),mCommentList.get(position).getComment());
+                    }
+                };
+                handler.post(runnable);
+         }
+        });
+
+        holder.tvDeleteComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deletComment(context,mCommentList.get(position).getPostId(),mCommentList.get(position).getCommentId());
+            }
+        });
     }
 
     @Override
@@ -102,7 +135,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         View view;
 
-        TextView tvUserName, tvComment;
+        TextView tvUserName, tvComment, tvEditComment, tvDeleteComment;
         ImageView ivProfileImage;
 
         public CommentViewHolder(@NonNull View itemView) {
@@ -112,8 +145,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             tvUserName = itemView.findViewById(R.id.tv_display_name);
             tvComment = itemView.findViewById(R.id.tv_comment);
             ivProfileImage = itemView.findViewById(R.id.iv_profile_image);
-
+            tvDeleteComment = itemView.findViewById(R.id.tv_delete_comment);
+            tvEditComment = itemView.findViewById(R.id.tv_edit_comment);
         }
-
     }
 }

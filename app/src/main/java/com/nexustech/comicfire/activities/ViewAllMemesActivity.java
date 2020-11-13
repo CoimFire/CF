@@ -1,11 +1,13 @@
 package com.nexustech.comicfire.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.domains.Memes;
+import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -33,10 +36,12 @@ public class ViewAllMemesActivity extends AppCompatActivity {
     private DatabaseReference cfMemeCoverRef;
     private RecyclerView rvMeme;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_memes);
+        Utils.setTopBar(getWindow(),getResources());
 
         rvMeme = findViewById(R.id.rv_memes);
         rvMeme.setHasFixedSize(true);
