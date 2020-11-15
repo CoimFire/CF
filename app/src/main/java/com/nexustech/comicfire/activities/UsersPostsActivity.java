@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 public class UsersPostsActivity extends AppCompatActivity {
 
@@ -66,9 +67,9 @@ public class UsersPostsActivity extends AppCompatActivity {
 
         rvPosts.setLayoutManager(mLayoutManager);
 
-
         catagoryAdapter = new UserPostsAdapter(UsersPostsActivity.this);
         rvPosts.setAdapter(catagoryAdapter);
+        showEmpty(getWindow().getDecorView().getRootView(),postRef);
         getCats();
 
         rvPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {

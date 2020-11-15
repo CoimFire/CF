@@ -2,6 +2,7 @@ package com.nexustech.comicfire.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +30,7 @@ import com.squareup.picasso.Picasso;
 
 import static com.nexustech.comicfire.utils.Constants.CURRENT_STATE;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 public class ViewFriendsListActivity extends AppCompatActivity {
     private TextView tvHeading;
@@ -39,11 +42,12 @@ public class ViewFriendsListActivity extends AppCompatActivity {
     private FirebaseAuth cfAuth;
     private String curUserId, friendsType;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_friends_list);
-
+        Utils.setTopBar(getWindow(),getResources());
 
         ivSearch = findViewById(R.id.ivSearchFriends);
         etSearchText = findViewById(R.id.etSearchFriends);
@@ -53,8 +57,14 @@ public class ViewFriendsListActivity extends AppCompatActivity {
         friendsType = getIntent().getStringExtra("TYPE");
         cfFindFriendsRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child(friendsType);
         rvSearchedFriendsList.setHasFixedSize(true);
-        rvSearchedFriendsList.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        rvSearchedFriendsList.setLayoutManager(mLayoutManager);
         SearchPeopleAndFriends("");
+
+
+
+        showEmpty(getWindow().getDecorView().getRootView(),cfFindFriendsRef);
     }
 
     private void SearchPeopleAndFriends(String searchInput) {

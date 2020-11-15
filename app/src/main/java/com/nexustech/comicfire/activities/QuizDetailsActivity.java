@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,9 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,11 +25,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.domains.Contestants;
-import com.nexustech.comicfire.domains.Posts;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 public class QuizDetailsActivity extends AppCompatActivity {
     private String coverImageUrl, parentkey, postText, curuserId;
@@ -62,40 +61,22 @@ public class QuizDetailsActivity extends AppCompatActivity {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               cfChildernMemes.addValueEventListener(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                       if (dataSnapshot.hasChild(Utils.getCurrentUser())){
+                           Toast.makeText(QuizDetailsActivity.this, "Sorry! You have already participated!", Toast.LENGTH_LONG).show();
+                       }else {
+                           openConfirmPopup();
+                       }
+                   }
 
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                View rowView = LayoutInflater.from(QuizDetailsActivity.this).inflate(R.layout.alert_dialog_general, null);
-                AlertDialog dialog = Utils.configDialog(QuizDetailsActivity.this, rowView);
-                TextView tvTitle = rowView.findViewById(R.id.tv_title);
-                TextView tvMessage = rowView.findViewById(R.id.tv_message);
-                TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
-                TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
-                tvTitle.setText("Rules");
-                tvConfirm.setText("Continue");
-                tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                tvMessage.setText(
-                        "1. You have got only one chance to participate in rhis quiz.\n\n" +
-                                "2. User will get points for their responsible result");
-                tvConfirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                   }
+               });
 
-                        Intent intent = new Intent(QuizDetailsActivity.this, QuizCompetitionActivity.class);
-                        intent.putExtra("REF_KEY", parentkey);
-                        intent.putExtra("POSITION", 1);
-                        intent.putExtra("POINTS", 0);
-                        intent.putExtra("IMAGE", coverImageUrl);
-                        intent.putExtra("TITLE", postText);
-                        startActivity(intent);
-                    }
-                });
-                tvCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
 
             }
         });
@@ -108,7 +89,44 @@ public class QuizDetailsActivity extends AppCompatActivity {
         // Set the layout manager to your recyclerview
         rvChildList.setLayoutManager(mLayoutManager);
 
+        showEmpty(getWindow().getDecorView().getRootView(),cfChildernMemes);
         showChildMemes();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void openConfirmPopup() {
+        View rowView = LayoutInflater.from(QuizDetailsActivity.this).inflate(R.layout.alert_dialog_general, null);
+        AlertDialog dialog = Utils.configDialog(QuizDetailsActivity.this, rowView);
+        TextView tvTitle = rowView.findViewById(R.id.tv_title);
+        TextView tvMessage = rowView.findViewById(R.id.tv_message);
+        TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+        TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+        tvTitle.setText("Rules");
+        tvConfirm.setText("Continue");
+        tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        tvMessage.setText(
+                "1. You have got only one chance to participate in rhis quiz.\n\n" +
+                        "2. User will get points for their responsible result");
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(QuizDetailsActivity.this, QuizCompetitionActivity.class);
+                intent.putExtra("REF_KEY", parentkey);
+                intent.putExtra("POSITION", 1);
+                intent.putExtra("POINTS", 0);
+                intent.putExtra("IMAGE", coverImageUrl);
+                intent.putExtra("TITLE", postText);
+                startActivity(intent);
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void showChildMemes() {

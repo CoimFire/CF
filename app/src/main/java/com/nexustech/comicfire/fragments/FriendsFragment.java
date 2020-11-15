@@ -26,6 +26,7 @@ import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 public class FriendsFragment extends Fragment {
     private TextView tvHeading;
@@ -55,6 +56,7 @@ public class FriendsFragment extends Fragment {
         rvSearchedFriendsList.setHasFixedSize(true);
         rvSearchedFriendsList.setLayoutManager(new LinearLayoutManager(getContext()));
         SearchPeopleAndFriends("");
+        showEmpty(rootView,cfFindFriendsRef);
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

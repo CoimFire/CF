@@ -47,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.HandleActions.updatePoints;
 
 public class QuizCompetitionActivity extends AppCompatActivity {
 
@@ -170,13 +171,14 @@ public class QuizCompetitionActivity extends AppCompatActivity {
     }
 
     private void openPopup() {
+        updatePoints(getPoints(points));
         View rowView = LayoutInflater.from(QuizCompetitionActivity.this).inflate(R.layout.alert_dialog_quiz_result, null);
         AlertDialog dialog = Utils.configDialog(QuizCompetitionActivity.this, rowView);
         TextView tvResult=rowView.findViewById(R.id.tv_result);
         TextView tvPoints=rowView.findViewById(R.id.tv_points);
         TextView tvClose=rowView.findViewById(R.id.tv_close);
         tvResult.setText("Your result is "+points+"/10");
-        tvPoints.setText("You got "+points*100+" points");
+        tvPoints.setText("You got "+getPoints(points)+" points");
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,6 +189,19 @@ public class QuizCompetitionActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public int getPoints(int points){
+        int newPoints;
+       if (points>=7){
+           newPoints= points*15;
+       }else if (points>=4){
+           newPoints = points*10;
+       }else if (points>=1){
+           newPoints=points*5;
+       }else {
+           newPoints=2;
+       }
+       return newPoints;
+    }
     public void nextPage() {
         if (TextUtils.isEmpty(answer)) {
             Toast.makeText(this, "Please select one answer", Toast.LENGTH_SHORT).show();

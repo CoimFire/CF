@@ -1,6 +1,5 @@
 package com.nexustech.comicfire.fragments;
 
-import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,7 +13,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 
 public class HomeFragment extends Fragment {
@@ -83,6 +82,7 @@ public class HomeFragment extends Fragment {
         rvPosts.setAdapter(catagoryAdapter);
         getCats();
 
+        showEmpty(root,postRef);
         rvPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

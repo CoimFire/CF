@@ -106,7 +106,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
         mLayoutManager.setStackFromEnd(true);
         // Set the layout manager to your recyclerview
         rvChildList.setLayoutManager(mLayoutManager);
-
+        Utils.showEmpty(getWindow().getDecorView().getRootView(),cfChildernMemes);
         showChildMemes();
     }
 

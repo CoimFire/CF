@@ -554,5 +554,27 @@ public class HandleActions {
         });
         dialog.show();
     }
+    public static void updatePoints(int newPoints){
+        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(Utils.getCurrentUser()).child("Points");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String oldPoints=dataSnapshot.getValue().toString();
+                    int oPoints=Integer.parseInt(oldPoints);
+                    int totalPoints=oPoints+newPoints;
+                    userRef.setValue(String.valueOf(totalPoints));
+
+                }else {
+                    userRef.setValue(String.valueOf(newPoints));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }
