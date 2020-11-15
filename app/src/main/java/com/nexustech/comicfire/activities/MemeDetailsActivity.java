@@ -7,10 +7,13 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,11 +63,39 @@ public class MemeDetailsActivity extends AppCompatActivity {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MemeDetailsActivity.this, CreateMemeActivity.class);
-                intent.putExtra("MemeId", parentkey);
-                intent.putExtra("Title", postText);
-                intent.putExtra("CoverImage", coverImageUrl);
-                startActivity(intent);
+
+                View rowView = LayoutInflater.from(MemeDetailsActivity.this).inflate(R.layout.alert_dialog_general, null);
+                AlertDialog dialog = Utils.configDialog(MemeDetailsActivity.this, rowView);
+                TextView tvTitle = rowView.findViewById(R.id.tv_title);
+                TextView tvMessage = rowView.findViewById(R.id.tv_message);
+                TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+                TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+                tvTitle.setText("Rules");
+                tvConfirm.setText("Continue");
+                tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                tvMessage.setText(
+                        "1. User can create any number of memes.\n\n" +
+                        "2. Abusive words and 18+ contents are stricktly prohibitted.\n\n" +
+                        "3. The winner selected by Comic Fire Admin.\n\n" +
+                        "4. User will get points for their responsible result");
+                tvConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(MemeDetailsActivity.this, CreateMemeActivity.class);
+                        intent.putExtra("MemeId", parentkey);
+                        intent.putExtra("Title", postText);
+                        intent.putExtra("CoverImage", coverImageUrl);
+                        startActivity(intent);
+                    }
+                });
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
         // rvChildList.setHasFixedSize(true);

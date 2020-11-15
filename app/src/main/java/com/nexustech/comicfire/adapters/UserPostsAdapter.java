@@ -39,7 +39,7 @@ public class UserPostsAdapter extends RecyclerView.Adapter<UserPostsAdapter.Post
 
     List<UserPosts> mPostList;
     Context context;
-
+    String userId;
 
     public UserPostsAdapter(Context context) {
         this.mPostList = new ArrayList<>();
@@ -86,7 +86,7 @@ public class UserPostsAdapter extends RecyclerView.Adapter<UserPostsAdapter.Post
                     Object postImageUrl = dataSnapshot.child("PostImage").getValue();
                     holder.tvPostText.setText(postText);
 
-                    String userId = dataSnapshot.child("UserId").getValue().toString();
+                    userId = dataSnapshot.child("UserId").getValue().toString();
                     holder.showuserDetails(userId);
                     holder.showViews(postRef);
 
@@ -132,13 +132,13 @@ public class UserPostsAdapter extends RecyclerView.Adapter<UserPostsAdapter.Post
         holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleActions.intentToProfile(context, mPostList.get(position).getPostKey());
+                HandleActions.intentToProfile(context, userId);
             }
         });
         holder.tvUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HandleActions.intentToProfile(context, mPostList.get(position).getPostKey());
+                HandleActions.intentToProfile(context, userId);
             }
         });
     }

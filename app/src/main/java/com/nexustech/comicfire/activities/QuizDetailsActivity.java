@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,13 +62,41 @@ public class QuizDetailsActivity extends AppCompatActivity {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuizDetailsActivity.this, QuizCompetitionActivity.class);
-                intent.putExtra("REF_KEY", parentkey);
-                intent.putExtra("POSITION", 1);
-                intent.putExtra("POINTS", 0);
-                intent.putExtra("IMAGE", coverImageUrl);
-                intent.putExtra("TITLE", postText);
-                startActivity(intent);
+
+
+                View rowView = LayoutInflater.from(QuizDetailsActivity.this).inflate(R.layout.alert_dialog_general, null);
+                AlertDialog dialog = Utils.configDialog(QuizDetailsActivity.this, rowView);
+                TextView tvTitle = rowView.findViewById(R.id.tv_title);
+                TextView tvMessage = rowView.findViewById(R.id.tv_message);
+                TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+                TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+                tvTitle.setText("Rules");
+                tvConfirm.setText("Continue");
+                tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                tvMessage.setText(
+                        "1. You have got only one chance to participate in rhis quiz.\n\n" +
+                                "2. User will get points for their responsible result");
+                tvConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(QuizDetailsActivity.this, QuizCompetitionActivity.class);
+                        intent.putExtra("REF_KEY", parentkey);
+                        intent.putExtra("POSITION", 1);
+                        intent.putExtra("POINTS", 0);
+                        intent.putExtra("IMAGE", coverImageUrl);
+                        intent.putExtra("TITLE", postText);
+                        startActivity(intent);
+                    }
+                });
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
         // rvChildList.setHasFixedSize(true);

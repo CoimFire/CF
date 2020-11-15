@@ -1,5 +1,6 @@
 package com.nexustech.comicfire.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,7 @@ import com.nexustech.comicfire.activities.UserProfileActivity;
 import com.nexustech.comicfire.activities.UsersPostsActivity;
 import com.nexustech.comicfire.activities.ViewAllCharsActivity;
 import com.nexustech.comicfire.activities.ViewFriendsListActivity;
+import com.nexustech.comicfire.activities.ViewSinglePostActivity;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -152,8 +154,29 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cfAuth.signOut();
-                Utils.openAnotherActivity(getContext(), MainActivity.class);
+                View rowView = LayoutInflater.from(getContext()).inflate(R.layout.alert_dialog_general, null);
+                AlertDialog dialog = Utils.configDialog(getContext(), rowView);
+                TextView tvTitle = rowView.findViewById(R.id.tv_title);
+                TextView tvMessage = rowView.findViewById(R.id.tv_message);
+                TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+                TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+                tvTitle.setText("Confirm Signout");
+                tvMessage.setText("Are you sure you want to signout?");
+                tvConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cfAuth.signOut();
+                        Utils.openAnotherActivity(getContext(), MainActivity.class);
+                    }
+                });
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
 
