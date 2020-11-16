@@ -186,8 +186,6 @@ public class CreateNewPostActivity extends AppCompatActivity {
                         postMap.put("PostText", postText);
                         postMap.put("PostId", randomId);
                         postMap.put("PostImage", downloadUrl);
-                        postMap.put("ProfileImage", userProfImage);
-                        postMap.put("DisplayName", userFullname);
                         postMap.put("Counter", countPosts);
                         cfPostRef.child(randomId).updateChildren(postMap)
                                 .addOnCompleteListener(new OnCompleteListener() {

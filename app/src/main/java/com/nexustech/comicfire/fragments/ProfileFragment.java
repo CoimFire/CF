@@ -193,6 +193,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ViewFriendsListActivity.class);
+                intent.putExtra("UserId",Utils.getCurrentUser());
                 intent.putExtra("TYPE", "Followings");
                 startActivity(intent);
 
@@ -204,6 +205,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ViewFriendsListActivity.class);
                 intent.putExtra("TYPE", "Followers");
+                intent.putExtra("UserId",Utils.getCurrentUser());
                 startActivity(intent);
 
 
@@ -227,12 +229,8 @@ public class ProfileFragment extends Fragment {
                     Picasso.get().load(profImage).into(profileImage);
                     Picasso.get().load(characterImage).fit().into(charImage);
 
-                    if (dataSnapshot.hasChild("MyPosts") || dataSnapshot.hasChild("Followings")) {
-                        long posts = dataSnapshot.child("MyPosts").getChildrenCount();
-                        // long followers=dataSnapshot.child("Followers").getChildrenCount();
-                        long followings = dataSnapshot.child("Followings").getChildrenCount();
-                        int total = (int) (posts + followings) * 5;
-                        points = String.valueOf(total);
+                    if (dataSnapshot.hasChild("Points")) {
+                        points=dataSnapshot.child("Points").getValue().toString();
                         myPoints.setText(points);
 
                     } else {

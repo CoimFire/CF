@@ -99,10 +99,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
  */
 
 
-        holder.tvUserName.setText(mPostList.get(position).getDisplayName());
         holder.tvPostText.setText(mPostList.get(position).getPostText());
         Picasso.get().load(mPostList.get(position).getPostImage()).into(holder.ivPostImage);
-        Picasso.get().load(mPostList.get(position).getProfileImage()).into(holder.ivProfileImage);
 
         if (mPostList.get(position).getPostImage() == null) {
             holder.ivPostImage.setVisibility(View.GONE);
@@ -174,7 +172,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
-        holder.setCharacterName(mPostList.get(position).getUserId());
+        holder.setUserDetails(mPostList.get(position).getUserId());
 
         holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -373,14 +371,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             manageLikeButton(ivLike, postKey, context);
 
         }
-        public void setCharacterName(String userId){
+        public void setUserDetails(String userId){
             DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()){
                         String name=dataSnapshot.child("CharacterName").getValue().toString();
+                        String displayName=dataSnapshot.child("DisplayName").getValue().toString();
+                        String profile=dataSnapshot.child("ProfileImage").getValue().toString();
+
                         tvChatacterName.setText(name);
+                        tvUserName.setText(displayName);
+
+                        Picasso.get().load(profile).into(ivProfileImage);
                     }
                 }
 

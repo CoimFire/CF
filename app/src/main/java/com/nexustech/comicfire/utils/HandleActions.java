@@ -51,6 +51,7 @@ public class HandleActions {
 
     public static String curUserId = Utils.getCurrentUser();
     public static String reason;
+    public static String oldPoints;
 
     public static DatabaseReference cfFollowingRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("Followings");
 
@@ -199,6 +200,7 @@ public class HandleActions {
         cfFollowingRef.child(searchedUserId).removeValue();
         DatabaseReference cfFollowerRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(searchedUserId).child("Followers");
         cfFollowerRef.child(curUserId).removeValue();
+        reducePoints(10,searchedUserId);
         CURRENT_STATE = "NOT_FOLLOWING";
     }
 
@@ -206,6 +208,7 @@ public class HandleActions {
         cfFollowingRef.child(searchedUserId).child("UserId").setValue(searchedUserId);
         DatabaseReference cfFollowerRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(searchedUserId).child("Followers");
         cfFollowerRef.child(curUserId).child("UserId").setValue(curUserId);
+        updatePoints(10,searchedUserId);
         CURRENT_STATE = "FOLLOWING";
 
     }
@@ -554,16 +557,14 @@ public class HandleActions {
         });
         dialog.show();
     }
-    public static void updatePoints(int newPoints){
-        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(Utils.getCurrentUser()).child("Points");
+    public static void updatePoints(int newPoints, String userId){
+
+        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).child("Points");
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    String oldPoints=dataSnapshot.getValue().toString();
-                    int oPoints=Integer.parseInt(oldPoints);
-                    int totalPoints=oPoints+newPoints;
-                    userRef.setValue(String.valueOf(totalPoints));
+                    oldPoints=dataSnapshot.getValue().toString();
 
                 }else {
                     userRef.setValue(String.valueOf(newPoints));
@@ -575,6 +576,35 @@ public class HandleActions {
 
             }
         });
+        if (oldPoints!=null) {
+            int oPoints = Integer.parseInt(oldPoints);
+            int totalPoints = oPoints + newPoints;
+            userRef.setValue(String.valueOf(totalPoints));
+        }
     }
 
+    public static void reducePoints(int newPoints, String userId) {
+        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).child("Points");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    oldPoints=dataSnapshot.getValue().toString();
+
+                }else {
+                    userRef.setValue(String.valueOf("0"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        int oPoints=Integer.parseInt(oldPoints);
+        if (oPoints>=10) {
+            int totalPoints = oPoints - newPoints;
+            userRef.setValue(String.valueOf(totalPoints));
+        }
+    }
 }

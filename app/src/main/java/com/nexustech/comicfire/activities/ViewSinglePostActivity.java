@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -147,6 +149,8 @@ public class ViewSinglePostActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(ViewSinglePostActivity.this, "Done!", Toast.LENGTH_SHORT).show();
+                                etComment.getText().clear();
+                              Utils.hideKeyboard(ViewSinglePostActivity.this);
                             }
                         }
                     });

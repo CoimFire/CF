@@ -171,7 +171,7 @@ public class QuizCompetitionActivity extends AppCompatActivity {
     }
 
     private void openPopup() {
-        updatePoints(getPoints(points));
+        updatePoints(getPoints(points),Utils.getCurrentUser());
         View rowView = LayoutInflater.from(QuizCompetitionActivity.this).inflate(R.layout.alert_dialog_quiz_result, null);
         AlertDialog dialog = Utils.configDialog(QuizCompetitionActivity.this, rowView);
         TextView tvResult=rowView.findViewById(R.id.tv_result);

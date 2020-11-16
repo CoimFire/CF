@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +27,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.domains.Users;
+import com.nexustech.comicfire.utils.HandleActions;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -52,7 +55,7 @@ public class ViewFriendsListActivity extends AppCompatActivity {
         ivSearch = findViewById(R.id.ivSearchFriends);
         etSearchText = findViewById(R.id.etSearchFriends);
         rvSearchedFriendsList = findViewById(R.id.rvAllUsers);
-        curUserId = Utils.getCurrentUser();
+        curUserId = getIntent().getStringExtra("UserId");
 
         friendsType = getIntent().getStringExtra("TYPE");
         cfFindFriendsRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child(friendsType);
@@ -90,7 +93,7 @@ public class ViewFriendsListActivity extends AppCompatActivity {
                         findFriendsViewHolder.tvRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                findFriendsViewHolder.actionHandler(searchedUserId);
+                                findFriendsViewHolder.requestHandler(searchedUserId);
 
                             }
                         });
@@ -191,7 +194,7 @@ public class ViewFriendsListActivity extends AppCompatActivity {
         }
 
 
-        public void actionHandler(String searchedUserId) {
+        public void requestHandler(String searchedUserId) {
             if (CURRENT_STATE.equals("NOT_FOLLOWING")) {
                 followUser(searchedUserId);
             } else {
@@ -210,14 +213,24 @@ public class ViewFriendsListActivity extends AppCompatActivity {
         public void unfolowUser(String searchedUserId) {
             cfFollowingRef.child(searchedUserId).removeValue();
             DatabaseReference cfFollowerRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(searchedUserId).child("Followers");
-            cfFollowerRef.child(currentUserId).removeValue();
+            cfFollowerRef.child(currentUserId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    HandleActions.reducePoints(10,searchedUserId);
+                }
+            });
             CURRENT_STATE = "NOT_FOLLOWING";
         }
 
         public void followUser(String searchedUserId) {
             cfFollowingRef.child(searchedUserId).child("UserId").setValue(searchedUserId);
             DatabaseReference cfFollowerRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(searchedUserId).child("Followers");
-            cfFollowerRef.child(currentUserId).child("UserId").setValue(currentUserId);
+            cfFollowerRef.child(currentUserId).child("UserId").setValue(currentUserId).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    HandleActions.updatePoints(10,searchedUserId);
+                }
+            });
             CURRENT_STATE = "FOLLOWING";
 
         }
