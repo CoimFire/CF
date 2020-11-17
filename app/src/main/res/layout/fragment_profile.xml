@@ -248,7 +248,7 @@
             android:textColor="@color/white"
             android:paddingHorizontal="25dp"
             android:paddingVertical="5dp"
-            android:text="SIGNOUT"
+            android:text="SIGN OUT"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

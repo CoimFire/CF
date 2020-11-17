@@ -11,9 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -491,7 +489,7 @@ public class HandleActions {
 
     }
 
-    public static void editComment(Context context, String postId, String commentId,String commentText){
+    public static void editComment(Context context,String commentText,DatabaseReference commentRef){
         View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_edit_comment, null);
         AlertDialog dialog = Utils.configDialog(context, rowView);
         EditText etComment = rowView.findViewById(R.id.et_change_comment);
@@ -502,15 +500,12 @@ public class HandleActions {
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference commentRef;
+
                 String edittedComment=etComment.getText().toString();
                 if (!commentText.equals(edittedComment)) {
-                    commentRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postId).child("Comments").child(commentId);
-                    commentRef.child("Comment").setValue(edittedComment);
+                  commentRef.child("Comment").setValue(edittedComment);
                     dialog.dismiss();
-                    Intent intent=new Intent(context,ViewSinglePostActivity.class);
-                    intent.putExtra("REF_KEY",postId);
-                    context.startActivity(intent);
+
                 }else {
                     Toast.makeText(context, "Nothing changed!", Toast.LENGTH_SHORT).show();
                 }
@@ -526,7 +521,65 @@ public class HandleActions {
         });
         dialog.show();
     }
-    public static void deletComment(Context context, String postId, String commentId){
+
+
+    public static void replyCommentPopup(Context context,String postId,String parentCommentId,String parentCommentUserId,String postUserId){
+        View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_edit_comment, null);
+        AlertDialog dialog = Utils.configDialog(context, rowView);
+        EditText etComment = rowView.findViewById(R.id.et_change_comment);
+        TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+        TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+        TextView tvTitle=rowView.findViewById(R.id.tv_title);
+        tvTitle.setText("Reply comment");
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference commentRef;
+                String edittedComment=etComment.getText().toString();
+                commentRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postId).child("Comments").child(parentCommentId);
+                //commentRef.child("CommentText").setValue(edittedComment);
+                replyComment(context,edittedComment,parentCommentId,parentCommentUserId,postUserId,commentRef);
+
+                dialog.dismiss();
+              //  Intent intent=new Intent(context,ViewSinglePostActivity.class);
+               // intent.putExtra("REF_KEY",postId);
+                //context.startActivity(intent);
+
+
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    public static void replyComment(Context context, String commentText, String parentCommentId, String parentCommentUserId, String postUserId,DatabaseReference commentRef) {
+        String randomId = Utils.createRandomId();
+
+
+        HashMap hashMap = new HashMap();
+        hashMap.put("CommentId", randomId);
+        hashMap.put("RepliedUserId", Utils.getCurrentUser());
+        hashMap.put("CommentText", commentText);
+        hashMap.put("ParentCommentId", parentCommentId);
+        hashMap.put("ParentCommentUserId", parentCommentUserId);
+        hashMap.put("ParentUserId", postUserId);
+
+        commentRef.child("Replies").child(randomId).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "Done!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public static void deleteComment(Context context, DatabaseReference commentRef){
         View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_general, null);
         AlertDialog dialog = Utils.configDialog(context, rowView);
         TextView tvTitle = rowView.findViewById(R.id.tv_title);
@@ -538,13 +591,8 @@ public class HandleActions {
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference commentRef;
-                commentRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postId).child("Comments").child(commentId);
-                commentRef.removeValue();
+             commentRef.removeValue();
                 dialog.dismiss();
-                Intent intent=new Intent(context,ViewSinglePostActivity.class);
-                intent.putExtra("REF_KEY",postId);
-                context.startActivity(intent);
 
 
             }

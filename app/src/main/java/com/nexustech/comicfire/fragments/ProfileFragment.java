@@ -87,6 +87,7 @@ public class ProfileFragment extends Fragment {
 
                             }
                             Intent intent = new Intent(getActivity(), ViewAllCharsActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("UserId", curUserId);
                             intent.putExtra("Points", total);
                             startActivity(intent);
@@ -160,7 +161,7 @@ public class ProfileFragment extends Fragment {
                 TextView tvMessage = rowView.findViewById(R.id.tv_message);
                 TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
                 TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
-                tvTitle.setText("Confirm Signout");
+                tvTitle.setText("Confirm Sign out");
                 tvMessage.setText("Are you sure you want to signout?");
                 tvConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override

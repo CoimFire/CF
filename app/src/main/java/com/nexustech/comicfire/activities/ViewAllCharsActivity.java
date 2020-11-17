@@ -97,7 +97,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
 
     public static class CharacterViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        TextView tvCharName, tvSelect;
+        TextView tvCharName, tvSelect,tvShade;
         ImageView ivCharProfImage, ivCharImage, ivLock;
         private FirebaseAuth cfAuth;
         private String currentUserId;
@@ -112,6 +112,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
             tvCharName = cfView.findViewById(R.id.tv_character_name);
             ivLock = cfView.findViewById(R.id.iv_char_lock);
             tvSelect = cfView.findViewById(R.id.tv_select_character);
+            tvShade=cfView.findViewById(R.id.tv_shade);
 
 
             cfAuth = FirebaseAuth.getInstance();
@@ -140,8 +141,12 @@ public class ViewAllCharsActivity extends AppCompatActivity {
             int reqPoint = Integer.parseInt(requiredPoints);
             if (reqPoint < points) {
                 ivLock.setVisibility(View.INVISIBLE);
+                tvShade.setVisibility(View.INVISIBLE);
             } else {
                 tvSelect.setEnabled(false);
+
+                tvSelect.setVisibility(View.INVISIBLE);
+
             }
         }
 

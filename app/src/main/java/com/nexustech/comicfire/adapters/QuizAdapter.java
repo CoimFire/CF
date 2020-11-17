@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
-import com.nexustech.comicfire.activities.QuizCompetitionActivity;
 import com.nexustech.comicfire.activities.QuizDetailsActivity;
-import com.nexustech.comicfire.domains.Posts;
 import com.nexustech.comicfire.domains.Quiz;
-import com.nexustech.comicfire.utils.HandleActions;
-import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -33,11 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
-import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
-import static com.nexustech.comicfire.utils.HandleActions.deletComment;
-import static com.nexustech.comicfire.utils.HandleActions.editComment;
-import static com.nexustech.comicfire.utils.Utils.openAnotherActivity;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder>{
     List<Quiz> mQuizList;

@@ -131,9 +131,8 @@ public class MemeDetailsActivity extends AppCompatActivity {
                         cfPostRef.child(postKey).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                postViewHolder.setDisplayName(dataSnapshot.child("DisplayName").getValue().toString());
+                                postViewHolder.setUserDetails(dataSnapshot.child("UserId").getValue().toString());
                                 postViewHolder.setPostImage(dataSnapshot.child("PostImage").getValue().toString());
-                                postViewHolder.setProfileImage(dataSnapshot.child("ProfileImage").getValue().toString());
                                 postViewHolder.setPostText(dataSnapshot.child("PostText").getValue().toString());
                             }
 
@@ -152,7 +151,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        TextView profName, tvPostText, likeCount;
+        TextView profName, tvPostText, likeCount,tvChatacterName;
         ImageView profImage, ivPostImage, ivLike, tribleDot;
         private FirebaseAuth cfAuth;
         private String currentUserId, postId;
@@ -168,6 +167,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
             tvPostText = cfView.findViewById(R.id.tvDescription);
             ivLike = cfView.findViewById(R.id.ivLike);
             tribleDot = cfView.findViewById(R.id.trible_dot);
+            tvChatacterName=cfView.findViewById(R.id.tv_character_name);
             cfAuth = FirebaseAuth.getInstance();
             currentUserId = cfAuth.getCurrentUser().getUid();
             likeCount = cfView.findViewById(R.id.tvLikeCount);
@@ -175,12 +175,31 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
         }
 
-        public void setProfileImage(String ProfileImage) {
-            Picasso.get().load(ProfileImage).into(profImage);
-        }
 
-        public void setDisplayName(String DisplayName) {
-            profName.setText(DisplayName);
+        public void setUserDetails(String userId) {
+            DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
+
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        String name=dataSnapshot.child("CharacterName").getValue().toString();
+                        String displayName=dataSnapshot.child("DisplayName").getValue().toString();
+                        String profile=dataSnapshot.child("ProfileImage").getValue().toString();
+
+                        tvChatacterName.setText(name);
+                        profName.setText(displayName);
+
+                        Picasso.get().load(profile).into(profImage);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
 
         public void setPostText(String postText) {
