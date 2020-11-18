@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.telephony.CellSignalStrength;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 
@@ -30,8 +32,11 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+
 public class Utils {
     public static int CURRENT_NAVIGATION_BAR = R.id.navigation_home;
+    public  static boolean isEmpty;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void setTopBar(Window window, Resources resources) {
@@ -122,19 +127,19 @@ public class Utils {
         return userId.equals(getCurrentUser());
     }
 
-    public static void setDialogPosition(AlertDialog dialog){
+    public static void setDialogPosition(AlertDialog dialog) {
 
         dialog.getWindow().getAttributes().gravity = Gravity.BOTTOM;
     }
 
-    public static void showEmpty(View rootView, DatabaseReference databaseReference){
+    public static void showEmpty(View rootView, DatabaseReference databaseReference) {
 
-        View view=rootView.findViewById(R.id.empty_view);
+        View view = rootView.findViewById(R.id.empty_view);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (!dataSnapshot.hasChildren()){
+                if (!dataSnapshot.hasChildren()) {
                     view.setVisibility(View.VISIBLE);
                 }
             }
@@ -146,7 +151,34 @@ public class Utils {
         });
     }
 
-    public static void hideKeyboard(Activity activity){
+    public static void showEmptyInHome(View rootView) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                .child("User").child(Utils.getCurrentUser());
+
+        View view = rootView.findViewById(R.id.empty_view);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()) {
+
+                    isEmpty= !dataSnapshot.hasChild("MyPosts");
+                    isEmpty= !dataSnapshot.hasChild("Followings");
+                    if (isEmpty){
+                        view.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 

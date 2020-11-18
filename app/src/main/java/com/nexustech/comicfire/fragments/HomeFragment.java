@@ -33,6 +33,7 @@ import java.util.List;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 import static com.nexustech.comicfire.utils.Utils.showEmpty;
+import static com.nexustech.comicfire.utils.Utils.showEmptyInHome;
 
 
 public class HomeFragment extends Fragment {
@@ -82,7 +83,7 @@ public class HomeFragment extends Fragment {
         rvPosts.setAdapter(catagoryAdapter);
         getCats();
 
-        showEmpty(root,postRef);
+      //  showEmptyInHome(root);
         rvPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

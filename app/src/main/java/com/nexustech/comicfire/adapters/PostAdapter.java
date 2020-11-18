@@ -50,6 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     Context context;
     String[] menu;
     Activity activity;
+    boolean isFollowing;
 
     public PostAdapter(Context context, Activity activity) {
         this.mPostList = new ArrayList<>();
@@ -83,20 +84,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-/*
+
         Handler handler = new Handler();
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
-                if (mPostList.get(position).getUserId().equals(Utils.getCurrentUser())) {
+                if (!holder.isFriendsPost(mPostList.get(position).getUserId())) {
                     mPostList.remove(position);
-                    notifyDataSetChanged();
+                    notifyItemRemoved(position);
                 }
             }
         };
+
         handler.post(runnable);
 
- */
+
 
 
         holder.tvPostText.setText(mPostList.get(position).getPostText());
@@ -394,6 +396,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 }
             });
 
+        }
+
+        public boolean isFriendsPost(String userId) {
+            DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                    .child("User").child(Utils.getCurrentUser());
+            userRef.child("Followings").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                  if (dataSnapshot.exists()){
+                      if (dataSnapshot.hasChild(userId)||userId.equals(Utils.getCurrentUser())){
+                          isFollowing=true;
+                      }
+                      else {
+                          isFollowing=false;
+                      }
+                  }else {
+                      isFollowing=false;
+                  }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            return isFollowing;
         }
     }
 }

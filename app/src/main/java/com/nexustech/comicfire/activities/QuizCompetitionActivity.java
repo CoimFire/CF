@@ -211,9 +211,18 @@ public class QuizCompetitionActivity extends AppCompatActivity {
             }
             if (position == 10) {
                 int total = points * 10;
+                String totalPoints=String.valueOf(total);
+                String finalPoints;
+                if (totalPoints.length()==2){
+                    finalPoints="0"+totalPoints;
+                }else if (totalPoints.length()==1){
+                   finalPoints="00"+totalPoints;
+                }else {
+                    finalPoints=totalPoints;
+                }
                 HashMap hashMap = new HashMap();
                 hashMap.put("UserId", Utils.getCurrentUser());
-                hashMap.put("Points", String.valueOf(total));
+                hashMap.put("Points", finalPoints);
                 cfQuizDetailsRef.child(Utils.getCurrentUser()).updateChildren(hashMap);
             }
 

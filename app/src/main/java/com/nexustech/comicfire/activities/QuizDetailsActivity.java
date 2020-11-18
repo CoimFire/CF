@@ -142,7 +142,7 @@ public class QuizDetailsActivity extends AppCompatActivity {
                     @Override
                     protected void populateViewHolder(PointsViewHolder postViewHolder, Contestants model, int position) {
                         String postKey = getRef(position).getKey();
-                        postViewHolder.tvPoints.setText(model.getPoints());
+                        postViewHolder.tvPoints.setText(""+Integer.parseInt(model.getPoints()));
                         cfUserRef.child(model.getUserId()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
