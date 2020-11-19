@@ -41,7 +41,6 @@ public class HomeFragment extends Fragment {
     TextView tvCreateNew;
     RecyclerView rvPosts;
 
-    DatabaseReference listCatsRef;
 
     final int ITEM_LOAD_COUNT = 5;
     int tota_item = 0, last_visible_item;
@@ -66,8 +65,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        String currentUser=Utils.getCurrentUser();
+
         postRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
         rvPosts = root.findViewById(R.id.rv_posts);
+
+
 
         getLastItem();
 

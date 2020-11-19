@@ -147,6 +147,7 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if (task.isSuccessful()) {
+                                userRef.child(currentUser).child("Followings").child(currentUser).child("UserId").setValue(currentUser);
                                 Toast.makeText(SignInActivity.this, "Open your email and verify", Toast.LENGTH_SHORT).show();
                                 sendUserToHomeActivity();
                             } else {
