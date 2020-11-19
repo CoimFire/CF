@@ -115,6 +115,7 @@ public class ViewFriendsListActivity extends AppCompatActivity {
 
                     }
                 };
+        firebaseRecyclerAdapter.notifyDataSetChanged();
         rvSearchedFriendsList.setAdapter(firebaseRecyclerAdapter);
 
     }

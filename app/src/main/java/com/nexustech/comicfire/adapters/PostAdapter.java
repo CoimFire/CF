@@ -38,6 +38,7 @@ import java.util.List;
 import static android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 import static com.nexustech.comicfire.utils.Constants.LIKE_STATUS;
+import static com.nexustech.comicfire.utils.HandleActions.curUserId;
 import static com.nexustech.comicfire.utils.HandleActions.intentToProfile;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOthers;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOwn;
@@ -84,34 +85,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        Handler handler = new Handler();
-        Runnable runnable=new Runnable() {
-            @Override
-            public void run() {
-                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
-                            .child("User").child(Utils.getCurrentUser());
-                    userRef.child("Followings").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            isFollowing = dataSnapshot.hasChild(mPostList.get(position).getUserId());
 
-                            if (!isFollowing) {
-                                mPostList.remove(position);
-                                notifyItemRemoved(position);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-            }
-        };
-
-        handler.post(runnable);
-
+        holder.isShowed(position);
 
         holder.tvPostText.setText(mPostList.get(position).getPostText());
         Picasso.get().load(mPostList.get(position).getPostImage()).into(holder.ivPostImage);
@@ -408,6 +383,42 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 }
             });
 
+        }
+        public void isShowed(int position){
+            String userId=mPostList.get(position).getUserId();
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                    .child("User").child(Utils.getCurrentUser());
+            userRef.child("Followings").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.hasChild(userId)){
+
+                        Handler handler = new Handler();
+                        Runnable runnable=new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    mPostList.remove(position);
+                                    notifyItemRemoved(position);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        };
+
+                        handler.post(runnable);
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            //return isFollowing;
         }
 
     }

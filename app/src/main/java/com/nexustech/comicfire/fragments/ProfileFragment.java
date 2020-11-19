@@ -124,7 +124,7 @@ public class ProfileFragment extends Fragment {
                     if (dataSnapshot.hasChild("Followings")) {
 
                         long followings = dataSnapshot.child("Followings").getChildrenCount();
-                        tvFollowingCount.setText("Followings\n" + String.valueOf(followings));
+                        tvFollowingCount.setText("Followings\n" + String.valueOf(followings-1));
 
                     } else {
 

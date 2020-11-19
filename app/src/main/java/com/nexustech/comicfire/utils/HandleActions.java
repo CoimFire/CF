@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -640,7 +641,7 @@ public class HandleActions {
                     oldPoints=dataSnapshot.getValue().toString();
 
                 }else {
-                    userRef.setValue(String.valueOf("0"));
+                    userRef.setValue("0");
                 }
             }
 
@@ -649,10 +650,12 @@ public class HandleActions {
 
             }
         });
-        int oPoints=Integer.parseInt(oldPoints);
-        if (oPoints>=10) {
-            int totalPoints = oPoints - newPoints;
-            userRef.setValue(String.valueOf(totalPoints));
+        if (oldPoints!=null) {
+            int oPoints = Integer.parseInt(oldPoints);
+            if (oPoints >= 10) {
+                int totalPoints = oPoints - newPoints;
+                userRef.setValue(String.valueOf(totalPoints));
+            }
         }
     }
 }
