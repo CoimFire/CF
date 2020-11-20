@@ -134,7 +134,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                 public void onFinish() {
                     timer.setText("Expired");
                     // accept.setVisibility(View.INVISIBLE);
-                    //timerText.setVisibility(View.INVISIBLE);
+                    tvTimerLabel.setVisibility(View.INVISIBLE);
                     //- designStatus.setVisibility(View.VISIBLE);
                 }
             }.start();

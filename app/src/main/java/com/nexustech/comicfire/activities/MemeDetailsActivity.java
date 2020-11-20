@@ -75,9 +75,10 @@ public class MemeDetailsActivity extends AppCompatActivity {
                 tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 tvMessage.setText(
                         "1. User can create any number of memes.\n\n" +
-                        "2. Abusive words and 18+ contents are stricktly prohibitted.\n\n" +
-                        "3. The winner selected by Comic Fire Admin.\n\n" +
-                        "4. User will get points for their responsible result");
+                                "2. Each input fields allowed less than 3 lines.\n\n" +
+                                "3. Abusive words and 18+ contents are stricktly prohibitted.\n\n" +
+                                "4. The winner selected by Comic Fire Admin.\n\n" +
+                                "5. User will get points for their responsible result");
                 tvConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -106,7 +107,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
         mLayoutManager.setStackFromEnd(true);
         // Set the layout manager to your recyclerview
         rvChildList.setLayoutManager(mLayoutManager);
-        Utils.showEmpty(getWindow().getDecorView().getRootView(),cfChildernMemes);
+        Utils.showEmpty(getWindow().getDecorView().getRootView(), cfChildernMemes);
         showChildMemes();
     }
 
@@ -151,7 +152,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        TextView profName, tvPostText, likeCount,tvChatacterName;
+        TextView profName, tvPostText, likeCount, tvChatacterName;
         ImageView profImage, ivPostImage, ivLike, tribleDot;
         private FirebaseAuth cfAuth;
         private String currentUserId, postId;
@@ -167,7 +168,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
             tvPostText = cfView.findViewById(R.id.tvDescription);
             ivLike = cfView.findViewById(R.id.ivLike);
             tribleDot = cfView.findViewById(R.id.trible_dot);
-            tvChatacterName=cfView.findViewById(R.id.tv_character_name);
+            tvChatacterName = cfView.findViewById(R.id.tv_character_name);
             cfAuth = FirebaseAuth.getInstance();
             currentUserId = cfAuth.getCurrentUser().getUid();
             likeCount = cfView.findViewById(R.id.tvLikeCount);
@@ -177,15 +178,15 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
 
         public void setUserDetails(String userId) {
-            DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
 
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()){
-                        String name=dataSnapshot.child("CharacterName").getValue().toString();
-                        String displayName=dataSnapshot.child("DisplayName").getValue().toString();
-                        String profile=dataSnapshot.child("ProfileImage").getValue().toString();
+                    if (dataSnapshot.exists()) {
+                        String name = dataSnapshot.child("CharacterName").getValue().toString();
+                        String displayName = dataSnapshot.child("DisplayName").getValue().toString();
+                        String profile = dataSnapshot.child("ProfileImage").getValue().toString();
 
                         tvChatacterName.setText(name);
                         profName.setText(displayName);

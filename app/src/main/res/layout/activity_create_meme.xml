@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activities.CreateMemeActivity">
 
     <TextView
@@ -22,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
-        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
 
@@ -46,19 +46,39 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/main_theme"/>
+            app:layout_constraintTop_toTopOf="parent"/>
+        <EditText
+            android:id="@+id/first"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/black"
+            android:inputType="textPersonName"
+            android:maxLines="3"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:cursorVisible="false"
+            android:textAlignment="center"
+            android:alpha="0.2"
+            app:layout_constraintBottom_toTopOf="@+id/guideline3"
+
+            app:layout_constraintBottom_toBottomOf="@id/first_text"
+            app:layout_constraintEnd_toEndOf="@id/first_text"
+            app:layout_constraintStart_toStartOf="@id/first_text"
+            app:layout_constraintTop_toTopOf="@id/first_text"
+            android:gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/first_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:ems="10"
             android:hint="Enter the meme"
-            android:inputType="textPersonName"
             android:maxLines="3"
+            android:textColorHint="@color/gray"
+            android:textStyle="bold"
+            android:inputType="textNoSuggestions|textMultiLine"
+            android:background="@android:color/transparent"
             android:paddingHorizontal="8dp"
+            android:textColor="@color/cold"
             android:paddingVertical="2dp"
             android:cursorVisible="false"
             android:textAlignment="center"
@@ -66,23 +86,42 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:gravity="center_horizontal" />
-
         <EditText
-            android:id="@+id/second_text"
+            android:id="@+id/second"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:ems="10"
-            android:hint="Enter the meme"
-            android:inputType="textPersonName"
+            android:layout_height="0dp"
+            android:textStyle="bold"
+            android:background="@color/black"
+            android:alpha="0.2"
             android:maxLines="3"
             android:cursorVisible="false"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@id/second_text"
+            app:layout_constraintEnd_toEndOf="@id/second_text"
+            app:layout_constraintStart_toStartOf="@id/second_text"
+            app:layout_constraintTop_toTopOf="@id/second_text"
+            android:gravity="center_horizontal" />
+        <EditText
+            android:id="@+id/second_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:hint="Enter the meme"
+            android:textColorHint="@color/gray"
+            android:inputType="textNoSuggestions|textMultiLine"
+            android:maxLines="3"
+            android:cursorVisible="false"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:textAlignment="center"
+            android:textColor="@color/cold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center_horizontal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.Guideline
@@ -124,7 +163,7 @@
         android:paddingVertical="2dp"
         android:textSize="18sp"
 
-        android:text="Clear Text"
+        android:text="Clear All"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />

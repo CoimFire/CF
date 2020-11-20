@@ -75,7 +75,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
                         memeViewHolder.setCoverImage(model.getMemeImage());
                         String state = model.getState();
                         if ("Finished".equals(state)) {
-                            memeViewHolder.timer.setText("Competition Finished");
+                            memeViewHolder.timer.setText("Competition Ended");
                             memeViewHolder.tvTimerLabel.setVisibility(View.INVISIBLE);
                             memeViewHolder.go.setVisibility(View.INVISIBLE);
 
@@ -158,6 +158,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     timer.setText("Expired");
+                    tvTimerLabel.setVisibility(View.INVISIBLE);
                     // accept.setVisibility(View.INVISIBLE);
                     //timerText.setVisibility(View.INVISIBLE);
                     //- designStatus.setVisibility(View.VISIBLE);
