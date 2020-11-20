@@ -25,7 +25,9 @@ import com.nexustech.comicfire.utils.HandleActions;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import static com.nexustech.comicfire.utils.Constants.CURRENT_STATE;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.HandleActions.popupForFollowOrUnfollow;
 import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 public class FriendsFragment extends Fragment {
@@ -92,7 +94,13 @@ public class FriendsFragment extends Fragment {
                         findFriendsViewHolder.tvRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                HandleActions.actionHandler(getContext(), searchedUserId);
+                                String reqText=findFriendsViewHolder.tvRequest.getText().toString();
+                                if (reqText.equals("FOLLOW")) {
+                                    popupForFollowOrUnfollow(getContext(), searchedUserId, "FOLLOW");
+                                } else {
+                                    popupForFollowOrUnfollow(getContext(), searchedUserId, "UNFOLLOW");
+                                }
+                               // HandleActions.actionHandler(getContext(), searchedUserId);
 
                             }
                         });

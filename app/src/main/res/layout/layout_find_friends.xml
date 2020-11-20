@@ -56,11 +56,12 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/main_theme_radius"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="0dp"
         android:paddingVertical="4dp"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:text="Follow"
+        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
@@ -75,5 +76,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.685" />
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

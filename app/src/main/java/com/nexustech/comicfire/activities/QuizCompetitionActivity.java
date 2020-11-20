@@ -171,7 +171,7 @@ public class QuizCompetitionActivity extends AppCompatActivity {
     }
 
     private void openPopup() {
-        updatePoints(getPoints(points),Utils.getCurrentUser());
+
         View rowView = LayoutInflater.from(QuizCompetitionActivity.this).inflate(R.layout.alert_dialog_quiz_result, null);
         AlertDialog dialog = Utils.configDialog(QuizCompetitionActivity.this, rowView);
         TextView tvResult=rowView.findViewById(R.id.tv_result);
@@ -183,6 +183,7 @@ public class QuizCompetitionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                updatePoints(getPoints(points),Utils.getCurrentUser());
                 Utils.openAnotherActivity(QuizCompetitionActivity.this,BottomBarActivity.class);
             }
         });
@@ -210,20 +211,13 @@ public class QuizCompetitionActivity extends AppCompatActivity {
                 points++;
             }
             if (position == 10) {
-                int total = points * 10;
-                String totalPoints=String.valueOf(total);
-                String finalPoints;
-                if (totalPoints.length()==2){
-                    finalPoints="0"+totalPoints;
-                }else if (totalPoints.length()==1){
-                   finalPoints="00"+totalPoints;
-                }else {
-                    finalPoints=totalPoints;
-                }
+
+                String finalPoints=String.valueOf(getPoints(points));
                 HashMap hashMap = new HashMap();
                 hashMap.put("UserId", Utils.getCurrentUser());
                 hashMap.put("Points", finalPoints);
                 cfQuizDetailsRef.child(Utils.getCurrentUser()).updateChildren(hashMap);
+
             }
 
             Intent intent = new Intent(QuizCompetitionActivity.this, QuizCompetitionActivity.class);

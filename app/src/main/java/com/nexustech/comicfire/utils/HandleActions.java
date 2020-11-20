@@ -609,11 +609,14 @@ public class HandleActions {
     public static void updatePoints(int newPoints, String userId){
 
         DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).child("Points");
-        userRef.addValueEventListener(new ValueEventListener() {
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     oldPoints=dataSnapshot.getValue().toString();
+                    int oPoints = Integer.parseInt(oldPoints);
+                    int totalPoints = oPoints + newPoints;
+                    userRef.setValue(String.valueOf(totalPoints));
 
                 }else {
                     userRef.setValue(String.valueOf(newPoints));
@@ -625,11 +628,8 @@ public class HandleActions {
 
             }
         });
-        if (oldPoints!=null) {
-            int oPoints = Integer.parseInt(oldPoints);
-            int totalPoints = oPoints + newPoints;
-            userRef.setValue(String.valueOf(totalPoints));
-        }
+
+
     }
 
     public static void reducePoints(int newPoints, String userId) {
