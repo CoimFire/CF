@@ -30,6 +30,7 @@ import java.util.HashMap;
 
 import static com.nexustech.comicfire.utils.Constants.DEFAULT_CHARACTER;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.toFirstLetterCapital;
 
 public class SignInActivity extends AppCompatActivity {
     private TextView signin;
@@ -139,7 +140,7 @@ public class SignInActivity extends AppCompatActivity {
                     HashMap hashMap = new HashMap();
                     hashMap.put("UserId", currentUser);
                     hashMap.put("CreatedDate", date);
-                    hashMap.put("DisplayName", name);
+                    hashMap.put("DisplayName", toFirstLetterCapital(name));
                     hashMap.put("CharacterName", profileName);
                     hashMap.put("CharacterImage", characterImage);
                     hashMap.put("ProfileImage", profileImage);

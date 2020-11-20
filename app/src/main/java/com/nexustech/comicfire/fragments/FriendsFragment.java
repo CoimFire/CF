@@ -7,12 +7,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +33,7 @@ import static com.nexustech.comicfire.utils.Constants.CURRENT_STATE;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 import static com.nexustech.comicfire.utils.HandleActions.popupForFollowOrUnfollow;
 import static com.nexustech.comicfire.utils.Utils.showEmpty;
+import static com.nexustech.comicfire.utils.Utils.toFirstLetterCapital;
 
 public class FriendsFragment extends Fragment {
     private TextView tvHeading;
@@ -62,14 +67,35 @@ public class FriendsFragment extends Fragment {
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = etSearchText.getText().toString();
-                SearchPeopleAndFriends(text);
+              search();
+            }
+        });
+        etSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    search();
+                    handled = true;
+                }
+                return handled;
             }
         });
         return rootView;
     }
+    public void search(){
+        String text = etSearchText.getText().toString();
+        if (SearchPeopleAndFriends(text)==0){
+            if (SearchPeopleAndFriends(text.toLowerCase())==0){
+                if(SearchPeopleAndFriends(text.toLowerCase())==0){
+                    if (!TextUtils.isEmpty(text))
+                        SearchPeopleAndFriends(toFirstLetterCapital(text));
+                }
+            }
+        }
+    }
 
-    private void SearchPeopleAndFriends(String searchInput) {
+    private int SearchPeopleAndFriends(String searchInput) {
         Query searchPeopleAndFriendsQuery = cfFindFriendsRef.orderByChild("DisplayName")
                 .startAt(searchInput)
                 .endAt(searchInput + "\uf8ff");
@@ -130,6 +156,7 @@ public class FriendsFragment extends Fragment {
                 };
         rvSearchedFriendsList.setAdapter(firebaseRecyclerAdapter);
 
+        return  firebaseRecyclerAdapter.getItemCount();
     }
 
 

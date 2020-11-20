@@ -183,4 +183,7 @@ public class Utils {
         imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 
     }
+    public static  String toFirstLetterCapital(String text){
+        return text.substring(0,1).toUpperCase()+text.substring(1);
+    }
 }
