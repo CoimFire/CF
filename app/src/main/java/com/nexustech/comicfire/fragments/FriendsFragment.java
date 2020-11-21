@@ -120,11 +120,11 @@ public class FriendsFragment extends Fragment {
                         findFriendsViewHolder.tvRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String reqText=findFriendsViewHolder.tvRequest.getText().toString();
-                                if (reqText.equals("FOLLOW")) {
-                                    popupForFollowOrUnfollow(getContext(), searchedUserId, "FOLLOW");
-                                } else {
+                                String reqText=findFriendsViewHolder.tvRequest.getText().toString().toUpperCase();
+                                if (reqText.equals("UNFOLLOW")) {
                                     popupForFollowOrUnfollow(getContext(), searchedUserId, "UNFOLLOW");
+                                } else {
+                                    popupForFollowOrUnfollow(getContext(), searchedUserId, "FOLLOW");
                                 }
                                // HandleActions.actionHandler(getContext(), searchedUserId);
 

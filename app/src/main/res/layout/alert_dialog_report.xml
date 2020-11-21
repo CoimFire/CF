@@ -16,6 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:fontFamily="@font/default_font"
         android:ellipsize="marquee"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,22 +42,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Abusive"
+            android:fontFamily="@font/default_font"
             android:checked="true" />
 
         <RadioButton
             android:id="@+id/radio_sexual_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"
             android:text="Sexual content" />
         <RadioButton
             android:id="@+id/radio_irrelevent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"
             android:text="Irrelevent" />
         <RadioButton
             android:id="@+id/radio_something_else"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"
             android:text="Something else" />
 
     </RadioGroup>
@@ -77,6 +82,7 @@
         android:textSize="18sp"
         android:background="@drawable/stroke_sample"
         android:text="Cancel"
+        android:fontFamily="@font/default_font"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"
         android:layout_marginHorizontal="20dp"
@@ -94,9 +100,9 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
+        android:fontFamily="@font/default_font"
         android:background="@drawable/all_button_background"
         android:textColor="@color/white"
-
         android:text="Report"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"

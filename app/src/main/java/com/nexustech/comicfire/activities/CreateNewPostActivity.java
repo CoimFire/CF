@@ -102,7 +102,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
 
         //SimpleDateFormat df = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss");
         // df.setTimeZone(TimeZone.getDefault());
-        randomId = curDate + curTime;
+        randomId = Utils.createRandomId();
 
         postText = etPostText.getText().toString();
 

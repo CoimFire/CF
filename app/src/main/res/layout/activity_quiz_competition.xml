@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:fontFamily="@font/default_font"
         android:background="@drawable/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +38,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="Accept"
+        android:fontFamily="@font/default_font"
         android:textColor="@color/white"
         android:layout_marginTop="4dp"
         android:layout_marginStart="20dp"
@@ -56,6 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:fontFamily="@font/default_font"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_cover"
@@ -76,19 +79,23 @@
         <RadioButton
             android:id="@+id/rb_option1"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/default_font"
             android:layout_height="wrap_content" />
 
         <RadioButton
             android:id="@+id/rb_option2"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/default_font"
             android:layout_height="wrap_content"/>
         <RadioButton
             android:id="@+id/rb_option3"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/default_font"
             android:layout_height="wrap_content" />
         <RadioButton
             android:id="@+id/rb_option4"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/default_font"
             android:layout_height="wrap_content"/>
 
     </RadioGroup>
@@ -104,6 +111,7 @@
         android:paddingVertical="5dp"
         android:textAlignment="center"
         android:textSize="16sp"
+        android:fontFamily="@font/default_font"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,6 +126,7 @@
         android:background="@drawable/all_button_background"
         android:textColor="@color/white"
         android:gravity="center_horizontal"
+        android:fontFamily="@font/default_font"
         android:paddingHorizontal="50dp"
         android:paddingVertical="5dp"
         android:text="Next"

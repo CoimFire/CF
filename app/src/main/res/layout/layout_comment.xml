@@ -29,6 +29,7 @@
         android:maxLines="1"
         android:textSize="18dp"
         android:ellipsize="end"
+        android:fontFamily="@font/default_font"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_profile_image"
@@ -41,6 +42,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:singleLine="false"
+        android:fontFamily="@font/default_font"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tv_display_name"
@@ -58,7 +60,7 @@
         android:visibility="visible"
         android:singleLine="false"
         android:textSize="14dp"
-
+        android:fontFamily="@font/default_font"
         app:layout_constraintEnd_toEndOf="@id/tv_comment"
         app:layout_constraintTop_toBottomOf="@id/tv_comment" />
     <TextView
@@ -74,6 +76,7 @@
         android:text="Delete"
         android:singleLine="false"
         android:textSize="14dp"
+        android:fontFamily="@font/default_font"
         app:layout_constraintEnd_toStartOf="@id/tv_reply_comment"
         app:layout_constraintTop_toBottomOf="@id/tv_comment" />
     <TextView
@@ -88,6 +91,7 @@
         android:text="Edit"
         android:visibility="invisible"
         android:singleLine="false"
+        android:fontFamily="@font/default_font"
         android:textSize="14dp"
         app:layout_constraintEnd_toStartOf="@id/tv_delete_comment"
         app:layout_constraintTop_toBottomOf="@id/tv_comment" />
@@ -102,6 +106,7 @@
         android:textColor="@color/steel_blue"
         android:text="Edit"
         android:visibility="invisible"
+        android:fontFamily="@font/default_font"
         android:singleLine="false"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@id/tv_comment"

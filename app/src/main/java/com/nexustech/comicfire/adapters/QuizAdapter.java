@@ -13,6 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.activities.QuizDetailsActivity;
 import com.nexustech.comicfire.domains.Quiz;
@@ -24,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder>{
     List<Quiz> mQuizList;
@@ -65,7 +72,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         holder.tvQuizName.setText(mQuizList.get(position).getQuizName());
         Picasso.get().load(mQuizList.get(position).getQuizImage()).into(holder.ivQuizImage);
         holder.showCounter(mQuizList.get(position).getQuizName(),mQuizList.get(position).getCreatedDate());
-
+        holder.setCount(mQuizList.get(position).getQuizName());
         holder.cfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +93,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     public class QuizViewHolder extends RecyclerView.ViewHolder {
 
         View cfView;
-        TextView tvQuizName, timer, go, tvTimerLabel;
+        TextView tvQuizName, timer, go, tvTimerLabel,tvCount;
         ImageView ivQuizImage;
         Date createdDate, expireDate;
 
@@ -99,6 +106,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
             timer = cfView.findViewById(R.id.timer);
             go = cfView.findViewById(R.id.go);
             tvTimerLabel = cfView.findViewById(R.id.timerlabel);
+            tvCount=cfView.findViewById(R.id.tv_count);
         }
         public void showCounter(String memeKey, String date1) {
 
@@ -139,6 +147,25 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                 }
             }.start();
 
+        }
+        public void setCount(String memeKey){
+            DatabaseReference cfMemeCoverRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("QuizDetails").child(memeKey).child("Contestants");
+            cfMemeCoverRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        long count=dataSnapshot.getChildrenCount();
+                        tvCount.setText(String.valueOf(count));
+                    }else {
+                        tvCount.setText("0");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 

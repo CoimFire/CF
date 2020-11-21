@@ -22,6 +22,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="Oh! Its empty!"
+        android:fontFamily="@font/default_font"
         android:textAppearance="@style/EmptyTextAppearance.Title"/>
 
 </LinearLayout>

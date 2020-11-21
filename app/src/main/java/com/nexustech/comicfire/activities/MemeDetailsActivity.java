@@ -132,9 +132,11 @@ public class MemeDetailsActivity extends AppCompatActivity {
                         cfPostRef.child(postKey).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                postViewHolder.setUserDetails(dataSnapshot.child("UserId").getValue().toString());
-                                postViewHolder.setPostImage(dataSnapshot.child("PostImage").getValue().toString());
-                                postViewHolder.setPostText(dataSnapshot.child("PostText").getValue().toString());
+                                if (dataSnapshot.exists()) {
+                                    postViewHolder.setUserDetails(dataSnapshot.child("UserId").getValue().toString());
+                                    postViewHolder.setPostImage(dataSnapshot.child("PostImage").getValue().toString());
+                                    postViewHolder.setPostText(dataSnapshot.child("PostText").getValue().toString());
+                                }
                             }
 
                             @Override

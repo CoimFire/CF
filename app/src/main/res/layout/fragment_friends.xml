@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/main_theme"
+        android:fontFamily="@font/default_font"
         android:gravity="center_horizontal" />
 
 
@@ -30,6 +31,7 @@
         android:inputType="textPersonName"
         android:paddingVertical="4dp"
         android:paddingHorizontal="10dp"
+        android:fontFamily="@font/default_font"
         android:imeOptions="actionSend"
         app:layout_constraintEnd_toStartOf="@+id/ivSearchFriends"
         app:layout_constraintStart_toStartOf="parent"

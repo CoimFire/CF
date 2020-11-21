@@ -14,6 +14,7 @@
             android:id="@+id/tvHeading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,9 +35,10 @@
             android:id="@+id/tv_display_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-         android:layout_margin="10dp"
+            android:layout_margin="10dp"
             android:maxLines="1"
             android:textSize="18dp"
+            android:fontFamily="@font/default_font"
             android:ellipsize="end"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +53,7 @@
             android:layout_marginHorizontal="10dp"
             android:singleLine="false"
             android:textSize="16dp"
+            android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_display_name"
             app:layout_constraintTop_toBottomOf="@id/tv_display_name" />
@@ -67,6 +70,7 @@
             android:visibility="invisible"
             android:textColor="@color/steel_blue"
             android:text="Delete"
+            android:fontFamily="@font/default_font"
             android:singleLine="false"
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="@id/tv_comment"
@@ -82,6 +86,7 @@
             android:layout_marginBottom="14dp"
             android:textColor="@color/steel_blue"
             android:text="Edit"
+            android:fontFamily="@font/default_font"
             android:visibility="invisible"
             android:singleLine="false"
             android:textSize="14dp"
@@ -98,6 +103,7 @@
             android:hint="Reply"
             android:textSize="16sp"
             android:paddingVertical="4dp"
+            android:fontFamily="@font/default_font"
             android:paddingHorizontal="8dp"
             android:background="@drawable/edit_text_background"
             app:layout_constraintEnd_toStartOf="@id/iv_send"
@@ -123,6 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Replies"
+            android:fontFamily="@font/default_font"
             android:paddingHorizontal="20dp"
             android:textColor="@color/steel_blue"
             android:background="@drawable/layout_background"
@@ -141,7 +148,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_reply_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_reply_label"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

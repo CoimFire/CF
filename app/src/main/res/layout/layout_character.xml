@@ -39,6 +39,7 @@
         android:background="@drawable/black_transparent"
         android:gravity="left"
         android:paddingHorizontal="2dp"
+        android:fontFamily="@font/default_font"
         android:text="TextView"
         android:textColor="@color/white"
         android:textAlignment="textStart"
@@ -59,6 +60,7 @@
         android:text="SELECT"
         android:background="@drawable/background_stroke"
         android:textStyle="bold"
+        android:fontFamily="@font/default_font"
         android:textColor="@color/white"
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
@@ -67,8 +69,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_character_name"
         android:gravity="center_horizontal" />
-
-
 
     <TextView
         android:id="@+id/tv_shade"

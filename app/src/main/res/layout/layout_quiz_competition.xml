@@ -16,6 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:fontFamily="@font/default_font"
         android:ellipsize="marquee"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,20 +40,24 @@
         <RadioButton
             android:id="@+id/rb_option1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"/>
 
         <RadioButton
             android:id="@+id/rb_option2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"/>
         <RadioButton
             android:id="@+id/rb_option3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"/>
         <RadioButton
             android:id="@+id/rb_option4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"/>
 
     </RadioGroup>
 
@@ -69,6 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/default_font"
         android:textSize="18sp"
         android:background="@drawable/background_stroke"
         android:paddingVertical="5dp"
@@ -88,6 +94,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
+        android:fontFamily="@font/default_font"
         android:background="@drawable/confirm_button"
         android:text="Next"
         android:paddingVertical="5dp"
