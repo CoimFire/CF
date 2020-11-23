@@ -284,21 +284,23 @@
             app:layout_constraintTop_toTopOf="@+id/hero_shop_layer"
             app:srcCompat="@drawable/shadow_hero"
             app:tint="@color/white" />
+
         <TextView
             android:id="@+id/tv_hero_shop"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textStyle="bold"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/default_font"
+            android:paddingHorizontal="10dp"
+            android:text="HERO SHOP"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:text="HERO SHOP"
-            android:paddingHorizontal="10dp"
-            android:layout_marginTop="10dp"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toStartOf="@+id/guideline22"
             app:layout_constraintStart_toEndOf="@id/hero_shop"
-            app:layout_constraintTop_toTopOf="@id/hero_shop"
-            android:layout_marginLeft="8dp" />
+            app:layout_constraintTop_toTopOf="@id/hero_shop" />
 
 
         <TextView

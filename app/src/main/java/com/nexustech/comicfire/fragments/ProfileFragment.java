@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         cfAuth = FirebaseAuth.getInstance();
-        curUserId = cfAuth.getCurrentUser().getUid().toString();
+        curUserId = Utils.getCurrentUser();
         cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId);
         charName = root.findViewById(R.id.tvMyCharacter);
         myName = root.findViewById(R.id.tvMyName);
@@ -71,35 +71,14 @@ public class ProfileFragment extends Fragment {
         clickOnViews();
         showProfile();
         countDetails();
+        total=Utils.getMyPoints();
         heroShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cfProfileRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            if (dataSnapshot.hasChild("Points")) {
-                                String posts = dataSnapshot.child("Points").getValue().toString();
-                                // long followers=dataSnapshot.child("Followers").getChildrenCount();
-                                total = Integer.parseInt(posts);
-                            } else {
-                                total = 0;
-
-                            }
-                            Intent intent = new Intent(getActivity(), ViewAllCharsActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("UserId", curUserId);
-                            intent.putExtra("Points", total);
-                            startActivity(intent);
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                Intent intent = new Intent(getActivity(), ViewAllCharsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Points", total);
+                startActivity(intent);
 
             }
         });

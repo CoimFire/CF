@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
+import com.nexustech.comicfire.activities.ViewAllCharsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +38,7 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 public class Utils {
     public static int CURRENT_NAVIGATION_BAR = R.id.navigation_home;
     public  static boolean isEmpty;
-
+    public static int total;
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void setTopBar(Window window, Resources resources) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -49,7 +50,6 @@ public class Utils {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
-
     public static String createRandomId() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -185,5 +185,31 @@ public class Utils {
     }
     public static  String toFirstLetterCapital(String text){
         return text.substring(0,1).toUpperCase()+text.substring(1);
+    }
+    public static int getMyPoints(){
+        DatabaseReference cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                .child("User").child(getCurrentUser());
+
+        cfProfileRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.hasChild("Points")) {
+                        String posts = dataSnapshot.child("Points").getValue().toString();
+                        // long followers=dataSnapshot.child("Followers").getChildrenCount();
+                        total = Integer.parseInt(posts);
+                    } else {
+                        total = 0;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return total;
     }
 }

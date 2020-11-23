@@ -72,12 +72,12 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         holder.tvQuizName.setText(mQuizList.get(position).getQuizName());
         Picasso.get().load(mQuizList.get(position).getQuizImage()).into(holder.ivQuizImage);
         holder.showCounter(mQuizList.get(position).getQuizName(),mQuizList.get(position).getCreatedDate());
-        holder.setCount(mQuizList.get(position).getQuizName());
+        holder.setCount(mQuizList.get(position).getQuizId());
         holder.cfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, QuizDetailsActivity.class);
-                intent.putExtra("QuizId", mQuizList.get(position).getQuizName());
+                intent.putExtra("QuizId", mQuizList.get(position).getQuizId());
                 intent.putExtra("Title", mQuizList.get(position).getQuizName());
                 intent.putExtra("CoverImage", mQuizList.get(position).getQuizImage());
                 context.startActivity(intent);

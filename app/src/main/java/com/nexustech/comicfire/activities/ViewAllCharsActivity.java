@@ -52,7 +52,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
 
         // Set the layout manager to your recyclerview
         rvChars.setLayoutManager(mLayoutManager);
-        userId = getIntent().getStringExtra("UserId");
+        userId = Utils.getCurrentUser();
         points = getIntent().getIntExtra("Points", 0);
         showAllChars();
     }
