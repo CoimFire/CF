@@ -50,7 +50,7 @@ public class ViewCommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_comment);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(this,getWindow(),getResources());
 
 
 

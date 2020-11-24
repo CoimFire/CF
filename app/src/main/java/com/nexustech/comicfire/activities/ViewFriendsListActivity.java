@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import static com.nexustech.comicfire.utils.Constants.CURRENT_STATE;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.HandleActions.popupForFollowOrUnfollow;
 import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 public class ViewFriendsListActivity extends AppCompatActivity {
@@ -43,22 +44,22 @@ public class ViewFriendsListActivity extends AppCompatActivity {
     private RecyclerView rvAllUser;
     private DatabaseReference cfFindFriendsRef;
     private FirebaseAuth cfAuth;
-    private String curUserId, friendsType;
+    private String userId, friendsType;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_friends_list);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(this,getWindow(),getResources());
 
         ivSearch = findViewById(R.id.ivSearchFriends);
         etSearchText = findViewById(R.id.etSearchFriends);
         rvSearchedFriendsList = findViewById(R.id.rvAllUsers);
-        curUserId = getIntent().getStringExtra("UserId");
+         userId = getIntent().getStringExtra("UserId");
 
         friendsType = getIntent().getStringExtra("TYPE");
-        cfFindFriendsRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child(friendsType);
+        cfFindFriendsRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).child(friendsType);
         rvSearchedFriendsList.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -93,7 +94,13 @@ public class ViewFriendsListActivity extends AppCompatActivity {
                         findFriendsViewHolder.tvRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                findFriendsViewHolder.requestHandler(searchedUserId);
+                                //findFriendsViewHolder.requestHandler(searchedUserId);
+                                String reqText=findFriendsViewHolder.tvRequest.getText().toString().toUpperCase();
+                                if (reqText.equals("UNFOLLOW")) {
+                                    popupForFollowOrUnfollow(ViewFriendsListActivity.this, searchedUserId, "UNFOLLOW");
+                                } else {
+                                    popupForFollowOrUnfollow(ViewFriendsListActivity.this, searchedUserId, "FOLLOW");
+                                }
 
                             }
                         });

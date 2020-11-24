@@ -44,7 +44,7 @@ public class QuizDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_details);
 
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
         coverImageUrl = getIntent().getStringExtra("CoverImage");
         parentkey = getIntent().getStringExtra("QuizId");
         postText = getIntent().getStringExtra("Title");

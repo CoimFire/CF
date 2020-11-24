@@ -391,14 +391,14 @@ public class HandleActions {
                     .message(postText+"\n\n #ComicFire")
                     .socialChannel(Shareable.Builder.ANY)
                     .image(mergeUri)
-                    .url("www.google.com")
+                    .url("www.comicfire.com")
                     .build();
             shareInstance.share();
         }else {
             Shareable shareInstance = new Shareable.Builder(context)
                     .message(postText+"\n\n #ComicFire")
                     .socialChannel(Shareable.Builder.ANY)
-                    .url("www.google.com")
+                    .url("www.comicfire.com")
                     .build();
             shareInstance.share();
         }

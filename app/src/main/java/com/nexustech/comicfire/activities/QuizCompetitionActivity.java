@@ -70,7 +70,7 @@ public class QuizCompetitionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_competition);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
         ivCoverImage = findViewById(R.id.iv_cover);
         tvTitle = findViewById(R.id.tv_title);
         tvQuestion = findViewById(R.id.tv_question);

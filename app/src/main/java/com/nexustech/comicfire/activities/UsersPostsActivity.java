@@ -52,7 +52,7 @@ public class UsersPostsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_posts);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(this,getWindow(),getResources());
 
         rvPosts = findViewById(R.id.rv_posts);
         userId = getIntent().getStringExtra("UserId");

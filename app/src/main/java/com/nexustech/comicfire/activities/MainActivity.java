@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         cfAuth = FirebaseAuth.getInstance();
         cfUserRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE);

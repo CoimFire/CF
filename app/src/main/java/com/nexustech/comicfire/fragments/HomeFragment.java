@@ -1,5 +1,6 @@
 package com.nexustech.comicfire.fragments;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -69,8 +70,6 @@ public class HomeFragment extends Fragment {
 
         postRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
         rvPosts = root.findViewById(R.id.rv_posts);
-
-
 
         getLastItem();
 

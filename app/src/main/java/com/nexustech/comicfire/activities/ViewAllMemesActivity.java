@@ -44,7 +44,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_memes);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(this,getWindow(),getResources());
 
         rvMeme = findViewById(R.id.rv_memes);
         rvMeme.setHasFixedSize(true);

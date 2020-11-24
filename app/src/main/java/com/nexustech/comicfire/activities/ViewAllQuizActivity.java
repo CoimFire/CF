@@ -48,7 +48,7 @@ public class ViewAllQuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_quiz);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         rvQuiz = findViewById(R.id.rv_quiz);
 

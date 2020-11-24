@@ -46,7 +46,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
         charRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Characters").child(DEFAULT_CHARACTER);

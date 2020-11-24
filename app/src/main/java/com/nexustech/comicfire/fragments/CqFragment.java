@@ -54,11 +54,7 @@ public class CqFragment extends Fragment {
         ivHeroShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               int total=Utils.getMyPoints();
-                Intent intent = new Intent(getActivity(), ViewAllCharsActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("Points", total);
-                startActivity(intent);
+               Utils.goToAllCharActivity(getContext());
 
             }
         });

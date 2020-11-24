@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.CellSignalStrength;
 import android.view.Gravity;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -40,15 +43,30 @@ public class Utils {
     public  static boolean isEmpty;
     public static int total;
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void setTopBar(Window window, Resources resources) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            Drawable background = resources.getDrawable(R.drawable.main_theme);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(resources.getColor(android.R.color.transparent));
-            window.setNavigationBarColor(resources.getColor(android.R.color.transparent));
-            window.setBackgroundDrawable(background);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    public static void setTopBar(Context context,Window window, Resources resources) {
+          if (Utils.isOnline(context)){
+              if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                  Drawable background = resources.getDrawable(R.drawable.main_theme);
+                  window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                  window.setStatusBarColor(resources.getColor(android.R.color.transparent));
+                  window.setNavigationBarColor(resources.getColor(android.R.color.transparent));
+                  window.setBackgroundDrawable(background);
+                  window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+              }
+        }else {
+              if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                  Drawable background = resources.getDrawable(R.drawable.no_network_theme);
+                  window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                  window.setStatusBarColor(resources.getColor(android.R.color.transparent));
+                  window.setNavigationBarColor(resources.getColor(android.R.color.transparent));
+                  window.setBackgroundDrawable(background);
+                  window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+                  Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show();
+              }
+
         }
+
     }
     public static String createRandomId() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -186,14 +204,14 @@ public class Utils {
     public static  String toFirstLetterCapital(String text){
         return text.substring(0,1).toUpperCase()+text.substring(1);
     }
-    public static int getMyPoints(){
+    public static void goToAllCharActivity(Context context){
         DatabaseReference cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
                 .child("User").child(getCurrentUser());
 
         cfProfileRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
+
                     if (dataSnapshot.hasChild("Points")) {
                         String posts = dataSnapshot.child("Points").getValue().toString();
                         // long followers=dataSnapshot.child("Followers").getChildrenCount();
@@ -201,8 +219,10 @@ public class Utils {
                     } else {
                         total = 0;
                     }
-                }
-
+                Intent intent = new Intent(context, ViewAllCharsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Points", total);
+                context.startActivity(intent);
             }
 
             @Override
@@ -210,6 +230,18 @@ public class Utils {
 
             }
         });
-        return total;
+    }
+    public static boolean isOnline(Context context){
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+            connected = false;
+
+        return connected;
     }
 }

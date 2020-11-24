@@ -64,7 +64,7 @@ public class ViewSinglePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_single_post);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         tvPosttext = findViewById(R.id.tv_post_text);
         ivPostImage = findViewById(R.id.ivPostImage);

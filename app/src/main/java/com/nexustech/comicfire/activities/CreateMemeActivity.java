@@ -56,7 +56,7 @@ public class CreateMemeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_meme);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         tv = findViewById(R.id.done);
         imageView = findViewById(R.id.meme_image);

@@ -38,7 +38,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
         cfAuth = FirebaseAuth.getInstance();
         curUserId = cfAuth.getCurrentUser().getUid();
 
@@ -89,7 +89,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfileActivity.this, ViewFriendsListActivity.class);
                 intent.putExtra("TYPE", "Followings");
-                intent.putExtra("UserId",Utils.getCurrentUser());
+                intent.putExtra("UserId",userId);
                 startActivity(intent);
 
             }
@@ -100,7 +100,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfileActivity.this, ViewFriendsListActivity.class);
                 intent.putExtra("TYPE", "Followers");
-                intent.putExtra("UserId",Utils.getCurrentUser());
+                intent.putExtra("UserId",userId);
                 startActivity(intent);
 
 

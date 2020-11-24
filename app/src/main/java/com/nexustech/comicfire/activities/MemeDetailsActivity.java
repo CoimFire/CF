@@ -48,7 +48,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meme_details);
 
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
         cfAuth = FirebaseAuth.getInstance();
         coverImageUrl = getIntent().getStringExtra("CoverImage");
         parentkey = getIntent().getStringExtra("MemeId");

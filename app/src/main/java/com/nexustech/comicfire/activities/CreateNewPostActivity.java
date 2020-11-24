@@ -57,7 +57,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_post);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         postImage = findViewById(R.id.post_image);
         selectImage = findViewById(R.id.iv_select);
