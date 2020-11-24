@@ -34,7 +34,7 @@ import com.squareup.picasso.Picasso;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 import static com.nexustech.comicfire.utils.HandleActions.reducePoints;
 
-public class ViewAllCharsActivity extends AppCompatActivity {
+public class MyCharactersActivity extends AppCompatActivity {
 
     RecyclerView rvChars;
     DatabaseReference cfCharRef;
@@ -47,7 +47,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_chars);
+        setContentView(R.layout.activity_my_characters);
         Utils.setTopBar(this,getWindow(), getResources());
 
         rvChars = findViewById(R.id.rv_list_chars);
@@ -56,7 +56,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager = new GridLayoutManager(this, 2);
-        cfCharRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Characters");
+        cfCharRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
 
         // Set the layout manager to your recyclerview
         rvChars.setLayoutManager(mLayoutManager);
@@ -82,18 +82,18 @@ public class ViewAllCharsActivity extends AppCompatActivity {
                         postViewHolder.setCharacterProfile(model.getCharacterProfile());
                         postViewHolder.setCharacterName(model.getCharacterName());
                         postViewHolder.setRequiredPoints(model.getRequiredPoints());
-                        postViewHolder.setLockIcon(ViewAllCharsActivity.this, points, model.getRequiredPoints(), model.getCharacterName());
+                        postViewHolder.setLockIcon(MyCharactersActivity.this, points, model.getRequiredPoints(), model.getCharacterName());
                         postViewHolder.ivLock.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(ViewAllCharsActivity.this, "You need " + model.getRequiredPoints() + " Points", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MyCharactersActivity.this, "You need " + model.getRequiredPoints() + " Points", Toast.LENGTH_SHORT).show();
                             }
                         });
 
                         postViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                postViewHolder.openPopupForCharacter(ViewAllCharsActivity.this,
+                                postViewHolder.openPopupForCharacter(MyCharactersActivity.this,
                                         model.getAbilities(),
                                         model.getRole(),
                                         model.getRace(),
@@ -101,7 +101,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
                                         model.getCharacterName(),
                                         model.getRequiredPoints(),
                                         model.getCharacterProfile(),
-                                        model.getCharImage(),model.getPriority()
+                                        model.getCharImage()
                                 );
                             }
                         });
@@ -195,7 +195,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
 
 
         private void openPopupForCharacter(Context context, String abilities, String role, String race, String franchise, String charName,
-                                           String reqPoints, String profileImage, String characterImage, String priority) {
+                                           String reqPoints, String profileImage, String characterImage) {
             View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_view_character, null);
             AlertDialog dialog = Utils.configDialog(context, rowView);
             ImageView ivProfileImage = rowView.findViewById(R.id.ivMyProfile);
@@ -254,8 +254,6 @@ public class ViewAllCharsActivity extends AppCompatActivity {
                     } else if (state.equals("UNLOCK")) {
                         userRef.child("MyCharacters").child(charName)
                                 .child("CharacterName").setValue(charName);
-                        userRef.child("MyCharacters").child(charName)
-                                .child("Priority").setValue(priority);
                         Toast.makeText(context, "Unlocked", Toast.LENGTH_SHORT).show();
                         state = "SELECT";
                         reducePoints(Integer.parseInt(reqPoints),Utils.getCurrentUser());

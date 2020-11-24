@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:maxLines="1"
+            android:textColor="@color/black"
             android:textSize="18dp"
             android:fontFamily="@font/default_font"
             android:ellipsize="end"
@@ -52,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:singleLine="false"
+            android:textColor="@color/black"
             android:textSize="16dp"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +70,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="14dp"
             android:visibility="invisible"
-            android:textColor="@color/steel_blue"
+            android:textColor="@color/colorPrimary"
             android:text="Delete"
             android:fontFamily="@font/default_font"
             android:singleLine="false"
@@ -84,7 +86,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="14dp"
-            android:textColor="@color/steel_blue"
+            android:textColor="@color/colorPrimary"
             android:text="Edit"
             android:fontFamily="@font/default_font"
             android:visibility="invisible"
@@ -121,7 +123,7 @@
             app:layout_constraintBottom_toBottomOf="@id/et_comment"
             app:srcCompat="@drawable/baseline_send_black_18dp"
             android:layout_marginRight="10dp"
-            app:tint="@color/steel_blue" />
+            app:tint="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_reply_label"
@@ -131,8 +133,8 @@
             android:text="Replies"
             android:fontFamily="@font/default_font"
             android:paddingHorizontal="20dp"
-            android:textColor="@color/steel_blue"
-            android:background="@drawable/layout_background"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/light_background"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/et_comment"
             app:layout_constraintStart_toStartOf="@id/et_comment"

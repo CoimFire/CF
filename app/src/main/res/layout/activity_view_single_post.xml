@@ -42,6 +42,8 @@
             android:text="TextView"
             android:fontFamily="@font/default_font"
             android:textSize="18sp"
+
+            android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivProfile"
@@ -55,8 +57,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/layout_background"
+            android:background="@drawable/light_background"
             android:text="TextView"
+            android:textColor="@color/black"
             android:fontFamily="@font/default_font"
             android:paddingHorizontal="5dp"
             android:textSize="16sp"
@@ -88,7 +91,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
             app:srcCompat="@drawable/baseline_visibility_black_18dp"
             android:layout_marginLeft="10dp"
-            app:tint="@color/steel_blue" />
+            app:tint="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tvLikeCount"
@@ -96,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="0"
-            android:textColor="@color/steel_blue"
+            android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             android:fontFamily="@font/default_font"
             app:layout_constraintBottom_toBottomOf="@+id/ivLike"
@@ -114,7 +117,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/tvProfileName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="8dp"
+            app:tint="@color/colorPrimary" />
 
     <ImageView
         android:id="@+id/ivComments"
@@ -126,7 +130,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
         app:srcCompat="@drawable/comment_icon"
         android:layout_marginRight="10dp"
-        app:tint="@color/steel_blue" />
+        app:tint="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/tvCommentCount"
@@ -135,7 +139,7 @@
         android:layout_marginEnd="4dp"
         android:text="0"
         android:fontFamily="@font/default_font"
-        android:textColor="@color/steel_blue"
+        android:textColor="@color/colorPrimary"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivComments"
         app:layout_constraintEnd_toStartOf="@+id/ivComments"
@@ -171,7 +175,7 @@
         app:layout_constraintBottom_toBottomOf="@id/et_comment"
         app:srcCompat="@drawable/baseline_send_black_18dp"
         android:layout_marginRight="10dp"
-        app:tint="@color/steel_blue" />
+        app:tint="@color/colorPrimary" />
 
 
     <androidx.recyclerview.widget.RecyclerView

@@ -51,7 +51,7 @@
             android:id="@+id/tvMyCharacter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/black_transparent"
+            android:background="@drawable/left_to_right_shade"
             android:gravity="left"
             android:fontFamily="@font/default_font"
             android:paddingHorizontal="15dp"
@@ -76,6 +76,7 @@
             android:fontFamily="@font/default_font"
             android:singleLine="true"
             android:ellipsize="end"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/ivMyProfile"
             app:layout_constraintStart_toStartOf="@+id/tvMyCharacter"
             app:layout_constraintTop_toBottomOf="@+id/tvMyCharacter" />
@@ -90,7 +91,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
             app:srcCompat="@drawable/followers"
             android:layout_marginLeft="50dp"
-            app:tint="@color/steel_blue"/>
+            app:tint="@color/colorPrimary"/>
 
         <ImageView
             android:id="@+id/iv_followers"
@@ -101,7 +102,7 @@
             app:layout_constraintStart_toEndOf="@id/iv_followings"
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
             app:srcCompat="@drawable/following"
-            app:tint="@color/steel_blue"/>
+            app:tint="@color/colorPrimary"/>
 
         <ImageView
             android:id="@+id/iv_user_posts"
@@ -113,7 +114,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
             app:srcCompat="@drawable/baseline_amp_stories_black_18dp"
             android:layout_marginRight="50dp"
-            app:tint="@color/steel_blue"/>
+            app:tint="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/tv_followings"
@@ -122,6 +123,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/default_font"
             android:text="Following"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/iv_followings"
             app:layout_constraintStart_toStartOf="@+id/iv_followings"
@@ -135,6 +137,7 @@
             android:layout_marginTop="8dp"
             android:text="Followers"
             android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="@+id/iv_followers"
             app:layout_constraintStart_toStartOf="@+id/iv_followers"
@@ -149,6 +152,7 @@
             android:layout_marginTop="8dp"
             android:text="Posts"
             android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="@+id/iv_user_posts"
             app:layout_constraintStart_toStartOf="@+id/iv_user_posts"
@@ -210,6 +214,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="20sp"
             android:text="Points"
+            android:textColor="@color/black"
             android:fontFamily="@font/default_font"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -226,6 +231,7 @@
             android:textStyle="bold"
             android:fontFamily="@font/default_font"
             android:textSize="20dp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/points"
             app:layout_constraintStart_toEndOf="@+id/points"
             app:layout_constraintTop_toTopOf="@+id/points"
@@ -241,6 +247,7 @@
             android:textSize="14sp"
             android:fontFamily="@font/default_font"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/whiteLayer"
             app:layout_constraintEnd_toEndOf="@+id/whiteLayer"
             app:layout_constraintHorizontal_bias="0.197"

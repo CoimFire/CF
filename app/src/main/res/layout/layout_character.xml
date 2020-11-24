@@ -24,9 +24,7 @@
         android:id="@+id/iv_char_profile"
         android:layout_width="0dp"
         android:layout_height="50dp"
-
         app:layout_constraintDimensionRatio="1:1"
-
         android:src="@drawable/logo_croped"
         app:layout_constraintBottom_toBottomOf="@+id/iv_char_image"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +34,7 @@
         android:id="@+id/tv_character_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/black_transparent"
+        android:background="@drawable/left_to_right_shade"
         android:gravity="left"
         android:paddingHorizontal="2dp"
         android:fontFamily="@font/default_font"
@@ -57,8 +55,7 @@
         android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textSize="12sp"
-        android:text="SELECT"
-        android:background="@drawable/background_stroke"
+        android:background="@drawable/background_white_stroke"
         android:textStyle="bold"
         android:fontFamily="@font/default_font"
         android:textColor="@color/white"
@@ -84,12 +81,21 @@
 
     <ImageView
         android:id="@+id/iv_char_lock"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginEnd="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_lock_black_48dp"
         android:layout_marginRight="2dp"
         app:tint="@color/indian_red" />
+
+    <ImageView
+        android:id="@+id/iv_info_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_shade"
+        app:srcCompat="@drawable/outline_info_black_18dp"
+        app:tint="@color/colorPrimary" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,7 +42,7 @@
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:background="@drawable/background_stroke"
+        android:background="@drawable/background_white_stroke"
         android:text="Close"
         android:paddingVertical="5dp"
         android:paddingHorizontal="25dp"

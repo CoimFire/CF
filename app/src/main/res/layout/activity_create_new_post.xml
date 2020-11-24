@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_background"
+    android:background="@drawable/light_background"
     tools:context=".activities.CreateNewPostActivity">
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="@drawable/layout_background"
+        android:background="@drawable/light_background"
         android:hint="Write here.."
         android:paddingHorizontal="10dp"
         android:fontFamily="@font/default_font"
@@ -62,29 +62,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.55" />
-
-
-    <TextView
-        android:id="@+id/tv_select"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/all_button_background"
-        android:paddingHorizontal="20dp"
-        android:text="Select"
-        android:visibility="invisible"
-        android:fontFamily="@font/default_font"
-        android:textSize="18sp"
-        android:paddingVertical="4dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/guideline46"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
-        android:gravity="center_horizontal" />
-
 
     <TextView
         android:id="@+id/tv_upload"

@@ -8,6 +8,6 @@
     <gradient
         android:angle="135"
 
-        android:endColor="@color/steel_blue"
-        android:startColor="@color/dodger_blue"/>
+        android:endColor="@color/colorAccent"
+        android:startColor="@color/colorPrimary"/>
 </shape>

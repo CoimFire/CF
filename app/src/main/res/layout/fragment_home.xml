@@ -10,16 +10,26 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        >   <TextView
+        android:id="@+id/text_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_theme"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/tv_label"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="1dp"
             android:background="@color/steel_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/text_dashboard"/>
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -38,7 +48,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/default_font"
             android:text="COMIC FIRE"
-            android:textColor="@color/steel_blue"
+            android:textColor="@color/colorPrimary"
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginTop="4dp"
@@ -54,7 +64,7 @@
             android:text="Create new post.."
             android:paddingBottom="10dp"
             android:paddingLeft="50dp"
-            android:background="@drawable/layout_background"
+            android:background="@drawable/light_background"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

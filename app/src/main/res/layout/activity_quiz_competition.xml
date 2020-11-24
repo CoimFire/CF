@@ -37,9 +37,8 @@
         android:paddingHorizontal="10dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Accept"
         android:fontFamily="@font/default_font"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_marginTop="4dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -64,6 +63,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_cover"
         android:layout_marginTop="20dp"
         android:textSize="22sp"
+        android:textColor="@color/black"
         android:layout_marginHorizontal="10dp" />
 
     <RadioGroup
@@ -80,22 +80,26 @@
             android:id="@+id/rb_option1"
             android:layout_width="wrap_content"
             android:fontFamily="@font/default_font"
+            android:textColor="@color/black"
             android:layout_height="wrap_content" />
 
         <RadioButton
             android:id="@+id/rb_option2"
             android:layout_width="wrap_content"
             android:fontFamily="@font/default_font"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"/>
         <RadioButton
             android:id="@+id/rb_option3"
             android:layout_width="wrap_content"
             android:fontFamily="@font/default_font"
+            android:textColor="@color/black"
             android:layout_height="wrap_content" />
         <RadioButton
             android:id="@+id/rb_option4"
             android:layout_width="wrap_content"
             android:fontFamily="@font/default_font"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"/>
 
     </RadioGroup>
@@ -110,6 +114,7 @@
         android:paddingHorizontal="5dp"
         android:paddingVertical="5dp"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:fontFamily="@font/default_font"
         android:textStyle="bold"
@@ -123,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/all_button_background"
+        android:background="@drawable/alert_dialog_background"
         android:textColor="@color/white"
         android:gravity="center_horizontal"
         android:fontFamily="@font/default_font"

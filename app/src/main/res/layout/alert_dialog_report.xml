@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/light_background">
+    android:background="@drawable/light_background_radius">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -19,6 +19,7 @@
         android:fontFamily="@font/default_font"
         android:ellipsize="marquee"
         android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,6 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Abusive"
+            android:textColor="@color/black"
+            android:buttonTint="@color/colorPrimary"
             android:fontFamily="@font/default_font"
             android:checked="true" />
 
@@ -50,17 +53,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/default_font"
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="@color/black"
             android:text="Sexual content" />
         <RadioButton
             android:id="@+id/radio_irrelevent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:buttonTint="@color/colorPrimary"
             android:fontFamily="@font/default_font"
             android:text="Irrelevent" />
         <RadioButton
             android:id="@+id/radio_something_else"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:buttonTint="@color/colorPrimary"
             android:fontFamily="@font/default_font"
             android:text="Something else" />
 
@@ -80,8 +89,9 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
-        android:background="@drawable/stroke_sample"
+        android:background="@drawable/stroke_primary"
         android:text="Cancel"
+        android:textColor="@color/colorPrimary"
         android:fontFamily="@font/default_font"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"
@@ -101,7 +111,7 @@
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:fontFamily="@font/default_font"
-        android:background="@drawable/all_button_background"
+        android:background="@drawable/alert_dialog_background"
         android:textColor="@color/white"
         android:text="Report"
         android:paddingVertical="5dp"

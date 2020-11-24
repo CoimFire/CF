@@ -10,7 +10,7 @@
     android:paddingVertical="4dp"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="4dp"
-    android:background="@drawable/layout_background">
+    android:background="@drawable/light_background">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_profile"
@@ -33,6 +33,7 @@
         android:ellipsize="end"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/tv_request"
         app:layout_constraintStart_toEndOf="@+id/iv_profile"
         app:layout_constraintTop_toTopOf="@id/iv_profile"
@@ -48,6 +49,7 @@
         android:fontFamily="@font/default_font"
         android:text="TextView"
         android:textSize="12sp"
+        android:textColor="@color/black"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
         app:layout_constraintEnd_toStartOf="@+id/tv_request"

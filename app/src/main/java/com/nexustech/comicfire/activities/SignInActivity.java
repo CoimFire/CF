@@ -149,7 +149,13 @@ public class SignInActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task task) {
                             if (task.isSuccessful()) {
                                 userRef.child(currentUser).child("Followings").child(currentUser).child("UserId").setValue(currentUser);
+                                userRef.child(currentUser).child("MyCharacters").child(profileName)
+                                        .child("CharacterName").setValue(profileName);
+                                userRef.child(currentUser).child("MyCharacters").child(profileName)
+                                        .child("Priority").setValue("10");
                                 Toast.makeText(SignInActivity.this, "Open your email and verify", Toast.LENGTH_SHORT).show();
+
+
                                 sendUserToHomeActivity();
                             } else {
                                 Toast.makeText(SignInActivity.this, "ERROR : Creating account", Toast.LENGTH_SHORT).show();
