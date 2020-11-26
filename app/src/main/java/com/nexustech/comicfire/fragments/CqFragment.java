@@ -1,6 +1,5 @@
 package com.nexustech.comicfire.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.activities.ViewAllCharsActivity;
 import com.nexustech.comicfire.activities.ViewAllMemesActivity;
@@ -21,8 +18,6 @@ import com.nexustech.comicfire.utils.RoundedCorners;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
-import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
-import static com.nexustech.comicfire.utils.PopupLayouts.showFact;
 import static com.nexustech.comicfire.utils.PopupLayouts.showFactOnClick;
 import static com.nexustech.comicfire.utils.Utils.openAnotherActivity;
 
@@ -54,7 +49,7 @@ public class CqFragment extends Fragment {
         ivHeroShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Utils.goToAllCharActivity(getContext());
+               Utils.goToAllCharActivity(getContext(), ViewAllCharsActivity.class);
 
             }
         });

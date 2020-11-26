@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.activities.MainActivity;
+import com.nexustech.comicfire.activities.MyCharactersActivity;
 import com.nexustech.comicfire.activities.UserProfileActivity;
 import com.nexustech.comicfire.activities.UsersPostsActivity;
 import com.nexustech.comicfire.activities.ViewAllCharsActivity;
@@ -75,7 +76,7 @@ public class ProfileFragment extends Fragment {
         heroShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Utils.goToAllCharActivity(getContext());
+               Utils.goToAllCharActivity(getContext(), MyCharactersActivity.class);
 
             }
         });

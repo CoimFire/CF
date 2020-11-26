@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.telephony.CellSignalStrength;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -29,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
+import com.nexustech.comicfire.activities.MyCharactersActivity;
 import com.nexustech.comicfire.activities.ViewAllCharsActivity;
 
 import java.text.SimpleDateFormat;
@@ -204,7 +204,7 @@ public class Utils {
     public static  String toFirstLetterCapital(String text){
         return text.substring(0,1).toUpperCase()+text.substring(1);
     }
-    public static void goToAllCharActivity(Context context){
+    public static void goToAllCharActivity(Context context, Class targetActivity){
         DatabaseReference cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
                 .child("User").child(getCurrentUser());
 
@@ -219,7 +219,7 @@ public class Utils {
                     } else {
                         total = 0;
                     }
-                Intent intent = new Intent(context, ViewAllCharsActivity.class);
+                Intent intent = new Intent(context, targetActivity);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("Points", total);
                 context.startActivity(intent);

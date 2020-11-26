@@ -2,7 +2,6 @@ package com.nexustech.comicfire.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -268,7 +266,7 @@ public class ViewAllCharsActivity extends AppCompatActivity {
 
                     dialog.dismiss();
 
-                    Utils.goToAllCharActivity(context);
+                    Utils.goToAllCharActivity(context, ViewAllCharsActivity.class);
                 }
             });
 
