@@ -29,7 +29,7 @@
         android:fontFamily="@font/default_font"
         android:singleLine="false"
         android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_profile_image"
         app:layout_constraintTop_toTopOf="@id/iv_profile_image" />

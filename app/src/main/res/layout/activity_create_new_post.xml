@@ -76,7 +76,7 @@
         android:fontFamily="@font/default_font"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/post_image"
         app:layout_constraintEnd_toEndOf="parent"

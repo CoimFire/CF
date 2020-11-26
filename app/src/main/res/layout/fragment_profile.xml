@@ -266,7 +266,7 @@
             android:paddingVertical="5dp"
             android:fontFamily="@font/default_font"
             android:text="SIGN OUT"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
