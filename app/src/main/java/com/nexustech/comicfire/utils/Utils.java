@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -63,6 +64,9 @@ public class Utils {
                   window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
                   Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show();
+              }
+              while (isOnline(context)){
+                  isOnline(context);
               }
 
         }
@@ -239,9 +243,18 @@ public class Utils {
             //we are connected to a network
             connected = true;
         }
-        else
+        else {
             connected = false;
+
+        }
 
         return connected;
     }
+    public static void state(Context context){
+        while (isOnline(context)){
+            isOnline(context);
+        }
+    }
+
+
 }
