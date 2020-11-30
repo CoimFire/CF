@@ -117,7 +117,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
     }
 
     private void showChildMemes() {
-        Query postQuery = cfChildernMemes.orderByChild("Counter");
+        Query postQuery = cfChildernMemes.orderByChild("Rank");
         FirebaseRecyclerAdapter<Posts, PostViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Posts, PostViewHolder>(
                         Posts.class,
