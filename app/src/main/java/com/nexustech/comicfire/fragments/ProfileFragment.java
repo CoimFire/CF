@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nexustech.comicfire.BuildConfig;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.activities.MainActivity;
 import com.nexustech.comicfire.activities.MyCharactersActivity;
@@ -39,7 +40,7 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference cfProfileRef;
     private FirebaseAuth cfAuth;
     private String curUserId,points;
-    private TextView myPoints;
+    private TextView myPoints,tvVersion;
     int total;
 
     private TextView charName, myName, logout, tvFollowingCount, tvFollowerCount, tvPostCount;
@@ -63,6 +64,10 @@ public class ProfileFragment extends Fragment {
         follower = root.findViewById(R.id.iv_followers);
         myPoints = root.findViewById(R.id.tvMyPoints);
         heroShop = root.findViewById(R.id.hero_shop_layer);
+        tvVersion=root.findViewById(R.id.tv_version);
+
+        String version= BuildConfig.VERSION_NAME;
+        tvVersion.setText("Version : "+version);
 
         tvFollowerCount = root.findViewById(R.id.tv_followers);
         tvFollowingCount = root.findViewById(R.id.tv_followings);

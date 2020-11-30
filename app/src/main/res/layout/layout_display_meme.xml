@@ -17,16 +17,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <TextView
         android:id="@+id/whiteLayer"
         android:layout_width="0dp"
         android:layout_height="172dp"
         android:scaleType="fitXY"
-        android:alpha="0.7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/white_layer" />
+        android:background="@drawable/black_layer_trans" />
 
     <TextView
         android:id="@+id/meme_name"

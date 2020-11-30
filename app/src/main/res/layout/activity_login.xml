@@ -11,14 +11,13 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
-        android:layout_height="110dp"
+        android:layout_height="80dp"
         android:layout_marginTop="16dp"
-        android:alpha="0.2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/logo_croped" />
+        app:srcCompat="@drawable/fire_orange" />
 
     <TextView
         android:id="@+id/textView"
