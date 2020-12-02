@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.domains.Posts;
+import com.nexustech.comicfire.domains.Winner;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -35,11 +37,11 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class MemeDetailsActivity extends AppCompatActivity {
 
-    private String coverImageUrl, parentkey, postText, curuserId;
+    private String coverImageUrl, parentkey, postText, curuserId,state;
     ImageView coverImage;
     TextView accept;
     RecyclerView rvChildList;
-    DatabaseReference cfChildernMemes, cfPostRef;
+    DatabaseReference cfChildernMemes, cfPostRef,cfWinnersRef;
     FirebaseAuth cfAuth;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -53,9 +55,15 @@ public class MemeDetailsActivity extends AppCompatActivity {
         coverImageUrl = getIntent().getStringExtra("CoverImage");
         parentkey = getIntent().getStringExtra("MemeId");
         postText = getIntent().getStringExtra("Title");
+
+        state=getIntent().getStringExtra("State");
         cfPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
         cfChildernMemes = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes").child(parentkey).child("ChildMemes");
-        curuserId = cfAuth.getCurrentUser().getUid();
+        cfWinnersRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes").child(parentkey)
+                .child("Winners");
+
+
+        curuserId = Utils.getCurrentUser();
         coverImage = findViewById(R.id.iv_cover);
         accept = findViewById(R.id.tv_accept);
         Picasso.get().load(coverImageUrl).into(coverImage);
@@ -103,13 +111,25 @@ public class MemeDetailsActivity extends AppCompatActivity {
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(MemeDetailsActivity.this);
         rvChildList.setHasFixedSize(true);
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
+
         // Set the layout manager to your recyclerview
-        rvChildList.setLayoutManager(mLayoutManager);
+
         Utils.showEmpty(getWindow().getDecorView().getRootView(), cfChildernMemes);
-        showChildMemes();
+        if ("Finished".equals(state)){
+            showWinners();
+            mLayoutManager.setReverseLayout(false);
+            //Toast.makeText(this, state, Toast.LENGTH_SHORT).show();
+        }else {
+
+            mLayoutManager.setStackFromEnd(true);
+            mLayoutManager.setReverseLayout(true);
+            showChildMemes();
+        }
+
+        rvChildList.setLayoutManager(mLayoutManager);
+        //showChildMemes(R.layout.layout_post);
     }
+
 
     private void anounceResult(String parentkey) {
         DatabaseReference memRef = FirebaseDatabase.getInstance().getReference().child("Memes").child(parentkey);
@@ -117,7 +137,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
     }
 
     private void showChildMemes() {
-        Query postQuery = cfChildernMemes.orderByChild("Rank");
+        Query postQuery = cfChildernMemes.orderByKey();
         FirebaseRecyclerAdapter<Posts, PostViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Posts, PostViewHolder>(
                         Posts.class,
@@ -235,6 +255,106 @@ public class MemeDetailsActivity extends AppCompatActivity {
 
                 }
             });
+        }
+
+    }
+    private void showWinners() {
+
+        Query query= cfWinnersRef.orderByChild("Rank");
+        FirebaseRecyclerAdapter<Winner, WinnerViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Winner, WinnerViewHolder>(
+                        Winner.class,
+                        R.layout.layout_winner,
+                        WinnerViewHolder.class,
+                        query
+
+                ) {
+                    @Override
+                    protected void populateViewHolder(WinnerViewHolder postViewHolder, Winner model, int position) {
+                        String postKey = getRef(position).getKey();
+                        cfPostRef.child(postKey).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    postViewHolder.setUserDetails(dataSnapshot.child("UserId").getValue().toString(),model.getRank(),MemeDetailsActivity.this);
+                                    // postViewHolder.setPostImage(dataSnapshot.child("PostImage").getValue().toString());
+                                    //postViewHolder.setPostText(dataSnapshot.child("PostText").getValue().toString());
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        // postViewHolder.manageLikeButton(postViewHolder.ivLike, postKey, MemeDetailsActivity.this);
+
+                    }
+                };
+
+        rvChildList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    public static class WinnerViewHolder extends RecyclerView.ViewHolder {
+        View cfView;
+        TextView profName, tvRank;
+        ImageView profImage,ivStroke,ivLayer;
+
+
+        public WinnerViewHolder(@NonNull View itemView) {
+            super(itemView);
+            cfView = itemView;
+            profImage = cfView.findViewById(R.id.iv_profile_image);
+            profName = cfView.findViewById(R.id.tv_user_name);
+            tvRank=cfView.findViewById(R.id.tv_rank);
+            ivStroke=cfView.findViewById(R.id.iv_profile_stroke);
+            ivLayer=cfView.findViewById(R.id.iv_gold_label);
+        }
+
+
+        public void setUserDetails(String userId, String rank, Context context) {
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
+
+            userRef.addValueEventListener(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                     //   String name = dataSnapshot.child("CharacterName").getValue().toString();
+                        String displayName = dataSnapshot.child("DisplayName").getValue().toString();
+                        String profile = dataSnapshot.child("ProfileImage").getValue().toString();
+
+                        //tvChatacterName.setText(name);
+                        profName.setText(displayName);
+
+                        Picasso.get().load(profile).into(profImage);
+                        tvRank.setText(rank);
+                        if (rank.equals("01")){
+                            changeColor(context.getResources().getColor(R.color.goldenrod));
+                        }else if (rank.equals("02")){
+                            changeColor(context.getResources().getColor(R.color.silver));
+                        }else {
+                            changeColor(context.getResources().getColor(R.color.peach_puff));
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        private void changeColor(int color) {
+            ivStroke.setColorFilter(color);
+            ivLayer.setColorFilter(color);
+            tvRank.getBackground().setTint(color);
+            profName.getBackground().setTint(color);
+
         }
 
     }

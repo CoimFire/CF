@@ -114,7 +114,7 @@ public class HandleActions {
                     String profImageUrl = dataSnapshot.child("ProfileImage").getValue().toString();
                     Picasso.get().load(profImageUrl).into(ivProfileImage);
                     String charImageUrl = dataSnapshot.child("CharacterImage").getValue().toString();
-                    Picasso.get().load(charImageUrl).into(ivCharacterImage);
+                    Picasso.get().load(charImageUrl).transform(new RoundedCorners(20,0)).into(ivCharacterImage);
                     String userName = dataSnapshot.child("DisplayName").getValue().toString();
                     tvDisplayName.setText(userName);
                     String userCharName = dataSnapshot.child("CharacterName").getValue().toString();

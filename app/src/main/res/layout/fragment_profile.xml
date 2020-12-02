@@ -91,7 +91,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
             app:srcCompat="@drawable/followers"
             android:layout_marginLeft="50dp"
-            app:tint="@color/colorPrimary"/>
+            app:tint="@color/colorPrimaryDark"/>
 
         <ImageView
             android:id="@+id/iv_followers"
@@ -102,7 +102,7 @@
             app:layout_constraintStart_toEndOf="@id/iv_followings"
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
             app:srcCompat="@drawable/following"
-            app:tint="@color/colorPrimary"/>
+            app:tint="@color/colorPrimaryDark"/>
 
         <ImageView
             android:id="@+id/iv_user_posts"
@@ -112,9 +112,9 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
-            app:srcCompat="@drawable/baseline_amp_stories_black_18dp"
+            app:srcCompat="@drawable/post_image"
             android:layout_marginRight="50dp"
-            app:tint="@color/colorPrimary"/>
+            app:tint="@color/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/tv_followings"
@@ -123,7 +123,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/default_font"
             android:text="Following"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/iv_followings"
             app:layout_constraintStart_toStartOf="@+id/iv_followings"
@@ -137,7 +137,7 @@
             android:layout_marginTop="8dp"
             android:text="Followers"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="@+id/iv_followers"
             app:layout_constraintStart_toStartOf="@+id/iv_followers"
@@ -152,11 +152,11 @@
             android:layout_marginTop="8dp"
             android:text="Posts"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="@+id/iv_user_posts"
             app:layout_constraintStart_toStartOf="@+id/iv_user_posts"
-            app:layout_constraintTop_toBottomOf="@+id/iv_user_posts"
+            app:layout_constraintTop_toBottomOf="@+id/iv_followers"
             android:gravity="center_horizontal"
             android:textAlignment="center"/>
 
@@ -260,7 +260,7 @@
             android:layout_marginTop="18dp"
             android:fontFamily="@font/default_font"
             android:text="Version - "
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/imageView2"

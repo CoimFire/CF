@@ -92,7 +92,7 @@
         android:background="@drawable/circle"
         android:gravity="center"
         android:textAlignment="center"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:textColor="@color/white"
         android:textSize="8dp"
         android:textStyle="bold"

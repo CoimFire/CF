@@ -81,6 +81,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:textSize="14sp"
+        android:textColor="@color/colorPrimaryDark"
         android:background="@drawable/confirm_button"
         android:text="Sumbit"
         android:fontFamily="@font/default_font"

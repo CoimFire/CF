@@ -82,6 +82,7 @@
         android:background="@drawable/confirm_button"
         android:text="Confirm"
         android:paddingVertical="5dp"
+        android:textColor="@color/colorPrimaryDark"
         android:paddingHorizontal="5dp"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_horizontal" />

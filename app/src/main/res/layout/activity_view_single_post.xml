@@ -92,7 +92,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
             app:srcCompat="@drawable/baseline_visibility_black_18dp"
             android:layout_marginLeft="10dp"
-            app:tint="@color/colorPrimary" />
+            app:tint="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/tvLikeCount"
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="0"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
             android:fontFamily="@font/default_font"
             app:layout_constraintBottom_toBottomOf="@+id/ivLike"
@@ -119,7 +119,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginRight="8dp"
-            app:tint="@color/colorPrimary" />
+            app:tint="@color/colorPrimaryDark" />
 
     <ImageView
         android:id="@+id/ivComments"
@@ -131,7 +131,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
         app:srcCompat="@drawable/comment_icon"
         android:layout_marginRight="10dp"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/tvCommentCount"
@@ -140,7 +140,7 @@
         android:layout_marginEnd="4dp"
         android:text="0"
         android:fontFamily="@font/default_font"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivComments"
         app:layout_constraintEnd_toStartOf="@+id/ivComments"
@@ -176,7 +176,7 @@
         app:layout_constraintBottom_toBottomOf="@id/et_comment"
         app:srcCompat="@drawable/baseline_send_black_18dp"
         android:layout_marginRight="10dp"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/colorPrimaryDark" />
 
 
     <androidx.recyclerview.widget.RecyclerView

@@ -3,12 +3,15 @@ package com.nexustech.comicfire.adapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebHistoryItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -93,6 +96,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         if (mPostList.get(position).getPostImage() == null) {
             holder.ivPostImage.setVisibility(View.GONE);
+            holder.tvPostText.setBackground(context.getResources().getDrawable(R.drawable.alert_dialog_background));
+            holder.tvPostText.setPadding(20,100,20,100);
+            holder.tvPostText.setTextColor(Color.WHITE);
             int counted = mPostList.get(position).getPostText().length();
             if (counted < 100) {
                 holder.tvPostText.setTextSize(35);

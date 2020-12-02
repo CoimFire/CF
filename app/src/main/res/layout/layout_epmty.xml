@@ -23,7 +23,7 @@
         android:gravity="center"
         android:text="Oh! Its empty!"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/default_font"
         android:textAppearance="@style/EmptyTextAppearance.Title"/>
 

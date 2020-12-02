@@ -86,11 +86,12 @@ public class ViewAllMemesActivity extends AppCompatActivity {
                             memeViewHolder.showCounter(memeKey, model.getCreatedDate());
                         }
                         memeViewHolder.setCount(memeKey);
-                        memeViewHolder.go.setOnClickListener(new View.OnClickListener() {
+                        memeViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(ViewAllMemesActivity.this, MemeDetailsActivity.class);
                                 intent.putExtra("MemeId", memeKey);
+                                intent.putExtra("State", model.getState());
                                 intent.putExtra("Title", model.getMemeName());
                                 intent.putExtra("CoverImage", model.getMemeImage());
                                 startActivity(intent);

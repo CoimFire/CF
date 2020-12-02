@@ -71,7 +71,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="14dp"
             android:visibility="invisible"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Delete"
             android:fontFamily="@font/default_font"
             android:singleLine="false"
@@ -87,7 +87,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="14dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Edit"
             android:fontFamily="@font/default_font"
             android:visibility="invisible"
@@ -124,7 +124,7 @@
             app:layout_constraintBottom_toBottomOf="@id/et_comment"
             app:srcCompat="@drawable/baseline_send_black_18dp"
             android:layout_marginRight="10dp"
-            app:tint="@color/colorPrimary" />
+            app:tint="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/tv_reply_label"

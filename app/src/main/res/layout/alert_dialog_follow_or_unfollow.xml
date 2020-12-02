@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/light_background">
+    android:background="@drawable/main_theme_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,8 +27,6 @@
             android:id="@+id/ivMyProfile"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
             android:src="@drawable/logo_croped"
             app:layout_constraintBottom_toBottomOf="@+id/ivMyCharacter"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +75,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
             app:srcCompat="@drawable/followers"
-            app:tint="@color/colorPrimary" />
+            app:tint="@color/pale" />
 
         <ImageView
             android:id="@+id/iv_followers"
@@ -88,7 +86,7 @@
             app:layout_constraintStart_toEndOf="@id/iv_followings"
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
             app:srcCompat="@drawable/following"
-            app:tint="@color/colorPrimary" />
+            app:tint="@color/pale" />
 
         <ImageView
             android:id="@+id/iv_user_posts"
@@ -99,8 +97,8 @@
             android:layout_marginRight="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMyName"
-            app:srcCompat="@drawable/baseline_amp_stories_black_18dp"
-            app:tint="@color/colorPrimary" />
+            app:srcCompat="@drawable/post_image"
+            app:tint="@color/pale" />
 
         <TextView
             android:id="@+id/tv_followings"
@@ -110,7 +108,7 @@
             android:layout_marginTop="8dp"
             android:text="Following"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/pale"
             app:layout_constraintEnd_toEndOf="@+id/iv_followings"
             app:layout_constraintStart_toStartOf="@+id/iv_followings"
             app:layout_constraintTop_toBottomOf="@+id/iv_followings"
@@ -124,7 +122,7 @@
             android:layout_marginTop="8dp"
             android:text="Followers"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/pale"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="@+id/iv_followers"
             app:layout_constraintStart_toStartOf="@+id/iv_followers"
@@ -140,7 +138,7 @@
             android:layout_marginTop="8dp"
             android:text="Posts"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/pale"
             android:fontFamily="@font/default_font"
             app:layout_constraintEnd_toEndOf="@+id/iv_user_posts"
             app:layout_constraintStart_toStartOf="@+id/iv_user_posts"
@@ -156,14 +154,14 @@
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
-            android:background="@drawable/main_theme_radius"
+            android:background="@drawable/confirm_button"
             android:paddingHorizontal="50dp"
             android:fontFamily="@font/default_font"
             android:paddingVertical="4dp"
             android:textSize="18sp"
             android:textStyle="bold"
             android:text="Follow"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textAlignment="center"
             android:layout_marginBottom="25dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -178,13 +176,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="25dp"
-            android:background="@drawable/stroke_primary"
+            android:background="@drawable/background_white_stroke"
             android:gravity="center_horizontal"
             android:paddingHorizontal="30dp"
             android:paddingVertical="4dp"
             android:fontFamily="@font/default_font"
             android:text="Cancel"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"

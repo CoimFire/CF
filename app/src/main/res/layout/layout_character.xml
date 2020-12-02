@@ -7,7 +7,7 @@
     android:padding="2dp"
     android:layout_margin="2dp"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimaryDark">
 
     <ImageView
         android:id="@+id/iv_char_image"
@@ -94,6 +94,7 @@
         android:id="@+id/iv_info_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_shade"
         app:srcCompat="@drawable/outline_info_black_18dp"

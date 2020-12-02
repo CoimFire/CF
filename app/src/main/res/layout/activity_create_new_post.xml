@@ -94,5 +94,5 @@
         app:layout_constraintTop_toBottomOf="@+id/tvHeading"
         app:srcCompat="@drawable/baseline_add_a_photo_black_18dp"
         android:layout_marginRight="5dp"
-        app:tint="@color/steel_blue" />
+        app:tint="@color/colorPrimaryDark" />
 </androidx.constraintlayout.widget.ConstraintLayout>
