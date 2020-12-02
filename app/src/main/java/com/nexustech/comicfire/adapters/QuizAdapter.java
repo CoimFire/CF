@@ -54,7 +54,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     }
 
     public String getLastItemId() {
-        return mQuizList.get(mQuizList.size() - 1).getQuizName();
+        return mQuizList.get(mQuizList.size() - 1).getQuizId();
     }
 
 

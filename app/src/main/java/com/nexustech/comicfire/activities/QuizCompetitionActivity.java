@@ -97,7 +97,6 @@ public class QuizCompetitionActivity extends AppCompatActivity {
         tvTitle.setText(title);
         Picasso.get().load(imageUrl).into(ivCoverImage);
         if (position > 10) {
-            Toast.makeText(this, "Open Popup for points", Toast.LENGTH_SHORT).show();
             radioGroup.setVisibility(View.INVISIBLE);
             tvNext.setVisibility(View.INVISIBLE);
             tvResult.setVisibility(View.INVISIBLE);

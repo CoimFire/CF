@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -50,6 +51,7 @@ public class CreateMemeActivity extends AppCompatActivity {
     private StorageReference cfPostImageRef;
     private String downloadUrl, imageUrl;
     private long counter;
+    ProgressDialog progressdialog;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -58,6 +60,10 @@ public class CreateMemeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_meme);
         Utils.setTopBar(this,getWindow(), getResources());
 
+
+        progressdialog = new ProgressDialog(this);
+        progressdialog.setMessage("Please Wait....");
+        progressdialog.setCancelable(false);
         tv = findViewById(R.id.done);
         imageView = findViewById(R.id.meme_image);
         et1 = findViewById(R.id.first_text);
@@ -85,6 +91,7 @@ public class CreateMemeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                progressdialog.show();
                 //   String[] wordList = OffensiveWordlist.wordsList;
                 String text1 = et1.getText().toString();
                 String text2 = et2.getText().toString();
@@ -162,6 +169,7 @@ public class CreateMemeActivity extends AppCompatActivity {
                                                         public void onComplete(@NonNull Task task) {
                                                             if (task.isSuccessful()) {
                                                                 Toast.makeText(CreateMemeActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                                                progressdialog.dismiss();
                                                                 Utils.openAnotherActivity(CreateMemeActivity.this, BottomBarActivity.class);
                                                             } else {
                                                                 String message = task.getException().getMessage();

@@ -57,7 +57,7 @@
         android:textColor="@color/colorPrimary"
         android:paddingVertical="2dp"
         android:singleLine="true"
-        android:text="DAY   HRS   MIN   SEC"
+        android:text="DAY    HRS    MIN    SEC"
         android:textSize="8dp"
         app:layout_constraintBottom_toTopOf="@+id/timer"
         app:layout_constraintEnd_toEndOf="@id/timer"

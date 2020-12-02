@@ -115,7 +115,7 @@ public class ViewAllQuizActivity extends AppCompatActivity {
                         for (DataSnapshot catSnapShot : snapshot.getChildren()) {
                             newCats.add(catSnapShot.getValue(Quiz.class));
                         }
-                        last_node = newCats.get(newCats.size() - 1).getQuizName();
+                        last_node = newCats.get(newCats.size() - 1).getQuizId();
 
                         if (!last_node.equals(last_key))
                             newCats.remove(newCats.size() - 1);
