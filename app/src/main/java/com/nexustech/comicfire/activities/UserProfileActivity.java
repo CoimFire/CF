@@ -27,7 +27,8 @@ import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 public class UserProfileActivity extends AppCompatActivity {
     private String userId;
     private ImageView profileImage, characterImage, ivPosts, followers, followings;
-    private TextView displayName, characterName, tvRequestButton, tvFollowingCount, tvFollowerCount, tvPostCount;
+    private TextView displayName, characterName, tvRequestButton, tvFollowingCount, tvFollowerCount, tvPostCount,
+            tvPoints;
     private DatabaseReference cfProfileRef;
     private FirebaseAuth cfAuth;
     private String curUserId;
@@ -37,7 +38,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
         cfAuth = FirebaseAuth.getInstance();
         curUserId = cfAuth.getCurrentUser().getUid();
 
@@ -49,6 +50,8 @@ public class UserProfileActivity extends AppCompatActivity {
         followers = findViewById(R.id.iv_followers);
         followings = findViewById(R.id.iv_followings);
         tvRequestButton = findViewById(R.id.tv_request);
+        tvPoints=findViewById(R.id.tv_points);
+
 
 
         tvFollowerCount = findViewById(R.id.tv_followers);
@@ -86,6 +89,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfileActivity.this, ViewFriendsListActivity.class);
                 intent.putExtra("TYPE", "Followings");
+                intent.putExtra("UserId",userId);
                 startActivity(intent);
 
             }
@@ -96,6 +100,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfileActivity.this, ViewFriendsListActivity.class);
                 intent.putExtra("TYPE", "Followers");
+                intent.putExtra("UserId",userId);
                 startActivity(intent);
 
 
@@ -160,6 +165,13 @@ public class UserProfileActivity extends AppCompatActivity {
                     displayName.setText(userName);
                     String userCharName = dataSnapshot.child("CharacterName").getValue().toString();
                     characterName.setText(userCharName);
+
+                    if (dataSnapshot.hasChild("Points")) {
+                        String points = dataSnapshot.child("Points").getValue().toString();
+                        tvPoints.setText(points+"\nPoints");
+                    }else {
+                        tvPoints.setText("0\nPoints");
+                    }
 
                     profileImage.setOnClickListener(new View.OnClickListener() {
                         @Override

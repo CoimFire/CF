@@ -6,15 +6,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/layout_background"
     android:id="@+id/con_layout"
     android:paddingVertical="10dp">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProfile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/profile"
@@ -27,14 +26,28 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="TextView"
-        android:layout_marginTop="2dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
         android:textStyle="bold"
+        android:fontFamily="@font/default_font"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivProfile"
         app:layout_constraintTop_toTopOf="@+id/ivProfile"
         android:layout_marginLeft="4dp" />
+
+    <TextView
+        android:id="@+id/tv_character_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:fontFamily="@font/default_font"
+        android:textSize="10sp"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/trible_dot"
+        app:layout_constraintStart_toEndOf="@+id/ivProfile"
+        app:layout_constraintTop_toBottomOf="@id/tvProfileName" />
 
     <TextView
         android:id="@+id/tvDescription"
@@ -43,10 +56,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/layout_background"
         android:text="TextView"
+        android:textColor="@color/black"
         android:paddingHorizontal="5dp"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:fontFamily="@font/default_font"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
@@ -54,9 +68,7 @@
     <ImageView
         android:id="@+id/ivPostImage"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        android:scaleType="centerCrop"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="4dp"
         android:layout_marginTop="5dp"
@@ -79,15 +91,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:srcCompat="@drawable/baseline_visibility_black_18dp"
         android:layout_marginLeft="10dp"
-        app:tint="@color/steel_blue" />
+        app:tint="@color/textColor" />
 
     <TextView
         android:id="@+id/tvLikeCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="0kkkkk"
-        android:textColor="@color/steel_blue"
+        android:text="0"
+        android:fontFamily="@font/default_font"
+        android:textColor="@color/textColor"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivLike"
         app:layout_constraintStart_toEndOf="@+id/ivLike"
@@ -106,7 +119,8 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/tvProfileName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/textColor" />
 
     <ImageView
         android:id="@+id/ivComments"
@@ -119,7 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
         app:srcCompat="@drawable/comment_icon"
         android:layout_marginRight="10dp"
-        app:tint="@color/steel_blue" />
+        app:tint="@color/textColor" />
 
     <TextView
         android:id="@+id/tvCommentCount"
@@ -127,7 +141,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:text="0"
-        android:textColor="@color/steel_blue"
+        android:fontFamily="@font/default_font"
+        android:textColor="@color/textColor"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivComments"
         app:layout_constraintEnd_toStartOf="@+id/ivComments"

@@ -1,6 +1,6 @@
 package com.nexustech.comicfire.fragments;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.showEmpty;
+import static com.nexustech.comicfire.utils.Utils.showEmptyInHome;
 
 
 public class HomeFragment extends Fragment {
@@ -41,7 +42,6 @@ public class HomeFragment extends Fragment {
     TextView tvCreateNew;
     RecyclerView rvPosts;
 
-    DatabaseReference listCatsRef;
 
     final int ITEM_LOAD_COUNT = 5;
     int tota_item = 0, last_visible_item;
@@ -66,6 +66,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        String currentUser=Utils.getCurrentUser();
+
         postRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
         rvPosts = root.findViewById(R.id.rv_posts);
 
@@ -83,6 +85,7 @@ public class HomeFragment extends Fragment {
         rvPosts.setAdapter(catagoryAdapter);
         getCats();
 
+      //  showEmptyInHome(root);
         rvPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

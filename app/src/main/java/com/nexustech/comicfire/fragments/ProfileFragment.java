@@ -1,5 +1,6 @@
 package com.nexustech.comicfire.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,12 +21,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nexustech.comicfire.BuildConfig;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.activities.MainActivity;
+import com.nexustech.comicfire.activities.MyCharactersActivity;
 import com.nexustech.comicfire.activities.UserProfileActivity;
 import com.nexustech.comicfire.activities.UsersPostsActivity;
 import com.nexustech.comicfire.activities.ViewAllCharsActivity;
 import com.nexustech.comicfire.activities.ViewFriendsListActivity;
+import com.nexustech.comicfire.activities.ViewSinglePostActivity;
 import com.nexustech.comicfire.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +40,7 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference cfProfileRef;
     private FirebaseAuth cfAuth;
     private String curUserId,points;
-    private TextView myPoints;
+    private TextView myPoints,tvVersion;
     int total;
 
     private TextView charName, myName, logout, tvFollowingCount, tvFollowerCount, tvPostCount;
@@ -48,7 +52,7 @@ public class ProfileFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         cfAuth = FirebaseAuth.getInstance();
-        curUserId = cfAuth.getCurrentUser().getUid().toString();
+        curUserId = Utils.getCurrentUser();
         cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId);
         charName = root.findViewById(R.id.tvMyCharacter);
         myName = root.findViewById(R.id.tvMyName);
@@ -60,6 +64,10 @@ public class ProfileFragment extends Fragment {
         follower = root.findViewById(R.id.iv_followers);
         myPoints = root.findViewById(R.id.tvMyPoints);
         heroShop = root.findViewById(R.id.hero_shop_layer);
+        tvVersion=root.findViewById(R.id.tv_version);
+
+        String version= BuildConfig.VERSION_NAME;
+        tvVersion.setText("Version : "+version);
 
         tvFollowerCount = root.findViewById(R.id.tv_followers);
         tvFollowingCount = root.findViewById(R.id.tv_followings);
@@ -69,34 +77,11 @@ public class ProfileFragment extends Fragment {
         clickOnViews();
         showProfile();
         countDetails();
+
         heroShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cfProfileRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            if (dataSnapshot.hasChild("Points")) {
-                                String posts = dataSnapshot.child("Points").getValue().toString();
-                                // long followers=dataSnapshot.child("Followers").getChildrenCount();
-                                total = Integer.parseInt(posts);
-                            } else {
-                                total = 0;
-
-                            }
-                            Intent intent = new Intent(getActivity(), ViewAllCharsActivity.class);
-                            intent.putExtra("UserId", curUserId);
-                            intent.putExtra("Points", total);
-                            startActivity(intent);
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+               Utils.goToAllCharActivity(getContext(), MyCharactersActivity.class);
 
             }
         });
@@ -121,7 +106,7 @@ public class ProfileFragment extends Fragment {
                     if (dataSnapshot.hasChild("Followings")) {
 
                         long followings = dataSnapshot.child("Followings").getChildrenCount();
-                        tvFollowingCount.setText("Followings\n" + String.valueOf(followings));
+                        tvFollowingCount.setText("Followings\n" + String.valueOf(followings-1));
 
                     } else {
 
@@ -152,8 +137,29 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cfAuth.signOut();
-                Utils.openAnotherActivity(getContext(), MainActivity.class);
+                View rowView = LayoutInflater.from(getContext()).inflate(R.layout.alert_dialog_general, null);
+                AlertDialog dialog = Utils.configDialog(getContext(), rowView);
+                TextView tvTitle = rowView.findViewById(R.id.tv_title);
+                TextView tvMessage = rowView.findViewById(R.id.tv_message);
+                TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+                TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+                tvTitle.setText("Confirm Sign out");
+                tvMessage.setText("Are you sure you want to signout?");
+                tvConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cfAuth.signOut();
+                        Utils.openAnotherActivity(getContext(), MainActivity.class);
+                    }
+                });
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
 
@@ -170,6 +176,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ViewFriendsListActivity.class);
+                intent.putExtra("UserId",Utils.getCurrentUser());
                 intent.putExtra("TYPE", "Followings");
                 startActivity(intent);
 
@@ -181,6 +188,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ViewFriendsListActivity.class);
                 intent.putExtra("TYPE", "Followers");
+                intent.putExtra("UserId",Utils.getCurrentUser());
                 startActivity(intent);
 
 
@@ -204,16 +212,12 @@ public class ProfileFragment extends Fragment {
                     Picasso.get().load(profImage).into(profileImage);
                     Picasso.get().load(characterImage).fit().into(charImage);
 
-                    if (dataSnapshot.hasChild("MyPosts") || dataSnapshot.hasChild("Followings")) {
-                        long posts = dataSnapshot.child("MyPosts").getChildrenCount();
-                        // long followers=dataSnapshot.child("Followers").getChildrenCount();
-                        long followings = dataSnapshot.child("Followings").getChildrenCount();
-                        int total = (int) (posts + followings) * 5;
-                        points = String.valueOf(total);
-                        myPoints.setText(points);
+                    if (dataSnapshot.hasChild("Points")) {
+                        points=dataSnapshot.child("Points").getValue().toString();
+                        myPoints.setText(points+"\nPoints");
 
                     } else {
-                        myPoints.setText("0");
+                        myPoints.setText("0\nPoints");
                         points="0";
                     }
                     SharedPreferences preferences=getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);

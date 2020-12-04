@@ -16,6 +16,9 @@
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
+    <style name="EmptyTextAppearance.Title" parent="TextAppearance.AppCompat.Title"/>
+
+    <style name="EmptyTextAppearance.Body" parent="TextAppearance.AppCompat.Subhead"/>
 
 
 </resources>

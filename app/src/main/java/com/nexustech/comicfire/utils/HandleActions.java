@@ -11,7 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +50,8 @@ public class HandleActions {
 
     public static String curUserId = Utils.getCurrentUser();
     public static String reason;
+    public static String oldPoints;
+    public static Boolean isMeme;
 
     public static DatabaseReference cfFollowingRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("Followings");
 
@@ -98,6 +100,7 @@ public class HandleActions {
         TextView tvFollowerCount = rowView.findViewById(R.id.tv_followers);
         TextView tvPostCount = rowView.findViewById(R.id.tv_user_posts);
         TextView tvRequest = rowView.findViewById(R.id.tv_request);
+        TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
         DatabaseReference cfProfileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
 
         if (type.equals("FOLLOW")) {
@@ -112,7 +115,7 @@ public class HandleActions {
                     String profImageUrl = dataSnapshot.child("ProfileImage").getValue().toString();
                     Picasso.get().load(profImageUrl).into(ivProfileImage);
                     String charImageUrl = dataSnapshot.child("CharacterImage").getValue().toString();
-                    Picasso.get().load(charImageUrl).into(ivCharacterImage);
+                    Picasso.get().load(charImageUrl).transform(new RoundedCorners(8,0)).into(ivCharacterImage);
                     String userName = dataSnapshot.child("DisplayName").getValue().toString();
                     tvDisplayName.setText(userName);
                     String userCharName = dataSnapshot.child("CharacterName").getValue().toString();
@@ -180,6 +183,14 @@ public class HandleActions {
                 dialog.dismiss();
             }
         });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
 
     }
@@ -189,6 +200,7 @@ public class HandleActions {
         cfFollowingRef.child(searchedUserId).removeValue();
         DatabaseReference cfFollowerRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(searchedUserId).child("Followers");
         cfFollowerRef.child(curUserId).removeValue();
+        reducePoints(10,searchedUserId);
         CURRENT_STATE = "NOT_FOLLOWING";
     }
 
@@ -196,6 +208,7 @@ public class HandleActions {
         cfFollowingRef.child(searchedUserId).child("UserId").setValue(searchedUserId);
         DatabaseReference cfFollowerRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(searchedUserId).child("Followers");
         cfFollowerRef.child(curUserId).child("UserId").setValue(curUserId);
+        updatePoints(10,searchedUserId);
         CURRENT_STATE = "FOLLOWING";
 
     }
@@ -231,23 +244,41 @@ public class HandleActions {
             @Override
             public void run() {
                 DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
-                postRef.child(postId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                postRef.child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            DatabaseReference myPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
-                                    .child("User").child(Utils.getCurrentUser()).child("MyPosts");
-                            myPostRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        isMeme=(Boolean)dataSnapshot.child("IsMeme").getValue();
+                        if (isMeme){
+                            Toast.makeText(context, "You cannot delete this post!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            postRef.child(postId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Utils.openAnotherActivity(context, BottomBarActivity.class);
-                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                    if (task.isSuccessful()) {
+                                        DatabaseReference myPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                                                .child("User").child(Utils.getCurrentUser()).child("MyPosts").child(postId);
+                                        myPostRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Utils.openAnotherActivity(context, BottomBarActivity.class);
+                                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    }
                                 }
                             });
-
                         }
                     }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
                 });
+
+
             }
         };
         handler.post(runnable);
@@ -379,14 +410,14 @@ public class HandleActions {
                     .message(postText+"\n\n #ComicFire")
                     .socialChannel(Shareable.Builder.ANY)
                     .image(mergeUri)
-                    .url("www.google.com")
+                    .url("www.comicfire.com")
                     .build();
             shareInstance.share();
         }else {
             Shareable shareInstance = new Shareable.Builder(context)
                     .message(postText+"\n\n #ComicFire")
                     .socialChannel(Shareable.Builder.ANY)
-                    .url("www.google.com")
+                    .url("www.comicfire.com")
                     .build();
             shareInstance.share();
         }
@@ -417,7 +448,7 @@ public class HandleActions {
         AlertDialog dialog = Utils.configDialog(context, rowView);
         TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
         TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
-
+        Utils.setDialogPosition(dialog);
 
         RadioGroup rg = rowView.findViewById(R.id.radio);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -478,7 +509,7 @@ public class HandleActions {
 
     }
 
-    public static void editComment(Context context, String postId, String commentId,String commentText){
+    public static void editComment(Context context,String commentText,DatabaseReference commentRef){
         View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_edit_comment, null);
         AlertDialog dialog = Utils.configDialog(context, rowView);
         EditText etComment = rowView.findViewById(R.id.et_change_comment);
@@ -489,15 +520,12 @@ public class HandleActions {
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference commentRef;
+
                 String edittedComment=etComment.getText().toString();
                 if (!commentText.equals(edittedComment)) {
-                    commentRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postId).child("Comments").child(commentId);
-                    commentRef.child("Comment").setValue(edittedComment);
+                  commentRef.child("Comment").setValue(edittedComment);
                     dialog.dismiss();
-                    Intent intent=new Intent(context,ViewSinglePostActivity.class);
-                    intent.putExtra("REF_KEY",postId);
-                    context.startActivity(intent);
+
                 }else {
                     Toast.makeText(context, "Nothing changed!", Toast.LENGTH_SHORT).show();
                 }
@@ -513,25 +541,29 @@ public class HandleActions {
         });
         dialog.show();
     }
-    public static void deletComment(Context context, String postId, String commentId){
-        View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_general, null);
+
+
+    public static void replyCommentPopup(Context context,String postId,String parentCommentId,String parentCommentUserId,String postUserId){
+        View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_edit_comment, null);
         AlertDialog dialog = Utils.configDialog(context, rowView);
-        TextView tvTitle = rowView.findViewById(R.id.tv_title);
-        TextView tvMessage = rowView.findViewById(R.id.tv_message);
+        EditText etComment = rowView.findViewById(R.id.et_change_comment);
         TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
         TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
-        tvTitle.setText("Delete Comment");
-        tvMessage.setText("Are you sure you want to delete this comment?");
+        TextView tvTitle=rowView.findViewById(R.id.tv_title);
+        tvTitle.setText("Reply comment");
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseReference commentRef;
-                commentRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postId).child("Comments").child(commentId);
-                commentRef.removeValue();
+                String edittedComment=etComment.getText().toString();
+                commentRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts").child(postId).child("Comments").child(parentCommentId);
+                //commentRef.child("CommentText").setValue(edittedComment);
+                replyComment(context,edittedComment,parentCommentId,parentCommentUserId,postUserId,commentRef);
+
                 dialog.dismiss();
-                Intent intent=new Intent(context,ViewSinglePostActivity.class);
-                intent.putExtra("REF_KEY",postId);
-                context.startActivity(intent);
+              //  Intent intent=new Intent(context,ViewSinglePostActivity.class);
+               // intent.putExtra("REF_KEY",postId);
+                //context.startActivity(intent);
 
 
             }
@@ -545,4 +577,103 @@ public class HandleActions {
         dialog.show();
     }
 
+    public static void replyComment(Context context, String commentText, String parentCommentId, String parentCommentUserId, String postUserId,DatabaseReference commentRef) {
+        String randomId = Utils.createRandomId();
+
+
+        HashMap hashMap = new HashMap();
+        hashMap.put("CommentId", randomId);
+        hashMap.put("RepliedUserId", Utils.getCurrentUser());
+        hashMap.put("CommentText", commentText);
+        hashMap.put("ParentCommentId", parentCommentId);
+        hashMap.put("ParentCommentUserId", parentCommentUserId);
+        hashMap.put("ParentUserId", postUserId);
+
+        commentRef.child("Replies").child(randomId).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "Done!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public static void deleteComment(Context context, DatabaseReference commentRef){
+        View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_general, null);
+        AlertDialog dialog = Utils.configDialog(context, rowView);
+        TextView tvTitle = rowView.findViewById(R.id.tv_title);
+        TextView tvMessage = rowView.findViewById(R.id.tv_message);
+        TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+        TextView tvConfirm = rowView.findViewById(R.id.tv_confirm);
+        tvTitle.setText("Delete Comment");
+        tvMessage.setText("Are you sure you want to delete this comment?");
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             commentRef.removeValue();
+                dialog.dismiss();
+
+
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public static void updatePoints(int newPoints, String userId){
+
+        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).child("Points");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    oldPoints=dataSnapshot.getValue().toString();
+                    int oPoints = Integer.parseInt(oldPoints);
+                    int totalPoints = oPoints + newPoints;
+                    userRef.setValue(String.valueOf(totalPoints));
+
+                }else {
+                    userRef.setValue(String.valueOf(newPoints));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public static void reducePoints(int newPoints, String userId) {
+        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId).child("Points");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    oldPoints=dataSnapshot.getValue().toString();
+                    int oPoints = Integer.parseInt(oldPoints);
+                    if (oPoints >= 10) {
+                        int totalPoints = oPoints - newPoints;
+                        userRef.setValue(String.valueOf(totalPoints));
+                    }
+
+                }else {
+                    userRef.setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 }

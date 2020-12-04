@@ -3,11 +3,15 @@ package com.nexustech.comicfire.adapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebHistoryItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -37,6 +41,7 @@ import java.util.List;
 import static android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 import static com.nexustech.comicfire.utils.Constants.LIKE_STATUS;
+import static com.nexustech.comicfire.utils.HandleActions.curUserId;
 import static com.nexustech.comicfire.utils.HandleActions.intentToProfile;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOthers;
 import static com.nexustech.comicfire.utils.HandleActions.openPopupForOwn;
@@ -49,6 +54,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     Context context;
     String[] menu;
     Activity activity;
+    boolean isFollowing;
 
     public PostAdapter(Context context, Activity activity) {
         this.mPostList = new ArrayList<>();
@@ -82,29 +88,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-/*
-        Handler handler = new Handler();
-        Runnable runnable=new Runnable() {
-            @Override
-            public void run() {
-                if (mPostList.get(position).getUserId().equals(Utils.getCurrentUser())) {
-                    mPostList.remove(position);
-                    notifyDataSetChanged();
-                }
-            }
-        };
-        handler.post(runnable);
 
- */
+        holder.isShowed(position);
 
-
-        holder.tvUserName.setText(mPostList.get(position).getDisplayName());
         holder.tvPostText.setText(mPostList.get(position).getPostText());
         Picasso.get().load(mPostList.get(position).getPostImage()).into(holder.ivPostImage);
-        Picasso.get().load(mPostList.get(position).getProfileImage()).into(holder.ivProfileImage);
 
         if (mPostList.get(position).getPostImage() == null) {
             holder.ivPostImage.setVisibility(View.GONE);
+            holder.tvPostText.setBackground(context.getResources().getDrawable(R.drawable.alert_dialog_background));
+            holder.tvPostText.setPadding(20,100,20,100);
+            holder.tvPostText.setTextColor(Color.WHITE);
             int counted = mPostList.get(position).getPostText().length();
             if (counted < 100) {
                 holder.tvPostText.setTextSize(35);
@@ -173,6 +167,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 openVPostViewActivity(context, mPostList.get(position).getPostId());
             }
         });
+        holder.setUserDetails(mPostList.get(position).getUserId());
 
         holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +176,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 AlertDialog dialog = Utils.configDialog(context, rowView);
                 ListView lvMenu = rowView.findViewById(R.id.lv_menu);
                 TextView tvCancel = rowView.findViewById(R.id.tv_cancel);
+                Utils.setDialogPosition(dialog);
                 ArrayAdapter aAdapter;
 
                 if (Utils.isCurrentUser(mPostList.get(position).getUserId())) {
@@ -248,7 +244,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvUserName, tvPostText, tvlikeCount, tvCommentsCount;
+        TextView tvUserName, tvPostText, tvlikeCount, tvCommentsCount,tvChatacterName;
         ImageView ivProfileImage, ivPostImage, ivLike, ivComment, ivTripleDot;
         ConstraintLayout constraintLayout;
         View view;
@@ -272,6 +268,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             ivComment = itemView.findViewById(R.id.ivComments);
             ivTripleDot = itemView.findViewById(R.id.trible_dot);
             constraintLayout = itemView.findViewById(R.id.con_layout);
+            tvChatacterName=itemView.findViewById(R.id.tv_character_name);
             cfAuth = FirebaseAuth.getInstance();
             currentUserId = cfAuth.getCurrentUser().getUid();
 
@@ -369,5 +366,66 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             manageLikeButton(ivLike, postKey, context);
 
         }
+        public void setUserDetails(String userId){
+            DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        String name=dataSnapshot.child("CharacterName").getValue().toString();
+                        String displayName=dataSnapshot.child("DisplayName").getValue().toString();
+                        String profile=dataSnapshot.child("ProfileImage").getValue().toString();
+
+                        tvChatacterName.setText(name);
+                        tvUserName.setText(displayName);
+
+                        Picasso.get().load(profile).into(ivProfileImage);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+        public void isShowed(int position){
+            String userId=mPostList.get(position).getUserId();
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                    .child("User").child(Utils.getCurrentUser());
+            userRef.child("Followings").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.hasChild(userId)){
+
+                        Handler handler = new Handler();
+                        Runnable runnable=new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    mPostList.remove(position);
+                                    notifyItemRemoved(position);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        };
+
+                        handler.post(runnable);
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            //return isFollowing;
+        }
+
     }
 }

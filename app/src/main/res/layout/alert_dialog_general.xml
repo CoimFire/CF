@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/main_theme_radius">
+    android:background="@drawable/alert_dialog_background">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -19,11 +19,12 @@
         android:ellipsize="marquee"
         android:textColor="@color/white"
         android:textAlignment="center"
+        android:fontFamily="@font/default_font"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_horizontal" />
 
@@ -37,7 +38,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         android:layout_marginTop="20dp"
-        android:textSize="18sp"
+        android:fontFamily="@font/default_font"
+        android:textSize="16sp"
         android:textColor="@color/white"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_horizontal" />
@@ -54,9 +56,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:textSize="18sp"
+        android:textSize="14sp"
+        android:fontFamily="@font/default_font"
         android:textColor="@color/white"
-        android:background="@drawable/stroke_post_layout"
+        android:background="@drawable/background_white_stroke"
         android:text="Cancel"
         android:paddingVertical="5dp"
         android:paddingHorizontal="5dp"
@@ -74,10 +77,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:textSize="18sp"
+        android:textSize="14sp"
+        android:fontFamily="@font/default_font"
         android:background="@drawable/confirm_button"
         android:text="Confirm"
         android:paddingVertical="5dp"
+        android:textColor="@color/colorPrimaryDark"
         android:paddingHorizontal="5dp"
         android:layout_marginHorizontal="20dp"
         android:gravity="center_horizontal" />

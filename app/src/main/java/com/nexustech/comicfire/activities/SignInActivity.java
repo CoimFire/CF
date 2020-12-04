@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 
 import static com.nexustech.comicfire.utils.Constants.DEFAULT_CHARACTER;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.toFirstLetterCapital;
 
 public class SignInActivity extends AppCompatActivity {
     private TextView signin;
@@ -38,15 +40,17 @@ public class SignInActivity extends AppCompatActivity {
     private static final String TAG = "Login ";
     private FirebaseAuth cfAuth;
     private DatabaseReference userRef, charRef;
-    private String curUserId;
-
+    private String curUserId,priority;
+ProgressDialog progressdialog;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        Utils.setTopBar(getWindow(), getResources());
-
+        Utils.setTopBar(this,getWindow(), getResources());
+        progressdialog = new ProgressDialog(this);
+        progressdialog.setMessage("Please Wait....");
+        progressdialog.setCancelable(false);
         userRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
         charRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Characters").child(DEFAULT_CHARACTER);
 
@@ -99,6 +103,7 @@ public class SignInActivity extends AppCompatActivity {
 
         } else {
 
+            progressdialog.show();
             cfAuth = FirebaseAuth.getInstance();
 
             cfAuth.createUserWithEmailAndPassword(email, pass)
@@ -135,11 +140,12 @@ public class SignInActivity extends AppCompatActivity {
                     profileImage = dataSnapshot.child("CharacterProfile").getValue().toString();
                     characterImage = dataSnapshot.child("CharImage").getValue().toString();
                     profileName = dataSnapshot.child("CharacterName").getValue().toString();
+                    priority=dataSnapshot.child("Priority").getValue().toString();
 
                     HashMap hashMap = new HashMap();
                     hashMap.put("UserId", currentUser);
                     hashMap.put("CreatedDate", date);
-                    hashMap.put("DisplayName", name);
+                    hashMap.put("DisplayName", toFirstLetterCapital(name));
                     hashMap.put("CharacterName", profileName);
                     hashMap.put("CharacterImage", characterImage);
                     hashMap.put("ProfileImage", profileImage);
@@ -147,7 +153,14 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if (task.isSuccessful()) {
+                                userRef.child(currentUser).child("Followings").child(currentUser).child("UserId").setValue(currentUser);
+                                userRef.child(currentUser).child("MyCharacters").child(profileName)
+                                        .child("CharacterName").setValue(profileName);
+                                userRef.child(currentUser).child("MyCharacters").child(profileName)
+                                        .child("Priority").setValue(priority);
                                 Toast.makeText(SignInActivity.this, "Open your email and verify", Toast.LENGTH_SHORT).show();
+
+
                                 sendUserToHomeActivity();
                             } else {
                                 Toast.makeText(SignInActivity.this, "ERROR : Creating account", Toast.LENGTH_SHORT).show();
@@ -168,6 +181,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void sendUserToHomeActivity() {
+        progressdialog.dismiss();
         Intent intent = new Intent(SignInActivity.this, BottomBarActivity.class);
         startActivity(intent);
 

@@ -3,73 +3,100 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
+    android:layout_width="match_parent"
+    android:padding="2dp"
+    android:layout_margin="2dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/quiz_background">
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_char_profile"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="@+id/iv_char_image"
-        app:layout_constraintStart_toStartOf="@+id/iv_char_image"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_background" />
+    android:background="@drawable/alert_dialog_background">
 
     <ImageView
         android:id="@+id/iv_char_image"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:scaleType="fitXY"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="2:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_char_profile"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/edit_text_background"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_char_profile"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:src="@drawable/logo_croped"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_char_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_character_name"/>
 
     <TextView
         android:id="@+id/tv_character_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:textAlignment="center"
-        android:textSize="16sp"
+        android:background="@drawable/left_to_right_shade"
+        android:gravity="left"
+        android:paddingHorizontal="2dp"
+        android:fontFamily="@font/default_font"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textAlignment="textStart"
+        android:textSize="12dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/iv_char_image"
-        app:layout_constraintStart_toStartOf="@id/iv_char_image"
-        app:layout_constraintTop_toBottomOf="@+id/iv_char_image" />
+        app:layout_constraintTop_toBottomOf="@id/iv_char_image"
+        app:layout_constraintEnd_toStartOf="@id/iv_char_profile"
+        app:layout_constraintStart_toStartOf="@+id/iv_char_image"
+        tools:ignore="RtlCompat" />
 
     <TextView
         android:id="@+id/tv_select_character"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="8dp"
         android:textAlignment="center"
-        android:textSize="16sp"
-        android:text="SELECT"
-        android:background="@color/medium_spring_green"
+        android:textSize="12sp"
+        android:background="@drawable/background_white_stroke"
         android:textStyle="bold"
+        android:fontFamily="@font/default_font"
+        android:textColor="@color/white"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_character_name" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_character_name"
+        android:gravity="center_horizontal" />
 
+    <TextView
+        android:id="@+id/tv_shade"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:alpha="0.7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <ImageView
         android:id="@+id/iv_char_lock"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_lock_black_48dp"
+        android:layout_marginRight="2dp"
+        app:tint="@color/indian_red" />
+
+    <ImageView
+        android:id="@+id/iv_info_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="2dp"
-        android:tint="@color/indian_red"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_lock_black_48dp" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_shade"
+        app:srcCompat="@drawable/outline_info_black_18dp"
+        app:tint="@color/colorPrimary" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         cfAuth = FirebaseAuth.getInstance();
         cfUserRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE);
@@ -85,7 +85,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SendUserToHomeActivity() {
+        String currentUser=Utils.getCurrentUser();
+        DatabaseReference userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User")
+                .child(currentUser).child("Followings").child(currentUser);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                if (!dataSnapshot.exists()){
+                    userRef.child("UserId").setValue(currentUser);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         Intent intent = new Intent(MainActivity.this, BottomBarActivity.class);
         startActivity(intent);
 

@@ -10,7 +10,7 @@
     android:paddingVertical="4dp"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="4dp"
-    android:background="@drawable/layout_background">
+    android:background="@drawable/light_background">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_profile"
@@ -29,25 +29,31 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:text="TextView"
+        android:fontFamily="@font/default_font"
         android:ellipsize="end"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/tv_request"
         app:layout_constraintStart_toEndOf="@+id/iv_profile"
         app:layout_constraintTop_toTopOf="@id/iv_profile"
         android:layout_marginLeft="4dp" />
+
     <TextView
         android:id="@+id/tv_character_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="@font/default_font"
         android:text="TextView"
         android:textSize="12sp"
+        android:textColor="@color/black"
         android:textStyle="bold|italic"
-        app:layout_constraintStart_toEndOf="@+id/iv_profile"
         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
-        android:layout_marginLeft="4dp" />
+        app:layout_constraintEnd_toStartOf="@+id/tv_request"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile" />
 
     <TextView
         android:id="@+id/tv_request"
@@ -56,11 +62,13 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/main_theme_radius"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="0dp"
         android:paddingVertical="4dp"
-        android:textSize="14sp"
+        android:textSize="12sp"
+        android:fontFamily="@font/default_font"
         android:textStyle="bold"
         android:text="Follow"
+        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
@@ -75,5 +83,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.685" />
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

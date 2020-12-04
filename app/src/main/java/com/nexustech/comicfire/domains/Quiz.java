@@ -1,17 +1,18 @@
 package com.nexustech.comicfire.domains;
 
 public class Quiz {
-    String CreatedDate,QuizName,QuizImage,State;
+    String CreatedDate,QuizName,QuizImage,State,QuizId;
 
     public Quiz() {
     }
 
 
-    public Quiz(String createdDate, String quizName, String quizImage, String state) {
+    public Quiz(String createdDate, String quizName, String quizImage, String state, String quizId) {
         CreatedDate = createdDate;
         QuizName = quizName;
         QuizImage = quizImage;
         State = state;
+        QuizId = quizId;
     }
 
     public String getCreatedDate() {
@@ -46,4 +47,11 @@ public class Quiz {
         State = state;
     }
 
+    public String getQuizId() {
+        return QuizId;
+    }
+
+    public void setQuizId(String quizId) {
+        QuizId = quizId;
+    }
 }

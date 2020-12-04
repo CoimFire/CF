@@ -15,9 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.domains.Memes;
 import com.nexustech.comicfire.utils.Utils;
@@ -41,7 +44,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_memes);
-        Utils.setTopBar(getWindow(),getResources());
+        Utils.setTopBar(this,getWindow(),getResources());
 
         rvMeme = findViewById(R.id.rv_memes);
         rvMeme.setHasFixedSize(true);
@@ -75,18 +78,20 @@ public class ViewAllMemesActivity extends AppCompatActivity {
                         memeViewHolder.setCoverImage(model.getMemeImage());
                         String state = model.getState();
                         if ("Finished".equals(state)) {
-                            memeViewHolder.timer.setText("Competition Finished");
+                            memeViewHolder.timer.setText("Competition Ended");
                             memeViewHolder.tvTimerLabel.setVisibility(View.INVISIBLE);
                             memeViewHolder.go.setVisibility(View.INVISIBLE);
 
                         } else {
                             memeViewHolder.showCounter(memeKey, model.getCreatedDate());
                         }
-                        memeViewHolder.go.setOnClickListener(new View.OnClickListener() {
+                        memeViewHolder.setCount(memeKey);
+                        memeViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(ViewAllMemesActivity.this, MemeDetailsActivity.class);
                                 intent.putExtra("MemeId", memeKey);
+                                intent.putExtra("State", model.getState());
                                 intent.putExtra("Title", model.getMemeName());
                                 intent.putExtra("CoverImage", model.getMemeImage());
                                 startActivity(intent);
@@ -101,7 +106,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
 
     public static class MemeViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        TextView tvMemeName, timer, go, tvTimerLabel;
+        TextView tvMemeName, timer, go, tvTimerLabel,tvCount;
         ImageView memeImage;
         Date createdDate, expireDate;
 
@@ -113,6 +118,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
             timer = cfView.findViewById(R.id.timer);
             go = cfView.findViewById(R.id.go);
             tvTimerLabel = cfView.findViewById(R.id.timerlabel);
+            tvCount=cfView.findViewById(R.id.tv_count);
 
         }
 
@@ -158,6 +164,7 @@ public class ViewAllMemesActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     timer.setText("Expired");
+                    tvTimerLabel.setVisibility(View.INVISIBLE);
                     // accept.setVisibility(View.INVISIBLE);
                     //timerText.setVisibility(View.INVISIBLE);
                     //- designStatus.setVisibility(View.VISIBLE);
@@ -168,6 +175,25 @@ public class ViewAllMemesActivity extends AppCompatActivity {
 
         private long getTimeUnit(long timeInMills, TimeUnit timeUnit) {
             return timeUnit.convert(timeInMills, TimeUnit.MILLISECONDS);
+        }
+        public void setCount(String memeKey){
+           DatabaseReference cfMemeCoverRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Memes").child(memeKey).child("ChildMemes");
+           cfMemeCoverRef.addValueEventListener(new ValueEventListener() {
+               @Override
+               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                   if (dataSnapshot.exists()){
+                       long count=dataSnapshot.getChildrenCount();
+                       tvCount.setText(String.valueOf(count));
+                   }else {
+                       tvCount.setText("0");
+                   }
+               }
+
+               @Override
+               public void onCancelled(@NonNull DatabaseError databaseError) {
+
+               }
+           });
         }
     }
 

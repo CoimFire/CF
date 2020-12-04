@@ -15,9 +15,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexustech.comicfire.R;
+import com.nexustech.comicfire.activities.BottomBarActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.openAnotherActivity;
 
 public class PopupLayouts {
 
@@ -26,9 +28,8 @@ public class PopupLayouts {
         boolean isFactShowed = preferences.getBoolean("IS_SHOWED", false);
         String popupShowedDay = preferences.getString("DAY", "");
 
-        if (!isFactShowed && !popupShowedDay.equals(Utils.getCurrentDay())) {
-
-
+        String currentDay=Utils.getCurrentDay();
+        if (!popupShowedDay.equals(currentDay)) {
             View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_fact, null);
             AlertDialog dialog = Utils.configDialog(context, rowView);
             TextView tvComment = rowView.findViewById(R.id.tv_fact);
@@ -38,8 +39,14 @@ public class PopupLayouts {
             factRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String edittedComment = dataSnapshot.child("Fact").getValue().toString();
-                    tvComment.setText(edittedComment);
+                    if (dataSnapshot.exists()) {
+                        String edittedComment = dataSnapshot.child("Fact").getValue().toString();
+                        tvComment.setText(edittedComment);
+
+                        dialog.show();
+                    }else {
+                        dialog.dismiss();
+                    }
                 }
 
                 @Override
@@ -53,28 +60,31 @@ public class PopupLayouts {
                 public void onClick(View v) {
                     SharedPreferences.Editor editor = context.getSharedPreferences("FACT", MODE_PRIVATE).edit();
                     editor.putBoolean("IS_SHOWED", true);
-                    editor.putString("DAY", Utils.getCurrentDay());
+                    editor.putString("DAY", currentDay);
                     editor.apply();
                     dialog.dismiss();
                 }
             });
-            dialog.show();
         }
     }
 
     public static void showFactOnClick(Context context) {
-
             View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_fact, null);
             AlertDialog dialog = Utils.configDialog(context, rowView);
             TextView tvComment = rowView.findViewById(R.id.tv_fact);
             TextView tvCancel = rowView.findViewById(R.id.tv_close);
+            TextView tvInfo=rowView.findViewById(R.id.tv_info);
+            tvInfo.setVisibility(View.INVISIBLE);
             DatabaseReference factRef;
             factRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Fact");
             factRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String edittedComment = dataSnapshot.child("Fact").getValue().toString();
-                    tvComment.setText(edittedComment);
+                    if (dataSnapshot.exists()) {
+                        String edittedComment = dataSnapshot.child("Fact").getValue().toString();
+                        tvComment.setText(edittedComment);
+                        dialog.show();
+                    }
                 }
 
                 @Override
@@ -89,6 +99,5 @@ public class PopupLayouts {
                     dialog.dismiss();
                 }
             });
-            dialog.show();
         }
 }

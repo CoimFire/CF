@@ -1,10 +1,12 @@
 package com.nexustech.comicfire.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -20,11 +22,13 @@ import com.nexustech.comicfire.R;
 import com.nexustech.comicfire.adapters.PostAdapter;
 import com.nexustech.comicfire.adapters.UserPostsAdapter;
 import com.nexustech.comicfire.domains.UserPosts;
+import com.nexustech.comicfire.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.Utils.showEmpty;
 
 public class UsersPostsActivity extends AppCompatActivity {
 
@@ -43,10 +47,12 @@ public class UsersPostsActivity extends AppCompatActivity {
 
     DatabaseReference postRef;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_posts);
+        Utils.setTopBar(this,getWindow(),getResources());
 
         rvPosts = findViewById(R.id.rv_posts);
         userId = getIntent().getStringExtra("UserId");
@@ -61,9 +67,9 @@ public class UsersPostsActivity extends AppCompatActivity {
 
         rvPosts.setLayoutManager(mLayoutManager);
 
-
         catagoryAdapter = new UserPostsAdapter(UsersPostsActivity.this);
         rvPosts.setAdapter(catagoryAdapter);
+        showEmpty(getWindow().getDecorView().getRootView(),postRef);
         getCats();
 
         rvPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {

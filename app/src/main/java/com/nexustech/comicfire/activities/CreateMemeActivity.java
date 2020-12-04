@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,24 +42,33 @@ import java.util.HashMap;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
 
 public class CreateMemeActivity extends AppCompatActivity {
+    EditText et1, et2;
+    TextView tv, tvClear;
+    ImageView imageView;
     private String parentId, curuserId, userName, profileImage, date, time, postText;
     private FirebaseAuth cfAuth;
     private DatabaseReference cfPostRef, parentRef, userRef;
     private StorageReference cfPostImageRef;
     private String downloadUrl, imageUrl;
     private long counter;
+    ProgressDialog progressdialog;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_meme);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
-        TextView tv = findViewById(R.id.done);
-        ImageView imageView = findViewById(R.id.meme_image);
-        EditText et1 = findViewById(R.id.first_text);
-        EditText et2 = findViewById(R.id.second_text);
+
+        progressdialog = new ProgressDialog(this);
+        progressdialog.setMessage("Please Wait....");
+        progressdialog.setCancelable(false);
+        tv = findViewById(R.id.done);
+        imageView = findViewById(R.id.meme_image);
+        et1 = findViewById(R.id.first_text);
+        et2 = findViewById(R.id.second_text);
+        tvClear = findViewById(R.id.clear_all);
         parentId = getIntent().getStringExtra("MemeId");
         postText = getIntent().getStringExtra("Title");
         imageUrl = getIntent().getStringExtra("CoverImage");
@@ -80,21 +91,35 @@ public class CreateMemeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                progressdialog.show();
                 //   String[] wordList = OffensiveWordlist.wordsList;
                 String text1 = et1.getText().toString();
                 String text2 = et2.getText().toString();
-                if (Utils.filterComment(text1) || Utils.filterComment(text2)) {
-                    Toast.makeText(CreateMemeActivity.this, "Ouff...Dude Language..!", Toast.LENGTH_SHORT).show();
+
+                if (TextUtils.isEmpty(text1) && TextUtils.isEmpty(text2)) {
+                    Toast.makeText(CreateMemeActivity.this, "Empty fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    ConstraintLayout shareLayout = findViewById(R.id.constraintLayout);
-                    shareLayout.setDrawingCacheEnabled(true);
-                    shareLayout.buildDrawingCache();
-                    Bitmap bm = shareLayout.getDrawingCache();
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                    Uri uri = getBitmapUri(bm);
-                    storeMeme(uri);
+                    if (Utils.filterComment(text1) || Utils.filterComment(text2)) {
+                        Toast.makeText(CreateMemeActivity.this, "Ouff...Dude Language..!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        ConstraintLayout shareLayout = findViewById(R.id.constraintLayout);
+                        shareLayout.setDrawingCacheEnabled(true);
+                        shareLayout.buildDrawingCache();
+                        Bitmap bm = shareLayout.getDrawingCache();
+                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                        bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                        Uri uri = getBitmapUri(bm);
+                        storeMeme(uri);
+                    }
                 }
+            }
+
+        });
+        tvClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et1.getText().clear();
+                et2.getText().clear();
             }
         });
     }
@@ -139,11 +164,12 @@ public class CreateMemeActivity extends AppCompatActivity {
                                                     postMap.put("IsChallenge", true);
                                                     postMap.put("ParentId", parentId);
                                                     postMap.put("State", "Running");
+                                                    postMap.put("IsMeme",true);
                                                     cfPostRef.child(randomKey).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                                                         @Override
                                                         public void onComplete(@NonNull Task task) {
                                                             if (task.isSuccessful()) {
-                                                                Toast.makeText(CreateMemeActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                                                progressdialog.dismiss();
                                                                 Utils.openAnotherActivity(CreateMemeActivity.this, BottomBarActivity.class);
                                                             } else {
                                                                 String message = task.getException().getMessage();

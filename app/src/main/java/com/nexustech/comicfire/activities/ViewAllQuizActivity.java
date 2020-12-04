@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -47,7 +48,7 @@ public class ViewAllQuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_quiz);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         rvQuiz = findViewById(R.id.rv_quiz);
 
@@ -114,7 +115,7 @@ public class ViewAllQuizActivity extends AppCompatActivity {
                         for (DataSnapshot catSnapShot : snapshot.getChildren()) {
                             newCats.add(catSnapShot.getValue(Quiz.class));
                         }
-                        last_node = newCats.get(newCats.size() - 1).getQuizName();
+                        last_node = newCats.get(newCats.size() - 1).getQuizId();
 
                         if (!last_node.equals(last_key))
                             newCats.remove(newCats.size() - 1);

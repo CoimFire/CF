@@ -1,0 +1,159 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.ViewCommentActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvHeading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/default_font"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/main_theme" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toBottomOf="@id/tvHeading"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/profile" />
+
+        <TextView
+            android:id="@+id/tv_display_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:fontFamily="@font/default_font"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_profile_image"
+            app:layout_constraintTop_toTopOf="@id/iv_profile_image" />
+
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:singleLine="false"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:fontFamily="@font/default_font"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_display_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_display_name" />
+
+
+        <TextView
+            android:id="@+id/tv_delete_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="14dp"
+            android:visibility="invisible"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Delete"
+            android:fontFamily="@font/default_font"
+            android:singleLine="false"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_comment"
+            app:layout_constraintTop_toBottomOf="@id/tv_comment" />
+
+        <TextView
+            android:id="@+id/tv_edit_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="14dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Edit"
+            android:fontFamily="@font/default_font"
+            android:visibility="invisible"
+            android:singleLine="false"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toStartOf="@id/tv_delete_comment"
+            app:layout_constraintTop_toBottomOf="@id/tv_comment" />
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginStart="10dp"
+            android:inputType="textMultiLine"
+            android:hint="Reply"
+            android:textSize="16sp"
+            android:paddingVertical="4dp"
+            android:fontFamily="@font/default_font"
+            android:paddingHorizontal="8dp"
+            android:background="@drawable/edit_text_background"
+            app:layout_constraintEnd_toStartOf="@id/iv_send"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_comment"
+            android:layout_marginLeft="4dp" />
+
+        <ImageView
+            android:id="@+id/iv_send"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_comment"
+            app:layout_constraintBottom_toBottomOf="@id/et_comment"
+            app:srcCompat="@drawable/baseline_send_black_18dp"
+            android:layout_marginRight="10dp"
+            app:tint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/tv_reply_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Replies"
+            android:fontFamily="@font/default_font"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/light_background"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/et_comment"
+            app:layout_constraintStart_toStartOf="@id/et_comment"
+            app:layout_constraintTop_toBottomOf="@id/et_comment"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_reply_comments"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reply_label"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

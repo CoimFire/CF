@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
         cfAuth = FirebaseAuth.getInstance();
         profileRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
         initializeViews();

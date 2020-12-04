@@ -56,7 +56,7 @@ public class EditPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         etPosttext = findViewById(R.id.et_post_text);
         ivPostImage = findViewById(R.id.ivPostImage);

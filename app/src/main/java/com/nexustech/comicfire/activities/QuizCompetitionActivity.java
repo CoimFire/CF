@@ -47,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD;
 import static com.nexustech.comicfire.utils.Constants.RELEASE_TYPE;
+import static com.nexustech.comicfire.utils.HandleActions.updatePoints;
 
 public class QuizCompetitionActivity extends AppCompatActivity {
 
@@ -69,7 +70,7 @@ public class QuizCompetitionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_competition);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
         ivCoverImage = findViewById(R.id.iv_cover);
         tvTitle = findViewById(R.id.tv_title);
         tvQuestion = findViewById(R.id.tv_question);
@@ -96,7 +97,6 @@ public class QuizCompetitionActivity extends AppCompatActivity {
         tvTitle.setText(title);
         Picasso.get().load(imageUrl).into(ivCoverImage);
         if (position > 10) {
-            Toast.makeText(this, "Open Popup for points", Toast.LENGTH_SHORT).show();
             radioGroup.setVisibility(View.INVISIBLE);
             tvNext.setVisibility(View.INVISIBLE);
             tvResult.setVisibility(View.INVISIBLE);
@@ -170,23 +170,38 @@ public class QuizCompetitionActivity extends AppCompatActivity {
     }
 
     private void openPopup() {
+
         View rowView = LayoutInflater.from(QuizCompetitionActivity.this).inflate(R.layout.alert_dialog_quiz_result, null);
         AlertDialog dialog = Utils.configDialog(QuizCompetitionActivity.this, rowView);
         TextView tvResult=rowView.findViewById(R.id.tv_result);
         TextView tvPoints=rowView.findViewById(R.id.tv_points);
         TextView tvClose=rowView.findViewById(R.id.tv_close);
         tvResult.setText("Your result is "+points+"/10");
-        tvPoints.setText("You got "+points*100+" points");
+        tvPoints.setText("You got "+getPoints(points)+" points");
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                updatePoints(getPoints(points),Utils.getCurrentUser());
                 Utils.openAnotherActivity(QuizCompetitionActivity.this,BottomBarActivity.class);
             }
         });
         dialog.show();
     }
 
+    public int getPoints(int points){
+        int newPoints;
+       if (points>=7){
+           newPoints= points*15;
+       }else if (points>=4){
+           newPoints = points*10;
+       }else if (points>=1){
+           newPoints=points*5;
+       }else {
+           newPoints=2;
+       }
+       return newPoints;
+    }
     public void nextPage() {
         if (TextUtils.isEmpty(answer)) {
             Toast.makeText(this, "Please select one answer", Toast.LENGTH_SHORT).show();
@@ -195,11 +210,13 @@ public class QuizCompetitionActivity extends AppCompatActivity {
                 points++;
             }
             if (position == 10) {
-                int total = points * 10;
+
+                String finalPoints=String.valueOf(getPoints(points));
                 HashMap hashMap = new HashMap();
                 hashMap.put("UserId", Utils.getCurrentUser());
-                hashMap.put("Points", String.valueOf(total));
+                hashMap.put("Points", finalPoints);
                 cfQuizDetailsRef.child(Utils.getCurrentUser()).updateChildren(hashMap);
+
             }
 
             Intent intent = new Intent(QuizCompetitionActivity.this, QuizCompetitionActivity.class);

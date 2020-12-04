@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/main_theme"
+        android:fontFamily="@font/default_font"
         android:gravity="center_horizontal" />
 
 
@@ -30,6 +31,8 @@
         android:inputType="textPersonName"
         android:paddingVertical="4dp"
         android:paddingHorizontal="10dp"
+        android:fontFamily="@font/default_font"
+        android:imeOptions="actionSend"
         app:layout_constraintEnd_toStartOf="@+id/ivSearchFriends"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvHeading"
@@ -44,7 +47,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/etSearchFriends"
         app:srcCompat="@android:drawable/ic_search_category_default"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="8dp"
+        app:tint="@color/colorPrimary" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -70,6 +74,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSearchFriends" />
 
-
+    <include android:id="@+id/empty_view"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeading"
+        layout="@layout/layout_epmty"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

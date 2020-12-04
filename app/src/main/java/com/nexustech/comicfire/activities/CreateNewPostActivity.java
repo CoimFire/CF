@@ -57,7 +57,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_post);
-        Utils.setTopBar(getWindow(), getResources());
+        Utils.setTopBar(this,getWindow(), getResources());
 
         postImage = findViewById(R.id.post_image);
         selectImage = findViewById(R.id.iv_select);
@@ -102,7 +102,7 @@ public class CreateNewPostActivity extends AppCompatActivity {
 
         //SimpleDateFormat df = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss");
         // df.setTimeZone(TimeZone.getDefault());
-        randomId = curDate + curTime;
+        randomId = Utils.createRandomId();
 
         postText = etPostText.getText().toString();
 
@@ -186,18 +186,16 @@ public class CreateNewPostActivity extends AppCompatActivity {
                         postMap.put("PostText", postText);
                         postMap.put("PostId", randomId);
                         postMap.put("PostImage", downloadUrl);
-                        postMap.put("ProfileImage", userProfImage);
-                        postMap.put("DisplayName", userFullname);
                         postMap.put("Counter", countPosts);
+                        postMap.put("IsMeme",false);
                         cfPostRef.child(randomId).updateChildren(postMap)
                                 .addOnCompleteListener(new OnCompleteListener() {
                                     @Override
                                     public void onComplete(@NonNull Task task) {
                                         if (task.isSuccessful()) {
                                             progressdialog.dismiss();
-                                            sendUserToHomeActivity();
-                                            Toast.makeText(CreateNewPostActivity.this, "Post Published..", Toast.LENGTH_SHORT).show();
-                                        } else {
+                                            sendUserToHomeActivity(); }
+                                        else {
                                             String message = task.getException().getMessage();
                                             Toast.makeText(CreateNewPostActivity.this, "Error.." + message, Toast.LENGTH_SHORT).show();
                                             progressdialog.dismiss();

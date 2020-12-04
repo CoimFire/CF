@@ -1,20 +1,20 @@
 package com.nexustech.comicfire.domains;
 
 public class Posts {
-    String UserId,Date,Time,PostText,PostId,PostImage,ProfileImage,DisplayName;
+    String UserId,Date,Time,PostText,PostId,PostImage;
 
+    Boolean IsMeme;
     public Posts() {
     }
 
-    public Posts(String userId, String date, String time, String postText, String postId, String postImage, String profileImage, String displayName) {
+    public Posts(String userId, String date, String time, String postText, String postId, String postImage, Boolean isMeme) {
         UserId = userId;
         Date = date;
         Time = time;
         PostText = postText;
         PostId = postId;
         PostImage = postImage;
-        ProfileImage = profileImage;
-        DisplayName = displayName;
+        IsMeme = isMeme;
     }
 
     public String getUserId() {
@@ -65,19 +65,11 @@ public class Posts {
         PostImage = postImage;
     }
 
-    public String getProfileImage() {
-        return ProfileImage;
+    public Boolean isMeme() {
+        return IsMeme;
     }
 
-    public void setProfileImage(String profileImage) {
-        ProfileImage = profileImage;
-    }
-
-    public String getDisplayName() {
-        return DisplayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        DisplayName = displayName;
+    public void setMeme(Boolean meme) {
+        IsMeme = meme;
     }
 }
