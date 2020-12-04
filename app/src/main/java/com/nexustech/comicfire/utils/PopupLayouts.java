@@ -69,7 +69,6 @@ public class PopupLayouts {
     }
 
     public static void showFactOnClick(Context context) {
-
             View rowView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_fact, null);
             AlertDialog dialog = Utils.configDialog(context, rowView);
             TextView tvComment = rowView.findViewById(R.id.tv_fact);
