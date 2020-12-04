@@ -3,16 +3,18 @@ package com.nexustech.comicfire.domains;
 public class Posts {
     String UserId,Date,Time,PostText,PostId,PostImage;
 
+    Boolean IsMeme;
     public Posts() {
     }
 
-    public Posts(String userId, String date, String time, String postText, String postId, String postImage) {
+    public Posts(String userId, String date, String time, String postText, String postId, String postImage, Boolean isMeme) {
         UserId = userId;
         Date = date;
         Time = time;
         PostText = postText;
         PostId = postId;
         PostImage = postImage;
+        IsMeme = isMeme;
     }
 
     public String getUserId() {
@@ -63,4 +65,11 @@ public class Posts {
         PostImage = postImage;
     }
 
+    public Boolean isMeme() {
+        return IsMeme;
+    }
+
+    public void setMeme(Boolean meme) {
+        IsMeme = meme;
+    }
 }

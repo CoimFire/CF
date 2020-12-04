@@ -187,15 +187,15 @@ public class CreateNewPostActivity extends AppCompatActivity {
                         postMap.put("PostId", randomId);
                         postMap.put("PostImage", downloadUrl);
                         postMap.put("Counter", countPosts);
+                        postMap.put("IsMeme",false);
                         cfPostRef.child(randomId).updateChildren(postMap)
                                 .addOnCompleteListener(new OnCompleteListener() {
                                     @Override
                                     public void onComplete(@NonNull Task task) {
                                         if (task.isSuccessful()) {
                                             progressdialog.dismiss();
-                                            sendUserToHomeActivity();
-                                            Toast.makeText(CreateNewPostActivity.this, "Post Published..", Toast.LENGTH_SHORT).show();
-                                        } else {
+                                            sendUserToHomeActivity(); }
+                                        else {
                                             String message = task.getException().getMessage();
                                             Toast.makeText(CreateNewPostActivity.this, "Error.." + message, Toast.LENGTH_SHORT).show();
                                             progressdialog.dismiss();

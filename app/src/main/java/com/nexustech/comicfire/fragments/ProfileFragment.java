@@ -214,10 +214,10 @@ public class ProfileFragment extends Fragment {
 
                     if (dataSnapshot.hasChild("Points")) {
                         points=dataSnapshot.child("Points").getValue().toString();
-                        myPoints.setText(points);
+                        myPoints.setText(points+"\nPoints");
 
                     } else {
-                        myPoints.setText("0");
+                        myPoints.setText("0\nPoints");
                         points="0";
                     }
                     SharedPreferences preferences=getContext().getSharedPreferences("USER", Context.MODE_PRIVATE);

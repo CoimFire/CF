@@ -40,10 +40,10 @@ public class CqFragment extends Fragment {
         ivHeroShop=rootView.findViewById(R.id.iv_hero_shop);
 
 
-        Picasso.get().load(R.drawable.fact_cover).fit().transform(new RoundedCorners(50,20)).into(ivFact);
-        Picasso.get().load(R.drawable.point_background_image).fit().transform(new RoundedCorners(50,20)).into(ivHeroShop);
-        Picasso.get().load(R.drawable.quiz_cover).transform(new RoundedCorners(50,20)).into(ivQuiz);
-        Picasso.get().load(R.drawable.meme_cover).transform(new RoundedCorners(50,20)).into(ivMeme);
+        Picasso.get().load(R.drawable.fact_cover).fit().transform(new RoundedCorners(20,20)).into(ivFact);
+        Picasso.get().load(R.drawable.point_background_image).fit().transform(new RoundedCorners(20,20)).into(ivHeroShop);
+        Picasso.get().load(R.drawable.quiz_cover).fit().transform(new RoundedCorners(20,20)).into(ivQuiz);
+        Picasso.get().load(R.drawable.meme_cover).fit().transform(new RoundedCorners(20,20)).into(ivMeme);
 
 
         ivHeroShop.setOnClickListener(new View.OnClickListener() {

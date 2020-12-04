@@ -195,6 +195,7 @@ public class MemeDetailsActivity extends AppCompatActivity {
             currentUserId = cfAuth.getCurrentUser().getUid();
             likeCount = cfView.findViewById(R.id.tvLikeCount);
             cfMemeRef = FirebaseDatabase.getInstance().getReference().child("Memes");
+            tribleDot.setVisibility(View.INVISIBLE);
 
         }
 

@@ -163,15 +163,16 @@ public class ViewAllCharsActivity extends AppCompatActivity {
                             if (dataSnapshot.child("MyCharacters").hasChild(characterName)) {
                                 if (myName.equals(characterName)) {
                                     tvSelect.setText("SELECTED");
-                                    tvSelect.setTextColor(context.getResources().getColor(R.color.black));
-                                } else {
+                                    tvSelect.setTextColor(context.getResources().getColor(R.color.white));
+                                }else {
                                     tvSelect.setText("SELECT");
-                                    tvSelect.setTextColor(context.getResources().getColor(R.color.greenColor));
+                                    tvSelect.setTextColor(context.getResources().getColor(R.color.dark_green));
+
                                 }
+                            }else {
+                                tvSelect.setText("UNLOCK");
+                                tvSelect.setTextColor(context.getResources().getColor(R.color.dark_green));
                             }
-                        } else {
-                            tvSelect.setText("UNLOCK");
-                            tvSelect.setTextColor(context.getResources().getColor(R.color.greenColor));
                         }
                     }
 
@@ -225,12 +226,12 @@ public class ViewAllCharsActivity extends AppCompatActivity {
 
                 tvRequiredPoints.setText("You have aldready owned this character");
                 tvRequest.setText("SELECT");
-                tvRequest.setTextColor(context.getResources().getColor(R.color.greenColor));
+                tvRequest.setTextColor(context.getResources().getColor(R.color.dark_green));
 
             } else if (state.equals("UNLOCK")) {
                 tvRequiredPoints.setText("You can unlock for " + reqPoints + " points.");
                 tvRequest.setText("UNLOCK");
-                tvRequest.setTextColor(context.getResources().getColor(R.color.greenColor));
+                tvRequest.setTextColor(context.getResources().getColor(R.color.dark_green));
             } else {
 
                 tvRequiredPoints.setText("You need " + reqPoints + " points to unlock this character");

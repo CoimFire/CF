@@ -39,8 +39,14 @@ public class PopupLayouts {
             factRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String edittedComment = dataSnapshot.child("Fact").getValue().toString();
-                    tvComment.setText(edittedComment);
+                    if (dataSnapshot.exists()) {
+                        String edittedComment = dataSnapshot.child("Fact").getValue().toString();
+                        tvComment.setText(edittedComment);
+
+                        dialog.show();
+                    }else {
+                        dialog.dismiss();
+                    }
                 }
 
                 @Override
@@ -59,7 +65,6 @@ public class PopupLayouts {
                     dialog.dismiss();
                 }
             });
-            dialog.show();
         }
     }
 
@@ -76,8 +81,11 @@ public class PopupLayouts {
             factRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String edittedComment = dataSnapshot.child("Fact").getValue().toString();
-                    tvComment.setText(edittedComment);
+                    if (dataSnapshot.exists()) {
+                        String edittedComment = dataSnapshot.child("Fact").getValue().toString();
+                        tvComment.setText(edittedComment);
+                        dialog.show();
+                    }
                 }
 
                 @Override
@@ -92,6 +100,5 @@ public class PopupLayouts {
                     dialog.dismiss();
                 }
             });
-            dialog.show();
         }
 }

@@ -168,9 +168,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     if (dataSnapshot.hasChild("Points")) {
                         String points = dataSnapshot.child("Points").getValue().toString();
-                        tvPoints.setText("Points : " + points);
+                        tvPoints.setText(points+"\nPoints");
                     }else {
-                        tvPoints.setText("Points : " + 0);
+                        tvPoints.setText("0\nPoints");
                     }
 
                     profileImage.setOnClickListener(new View.OnClickListener() {

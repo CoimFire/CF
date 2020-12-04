@@ -51,6 +51,7 @@ public class HandleActions {
     public static String curUserId = Utils.getCurrentUser();
     public static String reason;
     public static String oldPoints;
+    public static Boolean isMeme;
 
     public static DatabaseReference cfFollowingRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("Followings");
 
@@ -114,7 +115,7 @@ public class HandleActions {
                     String profImageUrl = dataSnapshot.child("ProfileImage").getValue().toString();
                     Picasso.get().load(profImageUrl).into(ivProfileImage);
                     String charImageUrl = dataSnapshot.child("CharacterImage").getValue().toString();
-                    Picasso.get().load(charImageUrl).transform(new RoundedCorners(20,0)).into(ivCharacterImage);
+                    Picasso.get().load(charImageUrl).transform(new RoundedCorners(8,0)).into(ivCharacterImage);
                     String userName = dataSnapshot.child("DisplayName").getValue().toString();
                     tvDisplayName.setText(userName);
                     String userCharName = dataSnapshot.child("CharacterName").getValue().toString();
@@ -243,23 +244,41 @@ public class HandleActions {
             @Override
             public void run() {
                 DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Posts");
-                postRef.child(postId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                postRef.child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            DatabaseReference myPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
-                                    .child("User").child(Utils.getCurrentUser()).child("MyPosts");
-                            myPostRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        isMeme=(Boolean)dataSnapshot.child("IsMeme").getValue();
+                        if (isMeme){
+                            Toast.makeText(context, "You cannot delete this post!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            postRef.child(postId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Utils.openAnotherActivity(context, BottomBarActivity.class);
-                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                    if (task.isSuccessful()) {
+                                        DatabaseReference myPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE)
+                                                .child("User").child(Utils.getCurrentUser()).child("MyPosts").child(postId);
+                                        myPostRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Utils.openAnotherActivity(context, BottomBarActivity.class);
+                                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    }
                                 }
                             });
-
                         }
                     }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
                 });
+
+
             }
         };
         handler.post(runnable);

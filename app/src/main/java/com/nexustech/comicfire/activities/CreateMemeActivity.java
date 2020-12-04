@@ -164,11 +164,11 @@ public class CreateMemeActivity extends AppCompatActivity {
                                                     postMap.put("IsChallenge", true);
                                                     postMap.put("ParentId", parentId);
                                                     postMap.put("State", "Running");
+                                                    postMap.put("IsMeme",true);
                                                     cfPostRef.child(randomKey).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                                                         @Override
                                                         public void onComplete(@NonNull Task task) {
                                                             if (task.isSuccessful()) {
-                                                                Toast.makeText(CreateMemeActivity.this, "Success", Toast.LENGTH_SHORT).show();
                                                                 progressdialog.dismiss();
                                                                 Utils.openAnotherActivity(CreateMemeActivity.this, BottomBarActivity.class);
                                                             } else {
